@@ -1,0 +1,1648 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Produits Ciment - Ciments du Maroc</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .product-banner {
+            transition: all 0.5s ease;
+            background: linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
+        }
+        .product-banner:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .price-tag {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%);
+        }
+        .product-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        .floating-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .product-image {
+            background-size: contain !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+        
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            image-rendering: -webkit-optimize-contrast;
+        }
+        
+        .compact-banner {
+            height: 300px;
+        }
+        
+        .small-card {
+            height: 250px;
+        }
+
+        /* Nouvelles animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .animate-slideInUp {
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .animate-pulse-slow {
+            animation: pulse 3s infinite;
+        }
+
+        /* Styles pour la calculatrice */
+        .calculator-input {
+            transition: all 0.3s ease;
+        }
+
+        .calculator-input:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.15);
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Styles pour le comparateur */
+        .comparison-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .comparison-card.selected {
+            border-color: #f97316;
+            box-shadow: 0 10px 30px rgba(249, 115, 22, 0.2);
+        }
+
+        /* Styles pour les onglets */
+        .tab-button {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-button.active {
+            color: #f97316;
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            border-radius: 2px;
+        }
+
+        /* Styles pour les graphiques */
+        .chart-bar {
+            transition: all 0.5s ease;
+        }
+
+        .chart-bar:hover {
+            opacity: 0.8;
+        }
+
+        /* Modal styles */
+        .modal {
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            animation: slideInUp 0.3s ease-out;
+        }
+
+        /* Responsive design amélioré */
+        @media (max-width: 768px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-white">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="/" class="flex items-center space-x-3">
+                    <div class="relative">
+                        <svg width="48" height="48" viewBox="0 0 48 48" class="text-orange-600">
+                            <defs>
+                                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#6b7280" />
+                                    <stop offset="50%" stop-color="#4b5563" />
+                                    <stop offset="100%" stop-color="#374151" />
+                                </linearGradient>
+                            </defs>
+                            <path
+                                d="M24 4 C35 4 44 13 44 24 C44 35 35 44 24 44 C13 44 4 35 4 24 C4 15 11 8 20 8 C27 8 32 13 32 20 C32 25 28 28 24 28 C21 28 20 26 20 24 C20 23 21 22 22 22"
+                                fill="none"
+                                stroke="url(#logoGradient)"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                            />
+                            <circle cx="24" cy="24" r="3" fill="url(#logoGradient)" />
+                            <path
+                                d="M12 12 L16 16 M36 12 L32 16 M12 36 L16 32 M36 36 L32 32"
+                                stroke="url(#logoGradient)"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                opacity="0.6"
+                            />
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">
+                            <span class="text-gray-600">Ciments</span> du Maroc
+                        </h1>
+                        <p class="text-xs text-gray-600 font-medium">HEIDELBERGCEMENT Group</p>
+                    </div>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="/" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Accueil</a>
+                    <a href="/produits-ciment" class="text-orange-600 font-medium">Nos Produits</a>
+                    <a href="/services" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Services</a>
+                    <a href="/actualités" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Actualités</a>
+                    <a href="/contact" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</a>
+                </nav>
+
+                <!-- Search and Actions -->
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex items-center space-x-2">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+                            <input
+                                type="text"
+                                placeholder="Rechercher"
+                                class="pl-10 pr-4 py-2 w-48 bg-gray-50 border border-gray-200 rounded-md focus:border-orange-500 focus:outline-none"
+                            />
+                        </div>
+                    </div>
+
+                    <button class="flex items-center text-gray-600 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-globe mr-1"></i>
+                        AR
+                    </button>
+
+                    <button class="lg:hidden text-gray-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Breadcrumb -->
+        <section class="bg-gray-50 py-4">
+            <div class="container mx-auto px-4">
+                <nav class="flex items-center space-x-2 text-sm">
+                    <a href="/" class="text-gray-600 hover:text-orange-600">Accueil</a>
+                    <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                    <span class="text-orange-600 font-medium">Nos Produits Ciment</span>
+                </nav>
+            </div>
+        </section>
+
+        <!-- Hero Section -->
+        <section class="relative py-20 bg-gradient-to-br from-orange-50 via-white to-orange-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-5xl md:text-7xl font-bold text-gray-900 mb-6 animate-slideInUp">
+                        Gamme <span class="text-orange-600">Ciment</span>
+                    </h1>
+                    <p class="text-xl text-gray-700 mb-12 leading-relaxed animate-fadeIn">
+                        Solutions complètes avec outils de calcul et comparaison pour tous vos projets
+                    </p>
+                    
+                    <!-- Boutons d'action rapide -->
+                    <div class="flex flex-wrap justify-center gap-4 mb-8">
+                        <button onclick="scrollToSection('calculator')" class="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all transform hover:scale-105 animate-pulse-slow">
+                            <i class="fas fa-calculator mr-2"></i>Calculatrice Ciment
+                        </button>
+                        <button onclick="scrollToSection('comparator')" class="border-2 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white px-8 py-4 rounded-full font-bold text-lg transition-all transform hover:scale-105">
+                            <i class="fas fa-balance-scale mr-2"></i>Comparateur
+                        </button>
+                        <button onclick="scrollToSection('configurator')" class="bg-gray-800 hover:bg-gray-900 text-white px-8 py-4 rounded-full font-bold text-lg transition-all transform hover:scale-105">
+                            <i class="fas fa-cogs mr-2"></i>Configurateur
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Outils Interactifs -->
+        <section class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                        Outils <span class="text-orange-600">Professionnels</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Calculez, comparez et configurez vos besoins en ciment avec nos outils avancés
+                    </p>
+                </div>
+
+                <!-- Onglets -->
+                <div class="flex flex-wrap justify-center mb-12 border-b border-gray-200">
+                    <button class="tab-button active px-8 py-4 font-bold text-lg" onclick="switchTab('calculator')">
+                        <i class="fas fa-calculator mr-2"></i>Calculatrice
+                    </button>
+                    <button class="tab-button px-8 py-4 font-bold text-lg text-gray-600" onclick="switchTab('comparator')">
+                        <i class="fas fa-balance-scale mr-2"></i>Comparateur
+                    </button>
+                    <button class="tab-button px-8 py-4 font-bold text-lg text-gray-600" onclick="switchTab('configurator')">
+                        <i class="fas fa-cogs mr-2"></i>Configurateur
+                    </button>
+                    <button class="tab-button px-8 py-4 font-bold text-lg text-gray-600" onclick="switchTab('simulator')">
+                        <i class="fas fa-chart-line mr-2"></i>Simulateur
+                    </button>
+                </div>
+
+                <!-- Calculatrice de Ciment -->
+                <div id="calculator" class="tab-content">
+                    <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 max-w-6xl mx-auto">
+                        <div class="text-center mb-12">
+                            <h3 class="text-3xl font-bold text-gray-900 mb-4">
+                                <i class="fas fa-calculator text-orange-600 mr-3"></i>
+                                Calculatrice de Ciment Professionnelle
+                            </h3>
+                            <p class="text-gray-600 text-lg">
+                                Calculez précisément vos besoins en ciment selon votre projet
+                            </p>
+                        </div>
+
+                        <div class="grid lg:grid-cols-2 gap-12">
+                            <!-- Formulaire de calcul -->
+                            <div class="space-y-6">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-gray-700 font-bold mb-2">Type de projet</label>
+                                        <select id="projectType" class="calculator-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none">
+                                            <option value="foundation">Fondations</option>
+                                            <option value="wall">Murs</option>
+                                            <option value="slab">Dalle</option>
+                                            <option value="column">Poteaux</option>
+                                            <option value="beam">Poutres</option>
+                                            <option value="masonry">Maçonnerie</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-bold mb-2">Type de ciment</label>
+                                        <select id="cementType" class="calculator-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none">
+                                            <option value="cpj35" data-price="85">CPJ 35 - 85 DH</option>
+                                            <option value="cpj45" data-price="95">CPJ 45 - 95 DH</option>
+                                            <option value="cimartob" data-price="110">Cimartob - 110 DH</option>
+                                            <option value="cimagglo" data-price="150">Cimagglo 55 - 150 DH</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="grid md:grid-cols-3 gap-6">
+                                    <div>
+                                        <label class="block text-gray-700 font-bold mb-2">Longueur (m)</label>
+                                        <input type="number" id="length" class="calculator-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none" placeholder="0" min="0" step="0.1">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-bold mb-2">Largeur (m)</label>
+                                        <input type="number" id="width" class="calculator-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none" placeholder="0" min="0" step="0.1">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-bold mb-2">Épaisseur (m)</label>
+                                        <input type="number" id="thickness" class="calculator-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none" placeholder="0" min="0" step="0.01">
+                                    </div>
+                                </div>
+
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-gray-700 font-bold mb-2">Dosage (kg/m³)</label>
+                                        <select id="dosage" class="calculator-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none">
+                                            <option value="250">250 kg/m³ (Béton maigre)</option>
+                                            <option value="300">300 kg/m³ (Béton standard)</option>
+                                            <option value="350" selected>350 kg/m³ (Béton armé)</option>
+                                            <option value="400">400 kg/m³ (Béton haute résistance)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-bold mb-2">Marge sécurité (%)</label>
+                                        <input type="number" id="margin" class="calculator-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none" value="10" min="0" max="50">
+                                    </div>
+                                </div>
+
+                                <button onclick="calculateCement()" class="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white py-4 rounded-lg font-bold text-lg transition-all transform hover:scale-105">
+                                    <i class="fas fa-calculator mr-2"></i>Calculer les quantités
+                                </button>
+                            </div>
+
+                            <!-- Résultats -->
+                            <div id="calculatorResults" class="space-y-6">
+                                <div class="result-card text-white p-8 rounded-2xl">
+                                    <h4 class="text-2xl font-bold mb-6 text-center">
+                                        <i class="fas fa-chart-pie mr-2"></i>Résultats du Calcul
+                                    </h4>
+                                    
+                                    <div class="grid grid-cols-2 gap-6 mb-6">
+                                        <div class="text-center">
+                                            <div class="text-3xl font-bold mb-2" id="volumeResult">0 m³</div>
+                                            <div class="text-orange-100">Volume béton</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-3xl font-bold mb-2" id="cementWeight">0 kg</div>
+                                            <div class="text-orange-100">Ciment nécessaire</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-6 mb-6">
+                                        <div class="text-center">
+                                            <div class="text-2xl font-bold mb-2" id="bagsNeeded">0 sacs</div>
+                                            <div class="text-orange-100">Nombre de sacs</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-2xl font-bold mb-2" id="totalCost">0 DH</div>
+                                            <div class="text-orange-100">Coût total</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="border-t border-orange-400 pt-6">
+                                        <h5 class="font-bold mb-4">Matériaux complémentaires estimés :</h5>
+                                        <div class="grid grid-cols-2 gap-4 text-sm">
+                                            <div>Sable : <span id="sandAmount" class="font-bold">0 m³</span></div>
+                                            <div>Gravier : <span id="gravelAmount" class="font-bold">0 m³</span></div>
+                                            <div>Eau : <span id="waterAmount" class="font-bold">0 L</span></div>
+                                            <div>Ferraillage : <span id="steelAmount" class="font-bold">0 kg</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Graphique de répartition -->
+                                <div class="bg-gray-50 p-6 rounded-2xl">
+                                    <h5 class="font-bold text-gray-900 mb-4 text-center">Répartition des coûts</h5>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <span class="flex items-center">
+                                                <div class="w-4 h-4 bg-orange-500 rounded mr-2"></div>
+                                                Ciment
+                                            </span>
+                                            <span class="font-bold" id="cementPercentage">0%</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="flex items-center">
+                                                <div class="w-4 h-4 bg-yellow-500 rounded mr-2"></div>
+                                                Granulats
+                                            </span>
+                                            <span class="font-bold">45%</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="flex items-center">
+                                                <div class="w-4 h-4 bg-blue-500 rounded mr-2"></div>
+                                                Main d'œuvre
+                                            </span>
+                                            <span class="font-bold">30%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comparateur de Produits -->
+                <div id="comparator" class="tab-content hidden">
+                    <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 max-w-7xl mx-auto">
+                        <div class="text-center mb-12">
+                            <h3 class="text-3xl font-bold text-gray-900 mb-4">
+                                <i class="fas fa-balance-scale text-orange-600 mr-3"></i>
+                                Comparateur de Ciments
+                            </h3>
+                            <p class="text-gray-600 text-lg">
+                                Comparez nos différents types de ciment pour choisir le plus adapté
+                            </p>
+                        </div>
+
+                        <!-- Sélection des produits à comparer -->
+                        <div class="mb-12">
+                            <h4 class="text-xl font-bold text-gray-900 mb-6">Sélectionnez jusqu'à 3 produits à comparer :</h4>
+                            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                <div class="comparison-card bg-gray-50 p-6 rounded-xl cursor-pointer" onclick="toggleComparison('cpj35')">
+                                    <div class="text-center">
+                                        <img src="https://www.cimentsdumaroc.com/sites/default/files/2025-02/LAMAALEM-35-et-35-pro_1.png" alt="CPJ 35" class="w-20 h-20 mx-auto mb-4 object-contain">
+                                        <h5 class="font-bold text-gray-900">Lamaalem 35®</h5>
+                                        <p class="text-orange-600 font-bold">85 DH</p>
+                                        <div class="mt-2">
+                                            <input type="checkbox" id="compare-cpj35" class="hidden">
+                                            <label for="compare-cpj35" class="text-sm text-gray-600">Sélectionner</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="comparison-card bg-gray-50 p-6 rounded-xl cursor-pointer" onclick="toggleComparison('cpj45')">
+                                    <div class="text-center">
+                                        <img src="https://www.cimentsdumaroc.com/sites/default/files/2025-02/CIMARPRO-45-et-45-ULTRA_0.png" alt="CPJ 45" class="w-20 h-20 mx-auto mb-4 object-contain">
+                                        <h5 class="font-bold text-gray-900">CimarPro 45®</h5>
+                                        <p class="text-orange-600 font-bold">95 DH</p>
+                                        <div class="mt-2">
+                                            <input type="checkbox" id="compare-cpj45" class="hidden">
+                                            <label for="compare-cpj45" class="text-sm text-gray-600">Sélectionner</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="comparison-card bg-gray-50 p-6 rounded-xl cursor-pointer" onclick="toggleComparison('cimartob')">
+                                    <div class="text-center">
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO-qc7ESOrB_-NeP-5ILX_vHUW9oAofyAiwg&s" alt="Cimartob" class="w-20 h-20 mx-auto mb-4 object-contain">
+                                        <h5 class="font-bold text-gray-900">Cimartob®</h5>
+                                        <p class="text-orange-600 font-bold">110 DH</p>
+                                        <div class="mt-2">
+                                            <input type="checkbox" id="compare-cimartob" class="hidden">
+                                            <label for="compare-cimartob" class="text-sm text-gray-600">Sélectionner</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="comparison-card bg-gray-50 p-6 rounded-xl cursor-pointer" onclick="toggleComparison('cimagglo')">
+                                    <div class="text-center">
+                                        <img src="https://www.cimentsdumaroc.com/sites/default/files/2025-02/CIMAGGLO-et-OPTIMA-50.png" alt="Cimagglo" class="w-20 h-20 mx-auto mb-4 object-contain">
+                                        <h5 class="font-bold text-gray-900">Cimagglo 55®</h5>
+                                        <p class="text-orange-600 font-bold">150 DH</p>
+                                        <div class="mt-2">
+                                            <input type="checkbox" id="compare-cimagglo" class="hidden">
+                                            <label for="compare-cimagglo" class="text-sm text-gray-600">Sélectionner</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tableau de comparaison -->
+                        <div id="comparisonTable" class="hidden">
+                            <div class="overflow-x-auto">
+                                <table class="w-full border-collapse">
+                                    <thead>
+                                        <tr class="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
+                                            <th class="p-4 text-left font-bold">Caractéristiques</th>
+                                            <th id="product1Header" class="p-4 text-center font-bold hidden">Produit 1</th>
+                                            <th id="product2Header" class="p-4 text-center font-bold hidden">Produit 2</th>
+                                            <th id="product3Header" class="p-4 text-center font-bold hidden">Produit 3</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="comparisonBody">
+                                        <!-- Le contenu sera généré dynamiquement -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Configurateur de Projet -->
+                <div id="configurator" class="tab-content hidden">
+                    <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 max-w-6xl mx-auto">
+                        <div class="text-center mb-12">
+                            <h3 class="text-3xl font-bold text-gray-900 mb-4">
+                                <i class="fas fa-cogs text-orange-600 mr-3"></i>
+                                Configurateur de Projet
+                            </h3>
+                            <p class="text-gray-600 text-lg">
+                                Configurez votre projet étape par étape pour obtenir une solution complète
+                            </p>
+                        </div>
+
+                        <div class="grid lg:grid-cols-2 gap-12">
+                            <!-- Formulaire de configuration -->
+                            <div class="space-y-8">
+                                <!-- Étape 1: Type de projet -->
+                                <div class="config-step">
+                                    <h4 class="text-xl font-bold text-gray-900 mb-4">
+                                        <span class="bg-orange-600 text-white w-8 h-8 rounded-full inline-flex items-center justify-center mr-3">1</span>
+                                        Type de projet
+                                    </h4>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <button class="config-option p-4 border-2 border-gray-200 rounded-lg hover:border-orange-500 transition-all" onclick="selectProjectType('residential')">
+                                            <i class="fas fa-home text-2xl text-orange-600 mb-2"></i>
+                                            <div class="font-bold">Résidentiel</div>
+                                            <div class="text-sm text-gray-600">Maison, villa</div>
+                                        </button>
+                                        <button class="config-option p-4 border-2 border-gray-200 rounded-lg hover:border-orange-500 transition-all" onclick="selectProjectType('commercial')">
+                                            <i class="fas fa-building text-2xl text-orange-600 mb-2"></i>
+                                            <div class="font-bold">Commercial</div>
+                                            <div class="text-sm text-gray-600">Bureau, magasin</div>
+                                        </button>
+                                        <button class="config-option p-4 border-2 border-gray-200 rounded-lg hover:border-orange-500 transition-all" onclick="selectProjectType('industrial')">
+                                            <i class="fas fa-industry text-2xl text-orange-600 mb-2"></i>
+                                            <div class="font-bold">Industriel</div>
+                                            <div class="text-sm text-gray-600">Usine, entrepôt</div>
+                                        </button>
+                                        <button class="config-option p-4 border-2 border-gray-200 rounded-lg hover:border-orange-500 transition-all" onclick="selectProjectType('infrastructure')">
+                                            <i class="fas fa-road text-2xl text-orange-600 mb-2"></i>
+                                            <div class="font-bold">Infrastructure</div>
+                                            <div class="text-sm text-gray-600">Route, pont</div>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Étape 2: Éléments structurels -->
+                                <div class="config-step">
+                                    <h4 class="text-xl font-bold text-gray-900 mb-4">
+                                        <span class="bg-orange-600 text-white w-8 h-8 rounded-full inline-flex items-center justify-center mr-3">2</span>
+                                        Éléments à construire
+                                    </h4>
+                                    <div class="space-y-3">
+                                        <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50">
+                                            <input type="checkbox" class="mr-3" value="foundation">
+                                            <div class="flex-1">
+                                                <div class="font-bold">Fondations</div>
+                                                <div class="text-sm text-gray-600">Semelles, longrines</div>
+                                            </div>
+                                        </label>
+                                        <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50">
+                                            <input type="checkbox" class="mr-3" value="walls">
+                                            <div class="flex-1">
+                                                <div class="font-bold">Murs porteurs</div>
+                                                <div class="text-sm text-gray-600">Voiles, refends</div>
+                                            </div>
+                                        </label>
+                                        <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50">
+                                            <input type="checkbox" class="mr-3" value="slabs">
+                                            <div class="flex-1">
+                                                <div class="font-bold">Dalles</div>
+                                                <div class="text-sm text-gray-600">Planchers, terrasses</div>
+                                            </div>
+                                        </label>
+                                        <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50">
+                                            <input type="checkbox" class="mr-3" value="columns">
+                                            <div class="flex-1">
+                                                <div class="font-bold">Poteaux</div>
+                                                <div class="text-sm text-gray-600">Structure verticale</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Étape 3: Contraintes spéciales -->
+                                <div class="config-step">
+                                    <h4 class="text-xl font-bold text-gray-900 mb-4">
+                                        <span class="bg-orange-600 text-white w-8 h-8 rounded-full inline-flex items-center justify-center mr-3">3</span>
+                                        Contraintes environnementales
+                                    </h4>
+                                    <div class="space-y-3">
+                                        <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50">
+                                            <input type="checkbox" class="mr-3" value="marine">
+                                            <div class="flex-1">
+                                                <div class="font-bold">Environnement marin</div>
+                                                <div class="text-sm text-gray-600">Résistance aux chlorures</div>
+                                            </div>
+                                        </label>
+                                        <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50">
+                                            <input type="checkbox" class="mr-3" value="sulfates">
+                                            <div class="flex-1">
+                                                <div class="font-bold">Sols sulfatés</div>
+                                                <div class="text-sm text-gray-600">Résistance chimique</div>
+                                            </div>
+                                        </label>
+                                        <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50">
+                                            <input type="checkbox" class="mr-3" value="freeze">
+                                            <div class="flex-1">
+                                                <div class="font-bold">Gel/dégel</div>
+                                                <div class="text-sm text-gray-600">Résistance climatique</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <button onclick="generateConfiguration()" class="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white py-4 rounded-lg font-bold text-lg transition-all transform hover:scale-105">
+                                    <i class="fas fa-magic mr-2"></i>Générer la configuration
+                                </button>
+                            </div>
+
+                            <!-- Résultats de configuration -->
+                            <div id="configurationResults" class="space-y-6">
+                                <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-8 rounded-2xl">
+                                    <h4 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+                                        <i class="fas fa-clipboard-list text-orange-600 mr-2"></i>
+                                        Configuration Recommandée
+                                    </h4>
+                                    
+                                    <div id="recommendedProducts" class="space-y-4">
+                                        <!-- Les produits recommandés seront affichés ici -->
+                                    </div>
+                                </div>
+
+                                <div class="bg-white border-2 border-gray-200 p-6 rounded-2xl">
+                                    <h5 class="font-bold text-gray-900 mb-4">Avantages de cette configuration :</h5>
+                                    <ul id="configurationBenefits" class="space-y-2">
+                                        <!-- Les avantages seront listés ici -->
+                                    </ul>
+                                </div>
+
+                                <div class="bg-blue-50 p-6 rounded-2xl">
+                                    <h5 class="font-bold text-gray-900 mb-4">Conseils d'application :</h5>
+                                    <ul id="applicationTips" class="space-y-2 text-sm">
+                                        <!-- Les conseils seront listés ici -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulateur de Performance -->
+                <div id="simulator" class="tab-content hidden">
+                    <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 max-w-6xl mx-auto">
+                        <div class="text-center mb-12">
+                            <h3 class="text-3xl font-bold text-gray-900 mb-4">
+                                <i class="fas fa-chart-line text-orange-600 mr-3"></i>
+                                Simulateur de Performance
+                            </h3>
+                            <p class="text-gray-600 text-lg">
+                                Simulez les performances de vos bétons selon différents paramètres
+                            </p>
+                        </div>
+
+                        <div class="grid lg:grid-cols-2 gap-12">
+                            <!-- Paramètres de simulation -->
+                            <div class="space-y-6">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-gray-700 font-bold mb-2">Type de ciment</label>
+                                        <select id="simCementType" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none">
+                                            <option value="cpj35">CPJ 35</option>
+                                            <option value="cpj45">CPJ 45</option>
+                                            <option value="cimartob">Cimartob</option>
+                                            <option value="cimagglo">Cimagglo 55</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-bold mb-2">Dosage (kg/m³)</label>
+                                        <input type="range" id="simDosage" min="250" max="450" value="350" class="w-full" oninput="updateDosageValue(this.value)">
+                                        <div class="text-center text-sm text-gray-600 mt-1">
+                                            <span id="dosageValue">350</span> kg/m³
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-gray-700 font-bold mb-2">Rapport E/C</label>
+                                        <input type="range" id="simWaterCement" min="0.3" max="0.7" step="0.05" value="0.5" class="w-full" oninput="updateWCValue(this.value)">
+                                        <div class="text-center text-sm text-gray-600 mt-1">
+                                            <span id="wcValue">0.5</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-bold mb-2">Température (°C)</label>
+                                        <input type="range" id="simTemperature" min="5" max="40" value="20" class="w-full" oninput="updateTempValue(this.value)">
+                                        <div class="text-center text-sm text-gray-600 mt-1">
+                                            <span id="tempValue">20</span>°C
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-gray-700 font-bold mb-2">Adjuvants</label>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="plasticizer" class="mr-2">
+                                            <span>Plastifiant</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="accelerator" class="mr-2">
+                                            <span>Accélérateur de prise</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="retarder" class="mr-2">
+                                            <span>Retardateur</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <button onclick="runSimulation()" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-4 rounded-lg font-bold text-lg transition-all transform hover:scale-105">
+                                    <i class="fas fa-play mr-2"></i>Lancer la simulation
+                                </button>
+                            </div>
+
+                            <!-- Résultats de simulation -->
+                            <div id="simulationResults" class="space-y-6">
+                                <!-- Graphique de résistance -->
+                                <div class="bg-gray-50 p-6 rounded-2xl">
+                                    <h5 class="font-bold text-gray-900 mb-4 text-center">Évolution de la résistance</h5>
+                                    <div class="relative h-64">
+                                        <canvas id="strengthChart" class="w-full h-full"></canvas>
+                                    </div>
+                                </div>
+
+                                <!-- Métriques de performance -->
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="bg-green-50 p-4 rounded-xl text-center">
+                                        <div class="text-2xl font-bold text-green-600" id="resistance28">0 MPa</div>
+                                        <div class="text-sm text-gray-600">Résistance 28j</div>
+                                    </div>
+                                    <div class="bg-blue-50 p-4 rounded-xl text-center">
+                                        <div class="text-2xl font-bold text-blue-600" id="workability">0 cm</div>
+                                        <div class="text-sm text-gray-600">Affaissement</div>
+                                    </div>
+                                    <div class="bg-yellow-50 p-4 rounded-xl text-center">
+                                        <div class="text-2xl font-bold text-yellow-600" id="settingTime">0 h</div>
+                                        <div class="text-sm text-gray-600">Temps de prise</div>
+                                    </div>
+                                    <div class="bg-purple-50 p-4 rounded-xl text-center">
+                                        <div class="text-2xl font-bold text-purple-600" id="durability">0/10</div>
+                                        <div class="text-sm text-gray-600">Durabilité</div>
+                                    </div>
+                                </div>
+
+                                <!-- Recommandations -->
+                                <div class="bg-orange-50 p-6 rounded-2xl">
+                                    <h5 class="font-bold text-gray-900 mb-4">Recommandations :</h5>
+                                    <ul id="simulationRecommendations" class="space-y-2 text-sm">
+                                        <!-- Les recommandations seront affichées ici -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Produits (version condensée) -->
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                        Notre <span class="text-orange-600">Gamme</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        4 types de ciments haute performance pour tous vos projets
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- CPJ 35 -->
+                    <div class="product-card bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl transition-all transform hover:scale-105">
+                        <div class="h-48 bg-gradient-to-br from-red-50 to-orange-50 p-6 flex items-center justify-center">
+                            <img src="https://www.cimentsdumaroc.com/sites/default/files/2025-02/LAMAALEM-35-et-35-pro_1.png" alt="CPJ 35" class="max-h-full max-w-full object-contain">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-gray-900">Lamaalem 35®</h3>
+                                <span class="bg-orange-600 text-white px-3 py-1 rounded-full font-bold text-sm">85 DH</span>
+                            </div>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                Ciment Portland CPJ 35 pour construction générale
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs">Construction</span>
+                                <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs">50kg</span>
+                            </div>
+                            <a href="{% url 'produitdetaille' %}" class="block w-full bg-orange-600 hover:bg-orange-700 text-white py-2 rounded-lg font-semibold text-center transition-all">
+    Voir détails
+</a>
+
+                            
+                        </div>
+                    </div>
+
+                    <!-- CPJ 45 -->
+                    <div class="product-card bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl transition-all transform hover:scale-105">
+                        <div class="h-48 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 flex items-center justify-center">
+                            <img src="https://www.cimentsdumaroc.com/sites/default/files/2025-02/CIMARPRO-45-et-45-ULTRA_0.png" alt="CPJ 45" class="max-h-full max-w-full object-contain">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-gray-900">CimarPro 45®</h3>
+                                <span class="bg-orange-600 text-white px-3 py-1 rounded-full font-bold text-sm">95 DH</span>
+                            </div>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                Ciment Portland CPJ 45 haute résistance
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Ouvrages d'art</span>
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">50kg</span>
+                            </div>
+                            <button class="w-full bg-orange-600 hover:bg-orange-700 text-white py-2 rounded-lg font-semibold transition-all">
+                                Voir détails
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cimartob -->
+                    <div class="product-card bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl transition-all transform hover:scale-105">
+                        <div class="h-48 bg-gradient-to-br from-green-50 to-emerald-50 p-6 flex items-center justify-center">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO-qc7ESOrB_-NeP-5ILX_vHUW9oAofyAiwg&s" alt="Cimartob" class="max-h-full max-w-full object-contain">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-gray-900">Cimartob®</h3>
+                                <span class="bg-orange-600 text-white px-3 py-1 rounded-full font-bold text-sm">110 DH</span>
+                            </div>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                Ciment pour maçonnerie multi-usages
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Maçonnerie</span>
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">45kg</span>
+                            </div>
+                            <button class="w-full bg-orange-600 hover:bg-orange-700 text-white py-2 rounded-lg font-semibold transition-all">
+                                Voir détails
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cimagglo -->
+                    <div class="product-card bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl transition-all transform hover:scale-105">
+                        <div class="h-48 bg-gradient-to-br from-purple-50 to-pink-50 p-6 flex items-center justify-center">
+                            <img src="https://www.cimentsdumaroc.com/sites/default/files/2025-02/CIMAGGLO-et-OPTIMA-50.png" alt="Cimagglo" class="max-h-full max-w-full object-contain">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-gray-900">Cimagglo 55®</h3>
+                                <span class="bg-orange-600 text-white px-3 py-1 rounded-full font-bold text-sm">150 DH</span>
+                            </div>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                Ciment haute performance pour préfabrication
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">Préfabrication</span>
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">25kg</span>
+                            </div>
+                            <button class="w-full bg-orange-600 hover:bg-orange-700 text-white py-2 rounded-lg font-semibold transition-all">
+                                Voir détails
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tableau des tarifs clinker (version condensée) -->
+        <section class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">
+                        Tarifs <span class="text-orange-600">Clinker</span>
+                    </h2>
+                    <p class="text-xl text-gray-600">
+                        Marché national Marocain - Tarifs départ usine
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 max-w-4xl mx-auto">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
+                                <tr>
+                                    <th class="px-6 py-4 text-left font-bold">Usine</th>
+                                    <th class="px-6 py-4 text-center font-bold">Tarif</th>
+                                    <th class="px-6 py-4 text-center font-bold">Localisation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b hover:bg-orange-50 transition-colors">
+                                    <td class="px-6 py-4 font-bold text-gray-900">Ait Baha</td>
+                                    <td class="px-6 py-4 text-center font-bold text-orange-600">780 MAD/t</td>
+                                    <td class="px-6 py-4 text-center text-gray-600">Ait Baha</td>
+                                </tr>
+                                <tr class="border-b hover:bg-orange-50 transition-colors">
+                                    <td class="px-6 py-4 font-bold text-gray-900">Safi</td>
+                                    <td class="px-6 py-4 text-center font-bold text-orange-600">800 MAD/t</td>
+                                    <td class="px-6 py-4 text-center text-gray-600">Safi</td>
+                                </tr>
+                                <tr class="border-b hover:bg-orange-50 transition-colors">
+                                    <td class="px-6 py-4 font-bold text-gray-900">Marrakech</td>
+                                    <td class="px-6 py-4 text-center font-bold text-orange-600">800 MAD/t</td>
+                                    <td class="px-6 py-4 text-center text-gray-600">Marrakech</td>
+                                </tr>
+                                <tr class="hover:bg-orange-50 transition-colors">
+                                    <td class="px-6 py-4 font-bold text-gray-900">Laâyoune</td>
+                                    <td class="px-6 py-4 text-center font-bold text-orange-600">1 100 MAD/t</td>
+                                    <td class="px-6 py-4 text-center text-gray-600">Laâyoune</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20 bg-gradient-to-r from-orange-600 to-orange-700">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-4xl font-bold text-white mb-6">
+                    Besoin d'aide pour votre projet ?
+                </h2>
+                <p class="text-xl text-orange-100 mb-8 max-w-2xl mx-auto">
+                    Nos experts sont là pour vous accompagner dans le choix de vos matériaux
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button class="bg-white text-orange-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105">
+                        <i class="fas fa-phone mr-2"></i>+212 522 85 94 50
+                    </button>
+                    <button class="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-orange-600 transition-all transform hover:scale-105">
+                        <i class="fas fa-envelope mr-2"></i>Demander un Devis
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="container mx-auto px-4 py-16">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="relative">
+                            <svg width="40" height="40" viewBox="0 0 48 48" class="text-orange-500">
+                                <defs>
+                                    <linearGradient id="footerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#9ca3af" />
+                                        <stop offset="50%" stop-color="#6b7280" />
+                                        <stop offset="100%" stop-color="#4b5563" />
+                                    </linearGradient>
+                                </defs>
+                                <path
+                                    d="M24 4 C35 4 44 13 44 24 C44 35 35 44 24 44 C13 44 4 35 4 24 C4 15 11 8 20 8 C27 8 32 13 32 20 C32 25 28 28 24 28 C21 28 20 26 20 24 C20 23 21 22 22 22"
+                                    fill="none"
+                                    stroke="url(#footerLogoGradient)"
+                                    stroke-width="2.5"
+                                    stroke-linecap="round"
+                                />
+                                <circle cx="24" cy="24" r="3" fill="url(#footerLogoGradient)" />
+                                <path
+                                    d="M12 12 L16 16 M36 12 L32 16 M12 36 L16 32 M36 36 L32 32"
+                                    stroke="url(#footerLogoGradient)"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                    opacity="0.6"
+                                />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">
+                                <span class="text-gray-400">Ciments</span> du Maroc
+                            </h3>
+                            <p class="text-sm text-gray-400">HEIDELBERGCEMENT Group</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Leader du ciment au Maroc depuis plus de 70 ans, nous accompagnons le développement du pays avec des
+                        solutions innovantes et durables.
+                    </p>
+                    <div class="flex space-x-3">
+                        <button class="p-2 hover:bg-orange-600 rounded transition-colors">
+                            <i class="fab fa-facebook"></i>
+                        </button>
+                        <button class="p-2 hover:bg-orange-600 rounded transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button class="p-2 hover:bg-orange-600 rounded transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </button>
+                        <button class="p-2 hover:bg-orange-600 rounded transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Liens Rapides</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">À propos</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Nos Produits</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Services</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Carrières</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Développement Durable</a></li>
+                    </ul>
+                </div>
+
+                <!-- Products -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Nos Produits</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Ciment Portland</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Béton Prêt à l'Emploi</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Granulats</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Solutions Spéciales</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-map-marker-alt text-orange-400 mt-1"></i>
+                            <p class="text-gray-300 text-sm">
+                                Ciments du Maroc<br />
+                                621, boulevard Panoramique<br />
+                                20 150 Casablanca, Maroc
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-phone text-orange-400"></i>
+                            <p class="text-gray-300 text-sm">+212 522 85 94 50 à 59</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-envelope text-orange-400"></i>
+                            <p class="text-gray-300 text-sm">contact@cimar.co.ma</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm">© 2025 Ciments du Maroc. Tous droits réservés.</p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="#" class="text-gray-400 hover:text-orange-400 text-sm transition-colors">Mentions Légales</a>
+                        <a href="#" class="text-gray-400 hover:text-orange-400 text-sm transition-colors">Politique de Confidentialité</a>
+                        <a href="#" class="text-gray-400 hover:text-orange-400 text-sm transition-colors">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript pour les fonctionnalités interactives -->
+    <script>
+        // Variables globales
+        let selectedProducts = [];
+        let currentTab = 'calculator';
+
+        // Fonction pour faire défiler vers une section
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+                switchTab(sectionId);
+            }
+        }
+
+        // Fonction pour changer d'onglet
+        function switchTab(tabName) {
+            // Masquer tous les contenus d'onglets
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Désactiver tous les boutons d'onglets
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+                button.classList.add('text-gray-600');
+            });
+
+            // Afficher le contenu de l'onglet sélectionné
+            document.getElementById(tabName).classList.remove('hidden');
+
+            // Activer le bouton d'onglet correspondant
+            event.target.classList.add('active');
+            event.target.classList.remove('text-gray-600');
+
+            currentTab = tabName;
+        }
+
+        // Calculatrice de ciment
+        function calculateCement() {
+            const length = parseFloat(document.getElementById('length').value) || 0;
+            const width = parseFloat(document.getElementById('width').value) || 0;
+            const thickness = parseFloat(document.getElementById('thickness').value) || 0;
+            const dosage = parseFloat(document.getElementById('dosage').value) || 350;
+            const margin = parseFloat(document.getElementById('margin').value) || 10;
+            const cementSelect = document.getElementById('cementType');
+            const price = parseFloat(cementSelect.options[cementSelect.selectedIndex].dataset.price) || 85;
+
+            // Calculs
+            const volume = length * width * thickness;
+            const cementWeight = volume * dosage * (1 + margin / 100);
+            const bagsNeeded = Math.ceil(cementWeight / 50); // Sacs de 50kg
+            const totalCost = bagsNeeded * price;
+
+            // Matériaux complémentaires (estimations)
+            const sandVolume = volume * 0.4;
+            const gravelVolume = volume * 0.8;
+            const waterAmount = cementWeight * 0.5;
+            const steelWeight = volume * 100; // 100kg/m³ pour béton armé
+
+            // Affichage des résultats
+            document.getElementById('volumeResult').textContent = volume.toFixed(2) + ' m³';
+            document.getElementById('cementWeight').textContent = Math.round(cementWeight) + ' kg';
+            document.getElementById('bagsNeeded').textContent = bagsNeeded + ' sacs';
+            document.getElementById('totalCost').textContent = totalCost.toFixed(0) + ' DH';
+            document.getElementById('sandAmount').textContent = sandVolume.toFixed(1) + ' m³';
+            document.getElementById('gravelAmount').textContent = gravelVolume.toFixed(1) + ' m³';
+            document.getElementById('waterAmount').textContent = Math.round(waterAmount) + ' L';
+            document.getElementById('steelAmount').textContent = Math.round(steelWeight) + ' kg';
+
+            // Pourcentage du coût du ciment
+            const totalMaterialCost = totalCost * 2.5; // Estimation
+            const cementPercentage = Math.round((totalCost / totalMaterialCost) * 100);
+            document.getElementById('cementPercentage').textContent = cementPercentage + '%';
+        }
+
+        // Comparateur de produits
+        function toggleComparison(productId) {
+            const card = event.currentTarget;
+            const checkbox = document.getElementById('compare-' + productId);
+            
+            if (selectedProducts.includes(productId)) {
+                // Retirer de la sélection
+                selectedProducts = selectedProducts.filter(id => id !== productId);
+                card.classList.remove('selected');
+                checkbox.checked = false;
+            } else if (selectedProducts.length < 3) {
+                // Ajouter à la sélection
+                selectedProducts.push(productId);
+                card.classList.add('selected');
+                checkbox.checked = true;
+            } else {
+                alert('Vous ne pouvez comparer que 3 produits maximum.');
+                return;
+            }
+
+            updateComparisonTable();
+        }
+
+        function updateComparisonTable() {
+            const table = document.getElementById('comparisonTable');
+            const tbody = document.getElementById('comparisonBody');
+            
+            if (selectedProducts.length < 2) {
+                table.classList.add('hidden');
+                return;
+            }
+
+            table.classList.remove('hidden');
+
+            // Données des produits
+            const productData = {
+                cpj35: {
+                    name: 'Lamaalem 35®',
+                    price: '85 DH',
+                    resistance: '≥ 22.5 MPa',
+                    class: 'CPJ 35',
+                    usage: 'Construction générale',
+                    packaging: '50 kg',
+                    settingTime: '2-6h',
+                    clinker: '≥ 65%'
+                },
+                cpj45: {
+                    name: 'CimarPro 45®',
+                    price: '95 DH',
+                    resistance: '≥ 32.5 MPa',
+                    class: 'CPJ 45',
+                    usage: 'Ouvrages d\'art',
+                    packaging: '50 kg',
+                    settingTime: '2-6h',
+                    clinker: '≥ 65%'
+                },
+                cimartob: {
+                    name: 'Cimartob®',
+                    price: '110 DH',
+                    resistance: 'Variable',
+                    class: 'CM',
+                    usage: 'Maçonnerie',
+                    packaging: '45 kg',
+                    settingTime: '2-8h',
+                    clinker: '≥ 65%'
+                },
+                cimagglo: {
+                    name: 'Cimagglo 55®',
+                    price: '150 DH',
+                    resistance: '≥ 42.5 MPa',
+                    class: 'CPJ 55',
+                    usage: 'Préfabrication',
+                    packaging: '25 kg',
+                    settingTime: '1-4h',
+                    clinker: '≥ 65%'
+                }
+            };
+
+            // Mise à jour des en-têtes
+            selectedProducts.forEach((productId, index) => {
+                const header = document.getElementById(`product${index + 1}Header`);
+                header.textContent = productData[productId].name;
+                header.classList.remove('hidden');
+            });
+
+            // Masquer les en-têtes non utilisés
+            for (let i = selectedProducts.length; i < 3; i++) {
+                document.getElementById(`product${i + 1}Header`).classList.add('hidden');
+            }
+
+            // Générer le contenu du tableau
+            const characteristics = [
+                { label: 'Prix', key: 'price' },
+                { label: 'Résistance 28j', key: 'resistance' },
+                { label: 'Classe', key: 'class' },
+                { label: 'Usage principal', key: 'usage' },
+                { label: 'Conditionnement', key: 'packaging' },
+                { label: 'Temps de prise', key: 'settingTime' },
+                { label: 'Teneur clinker', key: 'clinker' }
+            ];
+
+            tbody.innerHTML = '';
+            characteristics.forEach(char => {
+                const row = document.createElement('tr');
+                row.className = 'border-b hover:bg-gray-50';
+                
+                let rowHTML = `<td class="p-4 font-semibold text-gray-900">${char.label}</td>`;
+                
+                selectedProducts.forEach(productId => {
+                    rowHTML += `<td class="p-4 text-center">${productData[productId][char.key]}</td>`;
+                });
+
+                // Ajouter des cellules vides pour les colonnes non utilisées
+                for (let i = selectedProducts.length; i < 3; i++) {
+                    rowHTML += `<td class="p-4 text-center hidden"></td>`;
+                }
+
+                row.innerHTML = rowHTML;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Configurateur de projet
+        let selectedProjectType = '';
+        let selectedElements = [];
+        let selectedConstraints = [];
+
+        function selectProjectType(type) {
+            selectedProjectType = type;
+            
+            // Mettre à jour l'interface
+            document.querySelectorAll('.config-option').forEach(option => {
+                option.classList.remove('border-orange-500', 'bg-orange-50');
+                option.classList.add('border-gray-200');
+            });
+            
+            event.currentTarget.classList.remove('border-gray-200');
+            event.currentTarget.classList.add('border-orange-500', 'bg-orange-50');
+        }
+
+        function generateConfiguration() {
+            if (!selectedProjectType) {
+                alert('Veuillez sélectionner un type de projet.');
+                return;
+            }
+
+            // Récupérer les éléments sélectionnés
+            selectedElements = [];
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+                if (checkbox.value !== 'marine' && checkbox.value !== 'sulfates' && checkbox.value !== 'freeze') {
+                    selectedElements.push(checkbox.value);
+                }
+            });
+
+            // Récupérer les contraintes
+            selectedConstraints = [];
+            if (document.getElementById('marine') && document.getElementById('marine').checked) selectedConstraints.push('marine');
+            if (document.getElementById('sulfates') && document.getElementById('sulfates').checked) selectedConstraints.push('sulfates');
+            if (document.getElementById('freeze') && document.getElementById('freeze').checked) selectedConstraints.push('freeze');
+
+            // Générer les recommandations
+            const recommendations = generateRecommendations();
+            displayConfiguration(recommendations);
+        }
+
+        function generateRecommendations() {
+            let recommendations = [];
+
+            // Logique de recommandation basée sur le type de projet et les contraintes
+            if (selectedProjectType === 'residential') {
+                if (selectedElements.includes('foundation')) {
+                    recommendations.push({
+                        element: 'Fondations',
+                        cement: 'CimarPro 45®',
+                        reason: 'Résistance élevée pour la stabilité'
+                    });
+                }
+                if (selectedElements.includes('walls') || selectedElements.includes('slabs')) {
+                    recommendations.push({
+                        element: 'Murs et dalles',
+                        cement: 'Lamaalem 35®',
+                        reason: 'Économique pour usage standard'
+                    });
+                }
+            } else if (selectedProjectType === 'commercial' || selectedProjectType === 'industrial') {
+                recommendations.push({
+                    element: 'Structure principale',
+                    cement: 'CimarPro 45®',
+                    reason: 'Haute résistance requise'
+                });
+                if (selectedElements.includes('slabs')) {
+                    recommendations.push({
+                        element: 'Dalles industrielles',
+                        cement: 'Cimagglo 55®',
+                        reason: 'Résistance exceptionnelle aux charges'
+                    });
+                }
+            } else if (selectedProjectType === 'infrastructure') {
+                recommendations.push({
+                    element: 'Ouvrages d\'art',
+                    cement: 'Cimagglo 55®',
+                    reason: 'Performance maximale pour infrastructure'
+                });
+            }
+
+            // Ajustements selon les contraintes environnementales
+            if (selectedConstraints.includes('marine')) {
+                recommendations.forEach(rec => {
+                    rec.cement = 'CimarPro 45®';
+                    rec.reason += ' + résistance aux chlorures';
+                });
+            }
+
+            if (selectedConstraints.includes('sulfates')) {
+                recommendations.forEach(rec => {
+                    rec.cement = 'Cimagglo 55®';
+                    rec.reason += ' + résistance aux sulfates';
+                });
+            }
+
+            return recommendations;
+        }
+
+        function displayConfiguration(recommendations) {
+            const container = document.getElementById('recommendedProducts');
+            const benefitsContainer = document.getElementById('configurationBenefits');
+            const tipsContainer = document.getElementById('applicationTips');
+
+            // Afficher les produits recommandés
+            container.innerHTML = '';
+            recommendations.forEach(rec => {
+                const productCard = document.createElement('div');
+                productCard.className = 'bg-white p-4 rounded-lg border border-orange-200';
+                productCard.innerHTML = `
+                    <div class="flex items-center justify-between mb-2">
+                        <h6 class="font-bold text-gray-900">${rec.element}</h6>
+                        <span class="bg-orange-600 text-white px-2 py-1 rounded text-sm">${rec.cement}</span>
+                    </div>
+                    <p class="text-sm text-gray-600">${rec.reason}</p>
+                `;
+                container.appendChild(productCard);
+            });
+
+            // Afficher les avantages
+            const benefits = [
+                'Optimisation des coûts selon l\'usage',
+                'Respect des normes de construction',
+                'Durabilité adaptée à l\'environnement',
+                'Performance technique garantie'
+            ];
+
+            benefitsContainer.innerHTML = '';
+            benefits.forEach(benefit => {
+                const li = document.createElement('li');
+                li.className = 'flex items-center text-sm';
+                li.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i>${benefit}`;
+                benefitsContainer.appendChild(li);
+            });
+
+            // Afficher les conseils
+            const tips = [
+                'Respecter les dosages recommandés',
+                'Assurer une cure appropriée du béton',
+                'Contrôler la qualité de l\'eau de gâchage',
+                'Adapter le temps de malaxage'
+            ];
+
+            tipsContainer.innerHTML = '';
+            tips.forEach(tip => {
+                const li = document.createElement('li');
+                li.className = 'flex items-center';
+                li.innerHTML = `<i class="fas fa-lightbulb text-yellow-500 mr-2"></i>${tip}`;
+                tipsContainer.appendChild(li);
+            });
+        }
+
+        // Simulateur de performance
+        function updateDosageValue(value) {
+            document.getElementById('dosageValue').textContent = value;
+        }
+
+        function updateWCValue(value) {
+            document.getElementById('wcValue').textContent = value;
+        }
+
+        function updateTempValue(value) {
+            document.getElementById('tempValue').textContent = value;
+        }
+
+        function runSimulation() {
+            const cementType = document.getElementById('simCementType').value;
+            const dosage = parseFloat(document.getElementById('simDosage').value);
+            const waterCement = parseFloat(document.getElementById('simWaterCement').value);
+            const temperature = parseFloat(document.getElementById('simTemperature').value);
+            
+            const plasticizer = document.getElementById('plasticizer').checked;
+            const accelerator = document.getElementById('accelerator').checked;
+            const retarder = document.getElementById('retarder').checked;
+
+            // Calculs de simulation (simplifiés)
+            let baseResistance = 25; // MPa de base
+            
+            // Ajustements selon le type de ciment
+            switch(cementType) {
+                case 'cpj35': baseResistance = 25; break;
+                case 'cpj45': baseResistance = 35; break;
+                case 'cimartob': baseResistance = 20; break;
+                case 'cimagglo': baseResistance = 45; break;
+            }
+
+            // Ajustements selon les paramètres
+            const dosageEffect = (dosage - 300) / 300 * 0.3;
+            const wcEffect = (0.5 - waterCement) / 0.5 * 0.4;
+            const tempEffect = (temperature - 20) / 20 * 0.1;
+
+            const finalResistance = baseResistance * (1 + dosageEffect + wcEffect + tempEffect);
+
+            // Calcul de l'affaissement
+            let workability = 8; // cm de base
+            if (plasticizer) workability += 4;
+            if (waterCement > 0.5) workability += 3;
+
+            // Calcul du temps de prise
+            let settingTime = 4; // heures de base
+            if (accelerator) settingTime -= 1;
+            if (retarder) settingTime += 2;
+            if (temperature > 25) settingTime -= 0.5;
+            if (temperature < 15) settingTime += 1;
+
+            // Calcul de la durabilité
+            let durability = 7; // sur 10
+            if (waterCement < 0.45) durability += 1;
+            if (dosage > 350) durability += 1;
+            if (finalResistance > 35) durability += 1;
+
+            // Affichage des résultats
+            document.getElementById('resistance28').textContent = Math.round(finalResistance) + ' MPa';
+            document.getElementById('workability').textContent = Math.round(workability) + ' cm';
+            document.getElementById('settingTime').textContent = settingTime.toFixed(1) + ' h';
+            document.getElementById('durability').textContent = Math.min(10, Math.round(durability)) + '/10';
+
+            // Générer des recommandations
+            const recommendations = [];
+            if (waterCement > 0.6) {
+                recommendations.push('Réduire le rapport E/C pour améliorer la résistance');
+            }
+            if (dosage < 300) {
+                recommendations.push('Augmenter le dosage en ciment pour plus de durabilité');
+            }
+            if (!plasticizer && workability < 6) {
+                recommendations.push('Ajouter un plastifiant pour améliorer l\'ouvrabilité');
+            }
+            if (temperature < 10) {
+                recommendations.push('Prévoir des mesures de protection contre le gel');
+            }
+
+            const recContainer = document.getElementById('simulationRecommendations');
+            recContainer.innerHTML = '';
+            recommendations.forEach(rec => {
+                const li = document.createElement('li');
+                li.className = 'flex items-start';
+                li.innerHTML = `<i class="fas fa-arrow-right text-orange-500 mr-2 mt-0.5"></i>${rec}`;
+                recContainer.appendChild(li);
+            });
+
+            // Créer un graphique simple (simulation)
+            createStrengthChart(cementType, finalResistance);
+        }
+
+        function createStrengthChart(cementType, finalResistance) {
+            const canvas = document.getElementById('strengthChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Effacer le canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Données de résistance au fil du temps (simulation)
+            const days = [1, 3, 7, 14, 28];
+            const resistances = [
+                finalResistance * 0.2,
+                finalResistance * 0.4,
+                finalResistance * 0.65,
+                finalResistance * 0.85,
+                finalResistance
+            ];
+
+            // Configuration du graphique
+            const padding = 40;
+            const chartWidth = canvas.width - 2 * padding;
+            const chartHeight = canvas.height - 2 * padding;
+            
+            // Dessiner les axes
+            ctx.strokeStyle = '#374151';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(padding, padding);
+            ctx.lineTo(padding, canvas.height - padding);
+            ctx.lineTo(canvas.width - padding, canvas.height - padding);
+            ctx.stroke();
+
+            // Dessiner la courbe
+            ctx.strokeStyle = '#f97316';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            
+            days.forEach((day, index) => {
+                const x = padding + (index / (days.length - 1)) * chartWidth;
+                const y = canvas.height - padding - (resistances[index] / (finalResistance * 1.2)) * chartHeight;
+                
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+                
+                // Dessiner les points
+                ctx.fillStyle = '#f97316';
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+            
+            ctx.stroke();
+
+            // Ajouter les labels
+            ctx.fillStyle = '#374151';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            
+            days.forEach((day, index) => {
+                const x = padding + (index / (days.length - 1)) * chartWidth;
+                ctx.fillText(day + 'j', x, canvas.height - padding + 20);
+            });
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Calculer automatiquement au chargement avec des valeurs par défaut
+            setTimeout(calculateCement, 500);
+            
+            // Ajouter des écouteurs d'événements pour la calculatrice
+            ['length', 'width', 'thickness', 'dosage', 'margin', 'cementType'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', calculateCement);
+                    element.addEventListener('change', calculateCement);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

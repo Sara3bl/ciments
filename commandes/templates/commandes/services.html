@@ -1,0 +1,1011 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Services - Ciments du Maroc</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .animate-slideInLeft {
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+        
+        .animate-slideInRight {
+            animation: slideInRight 0.8s ease-out forwards;
+        }
+        
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
+        }
+        
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .service-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
+        }
+        
+        .tab-button {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .tab-button.active {
+            color: #f97316;
+        }
+        
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            border-radius: 2px;
+        }
+        
+        .process-step {
+            position: relative;
+        }
+        
+        .process-step::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #f97316, #ea580c);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .process-step:last-child::before {
+            display: none;
+        }
+        
+        .expertise-item {
+            transition: all 0.3s ease;
+        }
+        
+        .expertise-item:hover {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+        }
+        
+        .expertise-item:hover .expertise-icon {
+            color: white;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-white">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="/" class="flex items-center space-x-3">
+                    <div class="relative">
+                        <svg width="48" height="48" viewBox="0 0 48 48" class="text-orange-600">
+                            <defs>
+                                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#6b7280" />
+                                    <stop offset="50%" stop-color="#4b5563" />
+                                    <stop offset="100%" stop-color="#374151" />
+                                </linearGradient>
+                            </defs>
+                            <path
+                                d="M24 4 C35 4 44 13 44 24 C44 35 35 44 24 44 C13 44 4 35 4 24 C4 15 11 8 20 8 C27 8 32 13 32 20 C32 25 28 28 24 28 C21 28 20 26 20 24 C20 23 21 22 22 22"
+                                fill="none"
+                                stroke="url(#logoGradient)"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                            />
+                            <circle cx="24" cy="24" r="3" fill="url(#logoGradient)" />
+                            <path
+                                d="M12 12 L16 16 M36 12 L32 16 M12 36 L16 32 M36 36 L32 32"
+                                stroke="url(#logoGradient)"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                opacity="0.6"
+                            />
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">
+                            <span class="text-gray-600">Ciments</span> du Maroc
+                        </h1>
+                        <p class="text-xs text-gray-600 font-medium">HEIDELBERGCEMENT Group</p>
+                    </div>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="/" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Accueil</a>
+                    <a href="/produits-ciment" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Nos Produits</a>
+                    <a href="/services" class="text-orange-600 font-medium">Services</a>
+                    <a href="/actualités" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Actualités</a>
+                    <a href="/contact" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</a>
+                </nav>
+
+                <!-- Search and Actions -->
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex items-center space-x-2">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+                            <input
+                                type="text"
+                                placeholder="Rechercher"
+                                class="pl-10 pr-4 py-2 w-48 bg-gray-50 border border-gray-200 rounded-md focus:border-orange-500 focus:outline-none"
+                            />
+                        </div>
+                    </div>
+
+                    <button class="flex items-center text-gray-600 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-globe mr-1"></i>
+                        AR
+                    </button>
+
+                    <button class="lg:hidden text-gray-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Breadcrumb -->
+        <section class="bg-gray-50 py-4">
+            <div class="container mx-auto px-4">
+                <nav class="flex items-center space-x-2 text-sm">
+                    <a href="/" class="text-gray-600 hover:text-orange-600">Accueil</a>
+                    <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                    <span class="text-orange-600 font-medium">Nos Services</span>
+                </nav>
+            </div>
+        </section>
+
+        <!-- Hero Section -->
+        <section class="relative py-20 overflow-hidden">
+            <!-- Image de fond -->
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/2022-09/8E8A4183.jpg');"></div>
+            
+           
+            
+           
+            
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="text-center max-w-4xl mx-auto text-white">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 animate-fadeInUp">
+                        Nos <span class="text-yellow-300">Services</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl mb-8 text-orange-100 leading-relaxed animate-fadeInUp" style="animation-delay: 0.2s;">
+                        Solutions complètes pour tous vos projets de construction
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4 animate-fadeInUp" style="animation-delay: 0.4s;">
+                        <div class="flex items-center bg-white/20 backdrop-blur-sm rounded-full px-6 py-3">
+                            <i class="fas fa-tools text-yellow-300 mr-3"></i>
+                            <span class="font-semibold">Expertise technique</span>
+                        </div>
+                        <div class="flex items-center bg-white/20 backdrop-blur-sm rounded-full px-6 py-3">
+                            <i class="fas fa-truck text-yellow-300 mr-3"></i>
+                            <span class="font-semibold">Livraison garantie</span>
+                        </div>
+                        <div class="flex items-center bg-white/20 backdrop-blur-sm rounded-full px-6 py-3">
+                            <i class="fas fa-headset text-yellow-300 mr-3"></i>
+                            <span class="font-semibold">Support 24/7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services principaux -->
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                        Nos <span class="text-orange-600">Solutions</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Des services complets et personnalisés pour accompagner tous vos projets de construction
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                    <!-- Service 1: Production de Ciment -->
+                    <div class="service-card bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                        <div class="relative h-48 bg-gradient-to-br from-red-50 to-orange-50 p-6 flex items-center justify-center">
+                            <div class="service-icon w-20 h-20 bg-orange-600 rounded-full flex items-center justify-center">
+                                <i class="fas fa-industry text-white text-2xl"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Production de Ciment</h3>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                Gamme complète de ciments haute performance pour tous types de construction
+                            </p>
+                            <ul class="text-sm text-gray-600 space-y-1 mb-4">
+                                <li>• CPJ 35 - Construction générale</li>
+                                <li>• CPJ 45 - Ouvrages d'art</li>
+                                <li>• Cimartob - Maçonnerie</li>
+                                <li>• Cimagglo 55 - Préfabrication</li>
+                            </ul>
+                            <button class="w-full bg-orange-600 hover:bg-orange-700 text-white py-2 rounded-lg font-semibold transition-all">
+                                En savoir plus
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Service 2: Béton Prêt à l'Emploi -->
+                    <div class="service-card bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                        <div class="relative h-48 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 flex items-center justify-center">
+                            <div class="service-icon w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center">
+                                <i class="fas fa-truck text-white text-2xl"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Béton Prêt à l'Emploi</h3>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                Solutions de béton frais livrées directement sur vos chantiers
+                            </p>
+                            <ul class="text-sm text-gray-600 space-y-1 mb-4">
+                                <li>• Béton standard et haute performance</li>
+                                <li>• Livraison programmée</li>
+                                <li>• Contrôle qualité rigoureux</li>
+                                <li>• Formulations sur mesure</li>
+                            </ul>
+                            <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition-all">
+                                En savoir plus
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Service 3: Granulats -->
+                    <div class="service-card bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                        <div class="relative h-48 bg-gradient-to-br from-green-50 to-emerald-50 p-6 flex items-center justify-center">
+                            <div class="service-icon w-20 h-20 bg-green-600 rounded-full flex items-center justify-center">
+                                <i class="fas fa-mountain text-white text-2xl"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Granulats</h3>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                Matériaux de qualité pour vos travaux d'infrastructure et de construction
+                            </p>
+                            <ul class="text-sm text-gray-600 space-y-1 mb-4">
+                                <li>• Sable et graviers</li>
+                                <li>• Granulats concassés</li>
+                                <li>• Matériaux recyclés</li>
+                                <li>• Contrôle qualité certifié</li>
+                            </ul>
+                            <button class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-semibold transition-all">
+                                En savoir plus
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Service 4: Conseil Technique -->
+                    <div class="service-card bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                        <div class="relative h-48 bg-gradient-to-br from-purple-50 to-pink-50 p-6 flex items-center justify-center">
+                            <div class="service-icon w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user-tie text-white text-2xl"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Conseil Technique</h3>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                Expertise et accompagnement pour optimiser vos projets
+                            </p>
+                            <ul class="text-sm text-gray-600 space-y-1 mb-4">
+                                <li>• Études de formulation</li>
+                                <li>• Assistance technique</li>
+                                <li>• Formation équipes</li>
+                                <li>• Suivi de chantier</li>
+                            </ul>
+                            <button class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg font-semibold transition-all">
+                                En savoir plus
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Processus de service -->
+        <section class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                        Notre <span class="text-orange-600">Processus</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Un accompagnement personnalisé de A à Z pour garantir le succès de vos projets
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+                    <!-- Étape 1 -->
+                    <div class="process-step text-center">
+                        <div class="relative mb-6">
+                            <div class="w-20 h-20 bg-orange-600 rounded-full flex items-center justify-center mx-auto relative z-10">
+                                <span class="text-white text-2xl font-bold">1</span>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Analyse des Besoins</h3>
+                        <p class="text-gray-600">
+                            Étude approfondie de votre projet pour définir les solutions optimales
+                        </p>
+                    </div>
+
+                    <!-- Étape 2 -->
+                    <div class="process-step text-center">
+                        <div class="relative mb-6">
+                            <div class="w-20 h-20 bg-orange-600 rounded-full flex items-center justify-center mx-auto relative z-10">
+                                <span class="text-white text-2xl font-bold">2</span>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Proposition Technique</h3>
+                        <p class="text-gray-600">
+                            Élaboration d'une solution sur mesure adaptée à vos contraintes
+                        </p>
+                    </div>
+
+                    <!-- Étape 3 -->
+                    <div class="process-step text-center">
+                        <div class="relative mb-6">
+                            <div class="w-20 h-20 bg-orange-600 rounded-full flex items-center justify-center mx-auto relative z-10">
+                                <span class="text-white text-2xl font-bold">3</span>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Production & Livraison</h3>
+                        <p class="text-gray-600">
+                            Fabrication selon nos standards qualité et livraison dans les délais
+                        </p>
+                    </div>
+
+                    <!-- Étape 4 -->
+                    <div class="process-step text-center">
+                        <div class="relative mb-6">
+                            <div class="w-20 h-20 bg-orange-600 rounded-full flex items-center justify-center mx-auto relative z-10">
+                                <span class="text-white text-2xl font-bold">4</span>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Suivi & Support</h3>
+                        <p class="text-gray-600">
+                            Accompagnement continu et support technique tout au long du projet
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Expertise technique -->
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="animate-slideInLeft">
+                        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                            Notre <span class="text-orange-600">Expertise</span>
+                        </h2>
+                        <p class="text-xl text-gray-600 mb-8">
+                            Plus de 70 ans d'expérience au service de la construction marocaine
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div class="expertise-item p-4 rounded-lg border border-gray-200 cursor-pointer">
+                                <div class="flex items-center">
+                                    <div class="expertise-icon w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-4">
+                                        <i class="fas fa-flask text-orange-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Laboratoire R&D</h4>
+                                        <p class="text-gray-600 text-sm">Innovation continue et développement de nouvelles formulations</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="expertise-item p-4 rounded-lg border border-gray-200 cursor-pointer">
+                                <div class="flex items-center">
+                                    <div class="expertise-icon w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                                        <i class="fas fa-certificate text-blue-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Certifications Qualité</h4>
+                                        <p class="text-gray-600 text-sm">Conformité aux normes internationales et marocaines</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="expertise-item p-4 rounded-lg border border-gray-200 cursor-pointer">
+                                <div class="flex items-center">
+                                    <div class="expertise-icon w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                                        <i class="fas fa-leaf text-green-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Développement Durable</h4>
+                                        <p class="text-gray-600 text-sm">Solutions éco-responsables et réduction de l'empreinte carbone</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="expertise-item p-4 rounded-lg border border-gray-200 cursor-pointer">
+                                <div class="flex items-center">
+                                    <div class="expertise-icon w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                                        <i class="fas fa-users text-purple-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Équipe d'Experts</h4>
+                                        <p class="text-gray-600 text-sm">Ingénieurs et techniciens spécialisés à votre service</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="animate-slideInRight">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="bg-orange-50 p-6 rounded-2xl text-center">
+                                <div class="text-3xl font-bold text-orange-600 mb-2">70+</div>
+                                <div class="text-gray-600">Années d'expérience</div>
+                            </div>
+                            <div class="bg-blue-50 p-6 rounded-2xl text-center">
+                                <div class="text-3xl font-bold text-blue-600 mb-2">4</div>
+                                <div class="text-gray-600">Usines de production</div>
+                            </div>
+                            <div class="bg-green-50 p-6 rounded-2xl text-center">
+                                <div class="text-3xl font-bold text-green-600 mb-2">50+</div>
+                                <div class="text-gray-600">Points de vente</div>
+                            </div>
+                            <div class="bg-purple-50 p-6 rounded-2xl text-center">
+                                <div class="text-3xl font-bold text-purple-600 mb-2">1000+</div>
+                                <div class="text-gray-600">Projets réalisés</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 bg-gray-50 p-6 rounded-2xl">
+                            <h4 class="font-bold text-gray-900 mb-4">Nos Certifications</h4>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div class="text-center">
+                                    <div class="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                        <i class="fas fa-award text-white"></i>
+                                    </div>
+                                    <div class="text-xs text-gray-600">ISO 9001</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                        <i class="fas fa-leaf text-white"></i>
+                                    </div>
+                                    <div class="text-xs text-gray-600">ISO 14001</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                        <i class="fas fa-shield-alt text-white"></i>
+                                    </div>
+                                    <div class="text-xs text-gray-600">OHSAS 18001</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services par secteur -->
+        <section class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                        Services par <span class="text-orange-600">Secteur</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Des solutions adaptées à chaque type de projet et secteur d'activité
+                    </p>
+                </div>
+
+                <!-- Onglets secteurs -->
+                <div class="flex flex-wrap justify-center mb-12 border-b border-gray-200">
+                    <button class="tab-button active px-8 py-4 font-bold text-lg" onclick="switchSector('residential')">
+                        <i class="fas fa-home mr-2"></i>Résidentiel
+                    </button>
+                    <button class="tab-button px-8 py-4 font-bold text-lg text-gray-600" onclick="switchSector('commercial')">
+                        <i class="fas fa-building mr-2"></i>Commercial
+                    </button>
+                    <button class="tab-button px-8 py-4 font-bold text-lg text-gray-600" onclick="switchSector('industrial')">
+                        <i class="fas fa-industry mr-2"></i>Industriel
+                    </button>
+                    <button class="tab-button px-8 py-4 font-bold text-lg text-gray-600" onclick="switchSector('infrastructure')">
+                        <i class="fas fa-road mr-2"></i>Infrastructure
+                    </button>
+                </div>
+
+                <!-- Contenu secteur résidentiel -->
+                <div id="residential" class="sector-content">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-900 mb-6">Secteur Résidentiel</h3>
+                            <p class="text-gray-600 mb-6">
+                                Solutions complètes pour la construction de logements individuels et collectifs, 
+                                adaptées aux besoins des particuliers et promoteurs immobiliers.
+                            </p>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <div class="w-6 h-6 bg-orange-600 rounded-full flex items-center justify-center mr-3 mt-1">
+                                        <i class="fas fa-check text-white text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Maisons individuelles</h4>
+                                        <p class="text-gray-600 text-sm">Ciments adaptés aux fondations, murs et dalles</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-6 h-6 bg-orange-600 rounded-full flex items-center justify-center mr-3 mt-1">
+                                        <i class="fas fa-check text-white text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Résidences collectives</h4>
+                                        <p class="text-gray-600 text-sm">Solutions pour immeubles et complexes résidentiels</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-6 h-6 bg-orange-600 rounded-full flex items-center justify-center mr-3 mt-1">
+                                        <i class="fas fa-check text-white text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Rénovation</h4>
+                                        <p class="text-gray-600 text-sm">Produits spécialisés pour travaux de réhabilitation</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="Résidentiel" class="w-full h-80 object-cover rounded-2xl shadow-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenu secteur commercial -->
+                <div id="commercial" class="sector-content hidden">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="Commercial" class="w-full h-80 object-cover rounded-2xl shadow-lg">
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-900 mb-6">Secteur Commercial</h3>
+                            <p class="text-gray-600 mb-6">
+                                Solutions haute performance pour centres commerciaux, bureaux, hôtels 
+                                et autres bâtiments à usage commercial nécessitant des performances élevées.
+                            </p>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <div class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center mr-3 mt-1">
+                                        <i class="fas fa-check text-white text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Centres commerciaux</h4>
+                                        <p class="text-gray-600 text-sm">Bétons haute résistance pour grandes portées</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center mr-3 mt-1">
+                                        <i class="fas fa-check text-white text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Immeubles de bureaux</h4>
+                                        <p class="text-gray-600 text-sm">Solutions pour structures complexes</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center mr-3 mt-1">
+                                        <i class="fas fa-check text-white text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Hôtellerie</h4>
+                                        <p class="text-gray-600 text-sm">Matériaux adaptés aux contraintes hôtelières</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenu secteur industriel -->
+                <div id="industrial" class="sector-content hidden">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-900 mb-6">Secteur Industriel</h3>
+                            <p class="text-gray-600 mb-6">
+                                Solutions spécialisées pour usines, entrepôts et installations industrielles 
+                                nécessitant des matériaux résistants aux contraintes spécifiques.
+                            </p>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <div class="w-6 h-6 bg-green-600 rounded-full flex items-center justify-center mr-3 mt-1">
+                                        <i class="fas fa-check text-white text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Usines et ateliers</h4>
+                                        <p class="text-gray-600 text-sm">Bétons résistants aux charges lourdes</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-6 h-6 bg-green-600 rounded-full flex items-center justify-center mr-3 mt-1">
+                                        <i class="fas fa-check text-white text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Entrepôts logistiques</h4>
+                                        <p class="text-gray-600 text-sm">Solutions pour grandes surfaces de stockage</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-6 h-6 bg-green-600 rounded-full flex items-center justify-center mr-3 mt-1">
+                                        <i class="fas fa-check text-white text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Installations spécialisées</h4>
+                                        <p class="text-gray-600 text-sm">Matériaux résistants aux agressions chimiques</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="Industriel" class="w-full h-80 object-cover rounded-2xl shadow-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenu secteur infrastructure -->
+                <div id="infrastructure" class="sector-content hidden">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="Infrastructure" class="w-full h-80 object-cover rounded-2xl shadow-lg">
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-900 mb-6">Infrastructure</h3>
+                            <p class="text-gray-600 mb-6">
+                                Solutions pour grands projets d'infrastructure : routes, ponts, tunnels, 
+                                barrages et ouvrages d'art nécessitant des performances exceptionnelles.
+                            </p>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <div class="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center mr-3 mt-1">
+                                        <i class="fas fa-check text-white text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Routes et autoroutes</h4>
+                                        <p class="text-gray-600 text-sm">Bétons routiers haute performance</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center mr-3 mt-1">
+                                        <i class="fas fa-check text-white text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Ponts et ouvrages d'art</h4>
+                                        <p class="text-gray-600 text-sm">Ciments haute résistance et durabilité</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center mr-3 mt-1">
+                                        <i class="fas fa-check text-white text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900">Ouvrages hydrauliques</h4>
+                                        <p class="text-gray-600 text-sm">Matériaux résistants à l'eau et aux intempéries</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20 gradient-bg">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-4xl font-bold text-white mb-6">
+                    Besoin d'une solution personnalisée ?
+                </h2>
+                <p class="text-xl text-orange-100 mb-8 max-w-2xl mx-auto">
+                    Nos experts sont à votre disposition pour étudier votre projet et vous proposer 
+                    la solution la plus adaptée à vos besoins spécifiques.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="/contact" class="bg-white text-orange-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105">
+                        <i class="fas fa-phone mr-2"></i>Nous contacter
+                    </a>
+                    <button class="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-orange-600 transition-all transform hover:scale-105">
+                        <i class="fas fa-download mr-2"></i>Télécharger la brochure
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="container mx-auto px-4 py-16">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="relative">
+                            <svg width="40" height="40" viewBox="0 0 48 48" class="text-orange-500">
+                                <defs>
+                                    <linearGradient id="footerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#9ca3af" />
+                                        <stop offset="50%" stop-color="#6b7280" />
+                                        <stop offset="100%" stop-color="#4b5563" />
+                                    </linearGradient>
+                                </defs>
+                                <path
+                                    d="M24 4 C35 4 44 13 44 24 C44 35 35 44 24 44 C13 44 4 35 4 24 C4 15 11 8 20 8 C27 8 32 13 32 20 C32 25 28 28 24 28 C21 28 20 26 20 24 C20 23 21 22 22 22"
+                                    fill="none"
+                                    stroke="url(#footerLogoGradient)"
+                                    stroke-width="2.5"
+                                    stroke-linecap="round"
+                                />
+                                <circle cx="24" cy="24" r="3" fill="url(#footerLogoGradient)" />
+                                <path
+                                    d="M12 12 L16 16 M36 12 L32 16 M12 36 L16 32 M36 36 L32 32"
+                                    stroke="url(#footerLogoGradient)"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                    opacity="0.6"
+                                />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">
+                                <span class="text-gray-400">Ciments</span> du Maroc
+                            </h3>
+                            <p class="text-sm text-gray-400">HEIDELBERGCEMENT Group</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Leader du ciment au Maroc depuis plus de 70 ans, nous accompagnons le développement du pays avec des
+                        solutions innovantes et durables.
+                    </p>
+                    <div class="flex space-x-3">
+                        <button class="p-2 hover:bg-orange-600 rounded transition-colors">
+                            <i class="fab fa-facebook"></i>
+                        </button>
+                        <button class="p-2 hover:bg-orange-600 rounded transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button class="p-2 hover:bg-orange-600 rounded transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </button>
+                        <button class="p-2 hover:bg-orange-600 rounded transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Liens Rapides</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">À propos</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Nos Produits</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Services</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Carrières</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Développement Durable</a></li>
+                    </ul>
+                </div>
+
+                <!-- Products -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Nos Produits</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Ciment Portland</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Béton Prêt à l'Emploi</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Granulats</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Solutions Spéciales</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-map-marker-alt text-orange-400 mt-1"></i>
+                            <p class="text-gray-300 text-sm">
+                                Ciments du Maroc<br />
+                                621, boulevard Panoramique<br />
+                                20 150 Casablanca, Maroc
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-phone text-orange-400"></i>
+                            <p class="text-gray-300 text-sm">+212 522 85 94 50 à 59</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-envelope text-orange-400"></i>
+                            <p class="text-gray-300 text-sm">contact@cimar.co.ma</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm">© 2025 Ciments du Maroc. Tous droits réservés.</p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="#" class="text-gray-400 hover:text-orange-400 text-sm transition-colors">Mentions Légales</a>
+                        <a href="#" class="text-gray-400 hover:text-orange-400 text-sm transition-colors">Politique de Confidentialité</a>
+                        <a href="#" class="text-gray-400 hover:text-orange-400 text-sm transition-colors">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Fonction pour changer d'onglet secteur
+        function switchSector(sectorName) {
+            // Masquer tous les contenus de secteurs
+            document.querySelectorAll('.sector-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Désactiver tous les boutons d'onglets
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+                button.classList.add('text-gray-600');
+            });
+
+            // Afficher le contenu du secteur sélectionné
+            document.getElementById(sectorName).classList.remove('hidden');
+
+            // Activer le bouton d'onglet correspondant
+            event.target.classList.add('active');
+            event.target.classList.remove('text-gray-600');
+        }
+
+        // Animation au scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observer tous les éléments animés
+        document.querySelectorAll('.animate-fadeInUp, .animate-slideInLeft, .animate-slideInRight').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            observer.observe(el);
+        });
+
+        // Smooth scrolling pour les ancres
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animation des cartes d'expertise au hover
+        document.querySelectorAll('.expertise-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(10px)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animer les éléments visibles au chargement
+            setTimeout(() => {
+                document.querySelectorAll('.animate-fadeInUp, .animate-slideInLeft, .animate-slideInRight').forEach((el, index) => {
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 200);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,636 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ciments du Maroc - Accueil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-slide {
+            transition: opacity 1s ease-in-out;
+        }
+        .hero-slide.active {
+            opacity: 1;
+        }
+        .hero-slide.inactive {
+            opacity: 0;
+        }
+        /* Fallback pour les images qui ne chargent pas */
+        .bg-fallback {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
+        }
+        /* Fallbacks pour les services */
+        .service-bg-fallback-1 {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
+        }
+        .service-bg-fallback-2 {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
+        }
+        .service-bg-fallback-3 {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 50%, #374151 100%);
+        }
+        .service-bg-fallback-4 {
+            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+        }
+        /* Fallbacks pour les actualités */
+        .news-bg-fallback-1 {
+            background: linear-gradient(135deg, #fb923c 0%, #f97316 50%, #ea580c 100%);
+        }
+        .news-bg-fallback-2 {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%);
+        }
+        .news-bg-fallback-3 {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 50%, #16a34a 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-white">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="/" class="flex items-center space-x-3">
+                    <div class="relative">
+                        <svg width="48" height="48" viewBox="0 0 48 48" class="text-orange-600">
+                            <defs>
+                                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#6b7280" />
+                                    <stop offset="50%" stop-color="#4b5563" />
+                                    <stop offset="100%" stop-color="#374151" />
+                                </linearGradient>
+                            </defs>
+                            <!-- Spirale principale -->
+                            <path
+                                d="M24 4 C35 4 44 13 44 24 C44 35 35 44 24 44 C13 44 4 35 4 24 C4 15 11 8 20 8 C27 8 32 13 32 20 C32 25 28 28 24 28 C21 28 20 26 20 24 C20 23 21 22 22 22"
+                                fill="none"
+                                stroke="url(#logoGradient)"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                            />
+                            <!-- Cercle central -->
+                            <circle cx="24" cy="24" r="3" fill="url(#logoGradient)" />
+                            <!-- Lignes décoratives -->
+                            <path
+                                d="M12 12 L16 16 M36 12 L32 16 M12 36 L16 32 M36 36 L32 32"
+                                stroke="url(#logoGradient)"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                opacity="0.6"
+                            />
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">
+                            <span class="text-gray-600">Ciments</span> du Maroc
+                        </h1>
+                        <p class="text-xs text-gray-600 font-medium">HEIDELBERGCEMENT Group</p>
+                    </div>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="/" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Accueil</a>
+                    <a href="/produits-ciment" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Nos Produits</a>
+                    <a href="services" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Services</a>
+                    <a href="/actualités" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Actualités</a>
+                    <a href="/contact" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</a>
+                </nav>
+
+                <!-- Login and Register Buttons -->
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex items-center space-x-3">
+                        <button class="flex items-center text-gray-700 hover:text-orange-600 px-4 py-2 rounded-md border border-gray-300 hover:border-orange-600 transition-all">
+                            <i class="fas fa-sign-in-alt mr-2"></i>
+                            Connexion
+                        </button>
+                        <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-md font-medium transition-all transform hover:scale-105">
+                            <i class="fas fa-user-plus mr-2"></i>
+                            S'inscrire
+                        </button>
+                    </div>
+
+                    <button class="lg:hidden text-gray-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative h-screen overflow-hidden" id="hero-section">
+            <!-- Slide 1 -->
+            <div class="hero-slide active absolute inset-0">
+                <!-- Image de fond -->
+                <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/2022-08/Usine%20de%20Marrakech.jpg')"></div>
+                <div class="absolute inset-0 bg-black/50"></div>
+                <div class="relative container mx-auto px-4 h-full flex items-center">
+                    <div class="max-w-2xl text-white">
+                        <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">Le sport comme moteur d'inclusion</h1>
+                        <p class="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed">Ciments du Maroc au Sommet de l'Éducation par le Sport en Afrique</p>
+                        <button class="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 text-lg font-semibold rounded-md group transition-all">
+                            En savoir plus
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="hero-slide inactive absolute inset-0">
+                <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://f2.hespress.com/wp-content/uploads/2019/04/Ciments-du-Maroc-scaled.jpg')"></div>
+                <div class="absolute inset-0 bg-black/50"></div>
+                <div class="relative container mx-auto px-4 h-full flex items-center">
+                    <div class="max-w-2xl text-white">
+                        <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">Innovation et Durabilité</h1>
+                        <p class="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed">Des solutions cimentières respectueuses de l'environnement</p>
+                        <button class="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 text-lg font-semibold rounded-md group transition-all">
+                            En savoir plus
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="hero-slide inactive absolute inset-0">
+                <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/2025-02/SACS%20CIMAR_1.png')"></div>
+                <div class="absolute inset-0 bg-black/50"></div>
+                <div class="relative container mx-auto px-4 h-full flex items-center">
+                    <div class="max-w-2xl text-white">
+                        <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">Excellence Opérationnelle</h1>
+                        <p class="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed">70 ans d'expertise au service de la construction</p>
+                        <button class="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 text-lg font-semibold rounded-md group transition-all">
+                            En savoir plus
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Arrows -->
+            <button onclick="prevSlide()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all backdrop-blur-sm">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button onclick="nextSlide()" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all backdrop-blur-sm">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
+            <!-- Slide Indicators -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3">
+                <button onclick="goToSlide(0)" class="slide-indicator w-3 h-3 rounded-full transition-all bg-orange-500 w-8"></button>
+                <button onclick="goToSlide(1)" class="slide-indicator w-3 h-3 rounded-full transition-all bg-white/50"></button>
+                <button onclick="goToSlide(2)" class="slide-indicator w-3 h-3 rounded-full transition-all bg-white/50"></button>
+            </div>
+
+            <!-- Slide Counter -->
+            <div class="absolute bottom-8 right-8 text-white font-semibold">
+                <span class="text-2xl" id="current-slide">01</span>
+                <span class="text-white/60 mx-2">—</span>
+                <span class="text-white/60">03</span>
+            </div>
+        </section>
+
+        <!-- Welcome Section -->
+        <section class="py-20 bg-gradient-to-b from-gray-50 to-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                        Bienvenue à <span class="text-orange-600">Ciments du Maroc</span>
+                    </h2>
+                    <div class="w-24 h-1 bg-orange-600 mx-auto mb-8"></div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            Ciments du Maroc, <strong>filiale du leader mondial Heidelberg Materials</strong>, est un acteur majeur du
+                            ciment dans le Royaume et le premier opérateur dans le béton prêt à l'emploi et les granulats.
+                        </p>
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            Depuis la reconstruction de la ville d'Agadir, après le tremblement de terre de 1960, la société a
+                            développé en <strong>plus de 70 ans des expertises et savoir-faire</strong> qui en font un partenaire clé
+                            des grands chantiers du pays.
+                        </p>
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            Modernisation des infrastructures, nouveaux équipements portuaires et autoroutiers, accélération du
+                            développement industriel, renforcement de l'intégration régionale.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                                <i class="fas fa-building text-orange-600 text-xl"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-2">70+ Ans</h3>
+                            <p class="text-gray-600 text-sm">d'expertise dans le secteur</p>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                                <i class="fas fa-award text-orange-600 text-xl"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-2">Leader</h3>
+                            <p class="text-gray-600 text-sm">du marché marocain</p>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                                <i class="fas fa-users text-orange-600 text-xl"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-2">Partenaire</h3>
+                            <p class="text-gray-600 text-sm">des grands projets</p>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+                            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                                <i class="fas fa-leaf text-orange-600 text-xl"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-2">Durable</h3>
+                            <p class="text-gray-600 text-sm">et responsable</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                        Nos <span class="text-orange-600">Solutions</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Des produits et services de qualité pour accompagner tous vos projets de construction
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Service 1: Ciment -->
+                    <div class="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden rounded-lg bg-white">
+                        <div class="relative overflow-hidden h-48 service-bg-fallback-1 bg-cover bg-center" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/2022-07/DSC_0392.JPG');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4">
+                                <div class="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-industry text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold group-hover:text-orange-600 transition-colors mb-2">Ciment</h3>
+                            <p class="text-gray-600 mb-4">Production de ciment de haute qualité pour tous vos projets de construction</p>
+                            <a href="/produits-ciment" class="inline-block w-full text-center py-2 px-4 border border-gray-300 rounded-md text-gray-700 hover:bg-orange-600 hover:text-white hover:border-orange-600 transition-all">
+                                En savoir plus
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Service 2: Béton -->
+                    <div class="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden rounded-lg bg-white">
+                        <div class="relative overflow-hidden h-48 service-bg-fallback-2 bg-cover bg-center" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/2022-09/8E8A4183.jpg');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4">
+                                <div class="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-truck text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold group-hover:text-orange-600 transition-colors mb-2">Béton Prêt à l'Emploi</h3>
+                            <p class="text-gray-600 mb-4">Solutions de béton prêt à l'emploi livrées directement sur vos chantiers</p>
+                            <button class="w-full py-2 px-4 border border-gray-300 rounded-md text-gray-700 hover:bg-orange-600 hover:text-white hover:border-orange-600 transition-all">
+                                En savoir plus
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Service 3: Granulats -->
+                    <div class="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden rounded-lg bg-white">
+                        <div class="relative overflow-hidden h-48 service-bg-fallback-3 bg-cover bg-center" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/2022-08/Granulats.png');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4">
+                                <div class="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-hammer text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold group-hover:text-orange-600 transition-colors mb-2">Granulats</h3>
+                            <p class="text-gray-600 mb-4">Granulats de qualité pour vos travaux de construction et d'infrastructure</p>
+                            <button class="w-full py-2 px-4 border border-gray-300 rounded-md text-gray-700 hover:bg-orange-600 hover:text-white hover:border-orange-600 transition-all">
+                                En savoir plus
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Service 4: Solutions Durables -->
+                    <div class="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden rounded-lg bg-white">
+                        <div class="relative overflow-hidden h-48 service-bg-fallback-4 bg-cover bg-center" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/2024-02/evoBuild_Ciments%20du%20Maroc.png');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4">
+                                <div class="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-recycle text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold group-hover:text-orange-600 transition-colors mb-2">Solutions Durables</h3>
+                            <p class="text-gray-600 mb-4">Produits éco-responsables pour une construction durable</p>
+                            <button class="w-full py-2 px-4 border border-gray-300 rounded-md text-gray-700 hover:bg-orange-600 hover:text-white hover:border-orange-600 transition-all">
+                                En savoir plus
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- News Section -->
+        <section class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                        Nos <span class="text-orange-600">Actualités</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Restez informé de nos dernières innovations et engagements
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                    <!-- Article 1: Événement -->
+                    <div class="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden bg-white rounded-lg">
+                        <div class="relative overflow-hidden h-48 news-bg-fallback-1 bg-cover bg-center" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/2025-01/Cimar%20Tibu_7.JPG');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-medium">Événement</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center text-gray-500 text-sm mb-2">
+                                <i class="fas fa-calendar mr-2"></i>
+                                26 Juin 2025
+                            </div>
+                            <h3 class="text-xl font-bold group-hover:text-orange-600 transition-colors mb-3">
+                                Ciments du Maroc au Sommet de l'Éducation par le Sport
+                            </h3>
+                            <p class="text-gray-600 mb-4">
+                                Participation active au sommet africain sur l'éducation par le sport, démontrant notre engagement social.
+                            </p>
+                            
+                            <button class="text-orange-600 hover:text-orange-700 group flex items-center">
+                               
+                                
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Article 2: Innovation -->
+                    <div class="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden bg-white rounded-lg">
+                        <div class="relative overflow-hidden h-48 news-bg-fallback-2 bg-cover bg-center" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/assets/images/cimenterie_agadir_0.jpg');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-medium">Innovation</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center text-gray-500 text-sm mb-2">
+                                <i class="fas fa-calendar mr-2"></i>
+                                28 Juin 2025
+                            </div>
+                            <h3 class="text-xl font-bold group-hover:text-orange-600 transition-colors mb-3">
+                                Notre Histoire
+                            </h3>
+                            <p class="text-gray-600 mb-4">
+                               Ciments du Maroc est un leader industriel marocain alliant tradition, innovation et engagement durable dans les matériaux de construction.
+                            </p>
+                            <button class="text-orange-600 hover:text-orange-700 group flex items-center">
+                                
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Article 3: Partenariat -->
+                    <div class="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden bg-white rounded-lg">
+                        <div class="relative overflow-hidden h-48 news-bg-fallback-3 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-medium">Partenariat</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center text-gray-500 text-sm mb-2">
+                                <i class="fas fa-calendar mr-2"></i>
+                                30 Juin  2025
+                            </div>
+                            <h3 class="text-xl font-bold group-hover:text-orange-600 transition-colors mb-3">
+                                Partenariat avec la Fondation Mohammed V pour la Solidarité
+                            </h3>
+                            <p class="text-gray-600 mb-4">
+                              Ciments du Maroc collabore avec la Fondation Mohammed V pour la Solidarité pour soutenir des projets sociaux et de développement au Maroc.
+                            </p>
+                            <button class="text-orange-600 hover:text-orange-700 group flex items-center">
+                                
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+               <div class="text-center">
+    <a href="/actualités">
+        <button class="bg-white hover:bg-orange-600 hover:text-white border border-orange-600 text-orange-600 px-8 py-3 rounded-md font-semibold transition-all">
+            Voir toutes les actualités
+        </button>
+    </a>
+</div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="container mx-auto px-4 py-16">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="relative">
+                            <svg width="40" height="40" viewBox="0 0 48 48" class="text-orange-500">
+                                <defs>
+                                    <linearGradient id="footerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#9ca3af" />
+                                        <stop offset="50%" stop-color="#6b7280" />
+                                        <stop offset="100%" stop-color="#4b5563" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Spirale principale -->
+                                <path
+                                    d="M24 4 C35 4 44 13 44 24 C44 35 35 44 24 44 C13 44 4 35 4 24 C4 15 11 8 20 8 C27 8 32 13 32 20 C32 25 28 28 24 28 C21 28 20 26 20 24 C20 23 21 22 22 22"
+                                    fill="none"
+                                    stroke="url(#footerLogoGradient)"
+                                    stroke-width="2.5"
+                                    stroke-linecap="round"
+                                />
+                                <!-- Cercle central -->
+                                <circle cx="24" cy="24" r="3" fill="url(#footerLogoGradient)" />
+                                <!-- Lignes décoratives -->
+                                <path
+                                    d="M12 12 L16 16 M36 12 L32 16 M12 36 L16 32 M36 36 L32 32"
+                                    stroke="url(#footerLogoGradient)"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                    opacity="0.6"
+                                />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">
+                                <span class="text-gray-400">Ciments</span> du Maroc
+                            </h3>
+                            <p class="text-sm text-gray-400">HEIDELBERGCEMENT Group</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Leader du ciment au Maroc depuis plus de 70 ans, nous accompagnons le développement du pays avec des
+                        solutions innovantes et durables.
+                    </p>
+                    <div class="flex space-x-3">
+                        <button class="p-2 hover:bg-orange-600 rounded transition-colors">
+                            <i class="fab fa-facebook"></i>
+                        </button>
+                        <button class="p-2 hover:bg-orange-600 rounded transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button class="p-2 hover:bg-orange-600 rounded transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </button>
+                        <button class="p-2 hover:bg-orange-600 rounded transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Liens Rapides</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">À propos</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Nos Produits</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Services</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Carrières</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Développement Durable</a></li>
+                    </ul>
+                </div>
+
+                <!-- Products -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Nos Produits</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Ciment Portland</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Béton Prêt à l'Emploi</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Granulats</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Solutions Spéciales</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-map-marker-alt text-orange-400 mt-1"></i>
+                            <p class="text-gray-300 text-sm">
+                                Ciments du Maroc
+621, boulevard Panoramique
+20 150 <br />
+                                Casablanca, Maroc
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-phone text-orange-400"></i>
+                            <p class="text-gray-300 text-sm">+212 522 85 94 50 à 59 </p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-envelope text-orange-400"></i>
+                            <p class="text-gray-300 text-sm">presse-contact@cimar.co.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm">© 2025 Ciments du Maroc. Tous droits réservés.</p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="#" class="text-gray-400 hover:text-orange-400 text-sm transition-colors">Mentions Légales</a>
+                        <a href="#" class="text-gray-400 hover:text-orange-400 text-sm transition-colors">Politique de Confidentialité</a>
+                        <a href="#" class="text-gray-400 hover:text-orange-400 text-sm transition-colors">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Hero Carousel JavaScript
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const indicators = document.querySelectorAll('.slide-indicator');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+                slide.classList.add('inactive');
+            });
+
+            // Show current slide
+            slides[index].classList.remove('inactive');
+            slides[index].classList.add('active');
+
+            // Update indicators
+            indicators.forEach((indicator, i) => {
+                if (i === index) {
+                    indicator.classList.add('bg-orange-500', 'w-8');
+                    indicator.classList.remove('bg-white/50');
+                } else {
+                    indicator.classList.remove('bg-orange-500', 'w-8');
+                    indicator.classList.add('bg-white/50');
+                }
+            });
+
+            // Update counter
+            document.getElementById('current-slide').textContent = String(index + 1).padStart(2, '0');
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            showSlide(currentSlide);
+        }
+
+        // Auto-advance slides
+        setInterval(nextSlide, 5000);
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>

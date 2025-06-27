@@ -1,0 +1,1021 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lamaalem 35® - Ciment Portland CPJ 35 - Ciments du Maroc</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .product-image-transition {
+            transition: all 0.3s ease;
+        }
+        
+        .quantity-button {
+            transition: all 0.2s ease;
+        }
+        
+        .quantity-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .price-card {
+            background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tab-button.active {
+            background-color: #ea580c;
+            color: white;
+        }
+        
+        .advantage-card {
+            transition: all 0.3s ease;
+        }
+        
+        .advantage-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .star-rating {
+            color: #fbbf24;
+        }
+        
+        .review-card {
+            transition: all 0.3s ease;
+        }
+        
+        .review-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .product-info-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 1px solid #e5e7eb;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #f59e0b;
+        }
+
+        /* Styles pour le panier */
+        .cart-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 400px;
+            max-height: 500px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            z-index: 1000;
+        }
+
+        .cart-dropdown.show {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+        }
+
+        .cart-item {
+            transition: all 0.3s ease;
+        }
+
+        .cart-item:hover {
+            background-color: #f9fafb;
+        }
+
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            display: none;
+        }
+
+        .cart-overlay.show {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-dropdown {
+                width: 320px;
+                right: -50px;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <!-- Overlay pour fermer le panier -->
+    <div id="cartOverlay" class="cart-overlay" onclick="closeCart()"></div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="/" class="flex items-center space-x-3">
+                    <div class="relative">
+                        <svg width="48" height="48" viewBox="0 0 48 48" class="text-orange-600">
+                            <defs>
+                                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#6b7280" />
+                                    <stop offset="50%" stop-color="#4b5563" />
+                                    <stop offset="100%" stop-color="#374151" />
+                                </linearGradient>
+                            </defs>
+                            <path
+                                d="M24 4 C35 4 44 13 44 24 C44 35 35 44 24 44 C13 44 4 35 4 24 C4 15 11 8 20 8 C27 8 32 13 32 20 C32 25 28 28 24 28 C21 28 20 26 20 24 C20 23 21 22 22 22"
+                                fill="none"
+                                stroke="url(#logoGradient)"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                            />
+                            <circle cx="24" cy="24" r="3" fill="url(#logoGradient)" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">
+                            <span class="text-gray-600">Ciments</span> du Maroc
+                        </h1>
+                        <p class="text-xs text-gray-600 font-medium">HEIDELBERGCEMENT Group</p>
+                    </div>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="/" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Accueil</a>
+                    <a href="/produits" class="text-orange-600 font-medium">Nos Produits</a>
+                    <a href="/services" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Services</a>
+                    <a href="/contact" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</a>
+                </nav>
+
+                <!-- Actions avec Panier -->
+                <div class="flex items-center space-x-4">
+                    <!-- Panier -->
+                    <div class="relative">
+                        <button onclick="toggleCart()" class="relative p-3 text-gray-600 hover:text-orange-600 transition-colors">
+                            <i class="fas fa-shopping-cart text-2xl"></i>
+                            <span id="cartBadge" class="cart-badge" style="display: none;">0</span>
+                        </button>
+                        
+                        <!-- Dropdown du panier -->
+                        <div id="cartDropdown" class="cart-dropdown">
+                            <div class="p-4 border-b border-gray-200">
+                                <h3 class="text-lg font-bold text-gray-900 flex items-center">
+                                    <i class="fas fa-shopping-cart text-orange-600 mr-2"></i>
+                                    Mon Panier (<span id="cartItemCount">0</span>)
+                                </h3>
+                            </div>
+                            
+                            <div id="cartItems" class="p-4">
+                                <div id="emptyCart" class="text-center py-8">
+                                    <i class="fas fa-shopping-cart text-gray-300 text-4xl mb-4"></i>
+                                    <p class="text-gray-500">Votre panier est vide</p>
+                                    <p class="text-sm text-gray-400">Ajoutez des produits pour commencer</p>
+                                </div>
+                            </div>
+                            
+                            <div id="cartFooter" class="border-t border-gray-200 p-4" style="display: none;">
+                                <div class="flex justify-between items-center mb-4">
+                                    <span class="font-bold text-lg">Total:</span>
+                                    <span id="cartTotal" class="font-bold text-xl text-orange-600">0 DH</span>
+                                </div>
+                                <div class="space-y-2">
+                                    <button onclick="proceedToCheckout()" class="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-lg font-bold transition-all">
+                                        <i class="fas fa-credit-card mr-2"></i>
+                                        Passer Commande
+                                    </button>
+                                    <button onclick="clearCart()" class="w-full border border-gray-300 text-gray-600 hover:bg-gray-50 py-2 rounded-lg font-medium transition-all">
+                                        Vider le panier
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="lg:hidden text-gray-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="bg-white border-b">
+        <div class="container mx-auto px-4 py-4">
+            <nav class="flex items-center space-x-2 text-sm">
+                <a href="/" class="text-gray-600 hover:text-orange-600 flex items-center">
+                    <i class="fas fa-arrow-left mr-1"></i>
+                    Accueil
+                </a>
+                <span class="text-gray-400">/</span>
+                <a href="/produits" class="text-gray-600 hover:text-orange-600">Produits</a>
+                <span class="text-gray-400">/</span>
+                <span class="text-orange-600 font-medium">Lamaalem 35®</span>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="grid lg:grid-cols-2 gap-12 product-grid">
+            <!-- Image et description du produit -->
+            <div class="space-y-6">
+                <!-- Image principale -->
+                <div class="aspect-square bg-white rounded-2xl shadow-lg overflow-hidden border">
+                    <img
+                        src="https://www.cimentsdumaroc.com/sites/default/files/2025-02/LAMAALEM-35-et-35-pro_1.png"
+                        alt="Lamaalem 35®"
+                        class="w-full h-full object-contain p-8 product-image-transition"
+                    />
+                </div>
+
+                <!-- Description du produit -->
+                <div class="product-info-card rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-info-circle text-orange-600 mr-3"></i>
+                        À propos du Lamaalem 35®
+                    </h3>
+                    
+                    <div class="space-y-4 text-gray-700">
+                        <p class="leading-relaxed">
+                            <strong>Lamaalem 35®</strong> est un ciment Portland composé (CPJ 35) de haute qualité, 
+                            spécialement formulé pour répondre aux exigences de la construction moderne au Maroc. 
+                            Ce produit phare de Ciments du Maroc combine performance, fiabilité et facilité d'utilisation.
+                        </p>
+                        
+                        <div class="highlight-box p-4 rounded-lg">
+                            <h4 class="font-bold text-amber-800 mb-2 flex items-center">
+                                <i class="fas fa-star mr-2"></i>
+                                Pourquoi choisir Lamaalem 35® ?
+                            </h4>
+                            <ul class="text-amber-800 space-y-1 text-sm">
+                                <li>• Résistance garantie ≥ 22.5 MPa à 28 jours</li>
+                                <li>• Prise régulière et contrôlée (2-6 heures)</li>
+                                <li>• Facilité de mise en œuvre exceptionnelle</li>
+                                <li>• Rapport qualité-prix optimal</li>
+                            </ul>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mt-4">
+                            <div class="bg-orange-50 p-3 rounded-lg text-center">
+                                <i class="fas fa-weight-hanging text-orange-600 text-xl mb-2"></i>
+                                <div class="font-bold text-orange-600">50 kg</div>
+                                <div class="text-xs text-gray-600">Poids par sac</div>
+                            </div>
+                            <div class="bg-blue-50 p-3 rounded-lg text-center">
+                                <i class="fas fa-certificate text-blue-600 text-xl mb-2"></i>
+                                <div class="font-bold text-blue-600">CPJ 35</div>
+                                <div class="text-xs text-gray-600">Classe ciment</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-green-50 border border-green-200 p-4 rounded-lg">
+                            <h5 class="font-bold text-green-800 mb-2 flex items-center">
+                                <i class="fas fa-leaf mr-2"></i>
+                                Engagement environnemental
+                            </h5>
+                            <p class="text-green-700 text-sm">
+                                Fabriqué selon les standards environnementaux les plus stricts, 
+                                Lamaalem 35® s'inscrit dans notre démarche de développement durable 
+                                et de respect de l'environnement marocain.
+                            </p>
+                        </div>
+
+                        <div class="bg-gray-50 border border-gray-200 p-4 rounded-lg">
+                            <h5 class="font-bold text-gray-800 mb-2 flex items-center">
+                                <i class="fas fa-tools mr-2"></i>
+                                Applications principales
+                            </h5>
+                            <div class="grid grid-cols-2 gap-2 text-sm text-gray-700">
+                                <div>• Fondations</div>
+                                <div>• Murs porteurs</div>
+                                <div>• Dalles béton</div>
+                                <div>• Poteaux</div>
+                                <div>• Maçonnerie</div>
+                                <div>• Chapes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informations du produit -->
+            <div class="space-y-6">
+                <div>
+                    <span class="inline-block bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium mb-2">
+                        Ciment Portland
+                    </span>
+                    <h1 class="text-4xl font-bold text-gray-900 mb-2">Lamaalem 35®</h1>
+                    <p class="text-xl text-gray-600 mb-4">Ciment Portland CPJ 35</p>
+
+                    <!-- Évaluation -->
+                    <div class="flex items-center space-x-2 mb-6">
+                        <div class="flex items-center">
+                            <i class="fas fa-star star-rating"></i>
+                            <i class="fas fa-star star-rating"></i>
+                            <i class="fas fa-star star-rating"></i>
+                            <i class="fas fa-star star-rating"></i>
+                            <i class="fas fa-star-half-alt star-rating"></i>
+                        </div>
+                        <span class="text-sm text-gray-600">4.5 (127 avis clients)</span>
+                    </div>
+                </div>
+
+                <!-- Prix -->
+                <div class="price-card p-6 rounded-2xl border border-orange-200">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <span class="text-5xl font-bold text-orange-600">85 DH</span>
+                        <div class="flex flex-col">
+                            <span class="text-xl text-gray-500 line-through">95 DH</span>
+                            <span class="bg-red-500 text-white px-2 py-1 rounded text-sm font-bold">-11%</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                        Prix par sac de 50 kg • Stock disponible: <span class="font-bold text-green-600">250 sacs</span>
+                    </p>
+                </div>
+
+                <!-- Sélecteur de quantité -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-lg font-semibold text-gray-700 mb-3">Quantité souhaitée</label>
+                        <div class="flex items-center space-x-6">
+                            <div class="flex items-center border-2 border-gray-300 rounded-xl">
+                                <button
+                                    onclick="decrementQuantity()"
+                                    class="quantity-button h-14 w-14 text-xl hover:bg-gray-100 rounded-l-xl"
+                                >
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <span id="quantityDisplay" class="px-6 py-3 text-2xl font-bold min-w-[80px] text-center">1</span>
+                                <button
+                                    onclick="incrementQuantity()"
+                                    class="quantity-button h-14 w-14 text-xl hover:bg-gray-100 rounded-r-xl"
+                                >
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="text-gray-600">
+                                <div class="font-semibold">
+                                    × 50 kg = <span id="totalWeight">50</span> kg total
+                                </div>
+                                <div class="text-sm">Volume béton: ~<span id="concreteVolume">0.1</span> m³</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calculateur rapide -->
+                    <div class="bg-white border-2 border-orange-200 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-orange-700 mb-4 flex items-center">
+                            <i class="fas fa-calculator mr-2"></i>
+                            Estimation pour votre projet
+                        </h3>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div class="bg-orange-50 p-3 rounded-lg">
+                                <span class="text-gray-600 block">Volume béton estimé:</span>
+                                <div class="font-bold text-lg text-orange-600"><span id="estimatedVolume">0.1</span> m³</div>
+                            </div>
+                            <div class="bg-blue-50 p-3 rounded-lg">
+                                <span class="text-gray-600 block">Surface couverte (15cm):</span>
+                                <div class="font-bold text-lg text-blue-600"><span id="surfaceCovered">1</span> m²</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Récapitulatif des prix -->
+                <div class="bg-white border-2 border-orange-200 rounded-xl p-6">
+                    <div class="space-y-4">
+                        <div class="flex justify-between text-lg">
+                            <span>Sous-total (<span id="quantityInSummary">1</span> sacs)</span>
+                            <span class="font-semibold"><span id="subtotal">85</span> DH</span>
+                        </div>
+                        <div class="flex justify-between text-green-600">
+                            <span>Économies réalisées</span>
+                            <span class="font-semibold">-<span id="savings">10</span> DH</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-600">
+                            <span>Livraison</span>
+                            <span>Calculée au checkout</span>
+                        </div>
+                        <hr class="border-gray-300">
+                        <div class="flex justify-between text-2xl font-bold">
+                            <span>Total</span>
+                            <span class="text-orange-600"><span id="totalPrice">85</span> DH</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Boutons d'action -->
+                <div class="space-y-4">
+                    <button onclick="proceedToPayment()" class="w-full bg-orange-600 hover:bg-orange-700 text-white text-xl py-8 rounded-xl shadow-lg font-bold transition-all transform hover:scale-105">
+                        <i class="fas fa-shopping-cart mr-3"></i>
+                        Passer au Paiement - <span id="paymentTotal">85</span> DH
+                    </button>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="addToCart()" class="py-4 border-2 border-orange-200 text-orange-600 rounded-xl hover:bg-orange-50 font-semibold transition-all">
+                            <i class="fas fa-cart-plus mr-2"></i>
+                            Ajouter au Panier
+                        </button>
+                        <button onclick="toggleWishlist()" id="wishlistBtn" class="py-4 border-2 border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 font-semibold transition-all">
+                            <i class="fas fa-heart mr-2"></i>
+                            Ajouter aux favoris
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Avantages -->
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="advantage-card text-center p-4 bg-white rounded-xl border border-gray-200">
+                        <i class="fas fa-shield-alt text-orange-600 text-2xl mb-2"></i>
+                        <h4 class="font-semibold text-sm mb-1">Qualité Garantie</h4>
+                        <p class="text-xs text-gray-600">Contrôle qualité rigoureux</p>
+                    </div>
+                    <div class="advantage-card text-center p-4 bg-white rounded-xl border border-gray-200">
+                        <i class="fas fa-award text-orange-600 text-2xl mb-2"></i>
+                        <h4 class="font-semibold text-sm mb-1">Certifié NM</h4>
+                        <p class="text-xs text-gray-600">Normes marocaines</p>
+                    </div>
+                    <div class="advantage-card text-center p-4 bg-white rounded-xl border border-gray-200">
+                        <i class="fas fa-truck text-orange-600 text-2xl mb-2"></i>
+                        <h4 class="font-semibold text-sm mb-1">Livraison Rapide</h4>
+                        <p class="text-xs text-gray-600">Partout au Maroc</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Onglets d'informations détaillées -->
+        <div class="mt-20">
+            <div class="flex flex-wrap justify-center mb-8 border-b border-gray-200">
+                <button onclick="switchTab('description')" class="tab-button px-8 py-4 font-bold text-lg active">
+                    Description
+                </button>
+                <button onclick="switchTab('specifications')" class="tab-button px-8 py-4 font-bold text-lg text-gray-600">
+                    Spécifications
+                </button>
+                <button onclick="switchTab('applications')" class="tab-button px-8 py-4 font-bold text-lg text-gray-600">
+                    Applications
+                </button>
+                <button onclick="switchTab('reviews')" class="tab-button px-8 py-4 font-bold text-lg text-gray-600">
+                    Avis (127)
+                </button>
+            </div>
+
+            <!-- Contenu Description -->
+            <div id="description" class="tab-content active">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <h3 class="text-3xl font-bold mb-6">Description du produit</h3>
+                    <p class="text-gray-700 mb-8 leading-relaxed text-lg">
+                        Le Lamaalem 35® est un ciment Portland de qualité supérieure, spécialement conçu pour la construction générale. 
+                        Sa formulation optimisée garantit une résistance fiable et une facilité de mise en œuvre exceptionnelle pour tous vos projets de construction.
+                    </p>
+
+                    <h4 class="text-xl font-semibold mb-6">Caractéristiques principales</h4>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="flex items-center p-3 bg-orange-50 rounded-lg">
+                            <div class="w-3 h-3 bg-orange-600 rounded-full mr-4"></div>
+                            <span class="font-medium">Résistance mécanique élevée et constante</span>
+                        </div>
+                        <div class="flex items-center p-3 bg-orange-50 rounded-lg">
+                            <div class="w-3 h-3 bg-orange-600 rounded-full mr-4"></div>
+                            <span class="font-medium">Prise régulière et contrôlée</span>
+                        </div>
+                        <div class="flex items-center p-3 bg-orange-50 rounded-lg">
+                            <div class="w-3 h-3 bg-orange-600 rounded-full mr-4"></div>
+                            <span class="font-medium">Facilité de mise en œuvre exceptionnelle</span>
+                        </div>
+                        <div class="flex items-center p-3 bg-orange-50 rounded-lg">
+                            <div class="w-3 h-3 bg-orange-600 rounded-full mr-4"></div>
+                            <span class="font-medium">Durabilité exceptionnelle dans le temps</span>
+                        </div>
+                        <div class="flex items-center p-3 bg-orange-50 rounded-lg">
+                            <div class="w-3 h-3 bg-orange-600 rounded-full mr-4"></div>
+                            <span class="font-medium">Conforme aux normes NM 10.1.004</span>
+                        </div>
+                        <div class="flex items-center p-3 bg-orange-50 rounded-lg">
+                            <div class="w-3 h-3 bg-orange-600 rounded-full mr-4"></div>
+                            <span class="font-medium">Qualité contrôlée en laboratoire</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenu Spécifications -->
+            <div id="specifications" class="tab-content">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <h3 class="text-3xl font-bold mb-8">Spécifications techniques</h3>
+                    <div class="grid md:grid-cols-2 gap-8 specs-grid">
+                        <div>
+                            <h4 class="font-semibold mb-6 text-xl">Caractéristiques générales</h4>
+                            <div class="space-y-4">
+                                <div class="flex justify-between py-3 border-b border-gray-200">
+                                    <span class="text-gray-600 font-medium">Classe</span>
+                                    <span class="font-bold">CPJ 35</span>
+                                </div>
+                                <div class="flex justify-between py-3 border-b border-gray-200">
+                                    <span class="text-gray-600 font-medium">Poids</span>
+                                    <span class="font-bold">50 kg</span>
+                                </div>
+                                <div class="flex justify-between py-3 border-b border-gray-200">
+                                    <span class="text-gray-600 font-medium">Résistance</span>
+                                    <span class="font-bold">≥ 22.5 MPa</span>
+                                </div>
+                                <div class="flex justify-between py-3 border-b border-gray-200">
+                                    <span class="text-gray-600 font-medium">Temps de prise</span>
+                                    <span class="font-bold">2-6 heures</span>
+                                </div>
+                                <div class="flex justify-between py-3 border-b border-gray-200">
+                                    <span class="text-gray-600 font-medium">Teneur clinker</span>
+                                    <span class="font-bold">≥ 65%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold mb-6 text-xl">Spécifications détaillées</h4>
+                            <div class="space-y-4">
+                                <div class="flex justify-between py-3 border-b border-gray-200">
+                                    <span class="text-gray-600 font-medium">Résistance à la compression</span>
+                                    <span class="font-bold">≥ 22.5 MPa à 28 jours</span>
+                                </div>
+                                <div class="flex justify-between py-3 border-b border-gray-200">
+                                    <span class="text-gray-600 font-medium">Temps de début de prise</span>
+                                    <span class="font-bold">≥ 60 minutes</span>
+                                </div>
+                                <div class="flex justify-between py-3 border-b border-gray-200">
+                                    <span class="text-gray-600 font-medium">Temps de fin de prise</span>
+                                    <span class="font-bold">≤ 10 heures</span>
+                                </div>
+                                <div class="flex justify-between py-3 border-b border-gray-200">
+                                    <span class="text-gray-600 font-medium">Expansion</span>
+                                    <span class="font-bold">≤ 10 mm</span>
+                                </div>
+                                <div class="flex justify-between py-3 border-b border-gray-200">
+                                    <span class="text-gray-600 font-medium">Finesse Blaine</span>
+                                    <span class="font-bold">≥ 2800 cm²/g</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenu Applications -->
+            <div id="applications" class="tab-content">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <h3 class="text-3xl font-bold mb-8">Applications recommandées</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="flex items-center p-4 bg-orange-50 rounded-lg border border-orange-200">
+                            <div class="w-4 h-4 bg-orange-600 rounded-full mr-4"></div>
+                            <span class="font-medium text-lg">Construction de maisons individuelles</span>
+                        </div>
+                        <div class="flex items-center p-4 bg-orange-50 rounded-lg border border-orange-200">
+                            <div class="w-4 h-4 bg-orange-600 rounded-full mr-4"></div>
+                            <span class="font-medium text-lg">Bâtiments résidentiels et commerciaux</span>
+                        </div>
+                        <div class="flex items-center p-4 bg-orange-50 rounded-lg border border-orange-200">
+                            <div class="w-4 h-4 bg-orange-600 rounded-full mr-4"></div>
+                            <span class="font-medium text-lg">Ouvrages en béton armé</span>
+                        </div>
+                        <div class="flex items-center p-4 bg-orange-50 rounded-lg border border-orange-200">
+                            <div class="w-4 h-4 bg-orange-600 rounded-full mr-4"></div>
+                            <span class="font-medium text-lg">Fondations et structures porteuses</span>
+                        </div>
+                        <div class="flex items-center p-4 bg-orange-50 rounded-lg border border-orange-200">
+                            <div class="w-4 h-4 bg-orange-600 rounded-full mr-4"></div>
+                            <span class="font-medium text-lg">Travaux de maçonnerie générale</span>
+                        </div>
+                        <div class="flex items-center p-4 bg-orange-50 rounded-lg border border-orange-200">
+                            <div class="w-4 h-4 bg-orange-600 rounded-full mr-4"></div>
+                            <span class="font-medium text-lg">Dalles et chapes</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-10 p-8 bg-blue-50 rounded-xl border border-blue-200">
+                        <h4 class="font-bold text-blue-900 mb-4 text-xl flex items-center">
+                            <i class="fas fa-lightbulb mr-2"></i>
+                            Conseils d'expert
+                        </h4>
+                        <div class="space-y-3 text-blue-800">
+                            <p>• Pour optimiser les performances du Lamaalem 35®, respectez un dosage de 350 kg/m³ pour le béton armé</p>
+                            <p>• Assurez-vous d'une cure humide pendant au moins 7 jours pour une résistance optimale</p>
+                            <p>• Utilisez une eau propre et potable pour le gâchage</p>
+                            <p>• Stockez les sacs dans un endroit sec et à l'abri de l'humidité</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenu Avis -->
+            <div id="reviews" class="tab-content">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <div class="flex items-center justify-between mb-8">
+                        <h3 class="text-3xl font-bold">Avis clients</h3>
+                        <div class="flex items-center space-x-3">
+                            <div class="flex items-center">
+                                <i class="fas fa-star star-rating text-xl"></i>
+                                <i class="fas fa-star star-rating text-xl"></i>
+                                <i class="fas fa-star star-rating text-xl"></i>
+                                <i class="fas fa-star star-rating text-xl"></i>
+                                <i class="fas fa-star-half-alt star-rating text-xl"></i>
+                            </div>
+                            <span class="font-bold text-xl">4.5/5</span>
+                            <span class="text-gray-600">(127 avis)</span>
+                        </div>
+                    </div>
+
+                    <!-- Exemples d'avis -->
+                    <div class="space-y-8">
+                        <div class="review-card border-b pb-6 p-4 rounded-lg">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <span class="font-bold text-lg">Mohammed A.</span>
+                                    <div class="flex">
+                                        <i class="fas fa-star star-rating"></i>
+                                        <i class="fas fa-star star-rating"></i>
+                                        <i class="fas fa-star star-rating"></i>
+                                        <i class="fas fa-star star-rating"></i>
+                                        <i class="fas fa-star star-rating"></i>
+                                    </div>
+                                </div>
+                                <span class="text-sm text-gray-500">Il y a 2 semaines</span>
+                            </div>
+                            <p class="text-gray-700 text-lg leading-relaxed">
+                                Excellent ciment, très facile à travailler. J'ai utilisé ce produit pour les fondations de ma maison et le résultat est parfait. 
+                                La prise est régulière et la résistance au rendez-vous. Livraison rapide et service client réactif.
+                            </p>
+                        </div>
+
+                        <div class="review-card border-b pb-6 p-4 rounded-lg">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <span class="font-bold text-lg">Fatima B.</span>
+                                    <div class="flex">
+                                        <i class="fas fa-star star-rating"></i>
+                                        <i class="fas fa-star star-rating"></i>
+                                        <i class="fas fa-star star-rating"></i>
+                                        <i class="fas fa-star star-rating"></i>
+                                        <i class="far fa-star text-gray-300"></i>
+                                    </div>
+                                </div>
+                                <span class="text-sm text-gray-500">Il y a 1 mois</span>
+                            </div>
+                            <p class="text-gray-700 text-lg leading-relaxed">
+                                Bon rapport qualité-prix. Utilisé pour des travaux de rénovation, la prise est régulière et la résistance au rendez-vous. 
+                                Je recommande pour tous les travaux de construction générale.
+                            </p>
+                        </div>
+
+                        <div class="review-card pb-6 p-4 rounded-lg">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <span class="font-bold text-lg">Ahmed K.</span>
+                                    <div class="flex">
+                                        <i class="fas fa-star star-rating"></i>
+                                        <i class="fas fa-star star-rating"></i>
+                                        <i class="fas fa-star star-rating"></i>
+                                        <i class="fas fa-star star-rating"></i>
+                                        <i class="fas fa-star star-rating"></i>
+                                    </div>
+                                </div>
+                                <span class="text-sm text-gray-500">Il y a 3 semaines</span>
+                            </div>
+                            <p class="text-gray-700 text-lg leading-relaxed">
+                                Professionnel du bâtiment depuis 15 ans, je peux dire que ce ciment est de très bonne qualité. 
+                                Facile à travailler, résistance excellente. Mes clients sont toujours satisfaits du résultat final.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Contact -->
+        <div class="mt-20 bg-gradient-to-r from-orange-600 to-orange-700 rounded-2xl p-8 text-white">
+            <div class="text-center">
+                <h3 class="text-3xl font-bold mb-4">Besoin d'aide pour votre commande ?</h3>
+                <p class="text-xl text-orange-100 mb-8">Nos experts sont là pour vous accompagner dans votre projet</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button class="bg-white text-orange-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105">
+                        <i class="fas fa-phone mr-2"></i>
+                        +212 522 85 94 50
+                    </button>
+                    <button class="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-orange-600 transition-all transform hover:scale-105">
+                        <i class="fas fa-envelope mr-2"></i>
+                        Demander un Devis
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Variables globales
+        let currentQuantity = 1;
+        let isWishlisted = false;
+        let cart = [];
+
+        // Fonction pour incrémenter la quantité
+        function incrementQuantity() {
+            if (currentQuantity < 250) {
+                currentQuantity++;
+                updateQuantityDisplay();
+            }
+        }
+
+        // Fonction pour décrémenter la quantité
+        function decrementQuantity() {
+            if (currentQuantity > 1) {
+                currentQuantity--;
+                updateQuantityDisplay();
+            }
+        }
+
+        // Fonction pour mettre à jour l'affichage de la quantité
+        function updateQuantityDisplay() {
+            document.getElementById('quantityDisplay').textContent = currentQuantity;
+            document.getElementById('totalWeight').textContent = currentQuantity * 50;
+            document.getElementById('concreteVolume').textContent = ((currentQuantity * 50) / 350).toFixed(1);
+            document.getElementById('estimatedVolume').textContent = ((currentQuantity * 50) / 350).toFixed(1);
+            document.getElementById('surfaceCovered').textContent = (((currentQuantity * 50) / 350) * 6.7).toFixed(0);
+            document.getElementById('quantityInSummary').textContent = currentQuantity;
+            document.getElementById('subtotal').textContent = currentQuantity * 85;
+            document.getElementById('savings').textContent = currentQuantity * 10;
+            document.getElementById('totalPrice').textContent = currentQuantity * 85;
+            document.getElementById('paymentTotal').textContent = currentQuantity * 85;
+        }
+
+        // Fonction pour changer d'onglet
+        function switchTab(tabName) {
+            // Masquer tous les contenus d'onglets
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Désactiver tous les boutons d'onglets
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+                button.classList.add('text-gray-600');
+            });
+
+            // Afficher le contenu de l'onglet sélectionné
+            document.getElementById(tabName).classList.add('active');
+
+            // Activer le bouton d'onglet correspondant
+            event.target.classList.add('active');
+            event.target.classList.remove('text-gray-600');
+        }
+
+        // Fonction pour basculer les favoris
+        function toggleWishlist() {
+            isWishlisted = !isWishlisted;
+            const btn = document.getElementById('wishlistBtn');
+            
+            if (isWishlisted) {
+                btn.innerHTML = '<i class="fas fa-heart mr-2 text-red-500"></i>Ajouté aux favoris';
+                btn.classList.add('border-red-200', 'text-red-600');
+                btn.classList.remove('border-gray-200', 'text-gray-600');
+            } else {
+                btn.innerHTML = '<i class="fas fa-heart mr-2"></i>Ajouter aux favoris';
+                btn.classList.remove('border-red-200', 'text-red-600');
+                btn.classList.add('border-gray-200', 'text-gray-600');
+            }
+        }
+
+        // Fonctions du panier
+        function toggleCart() {
+            const dropdown = document.getElementById('cartDropdown');
+            const overlay = document.getElementById('cartOverlay');
+            
+            if (dropdown.classList.contains('show')) {
+                closeCart();
+            } else {
+                dropdown.classList.add('show');
+                overlay.classList.add('show');
+            }
+        }
+
+        function closeCart() {
+            document.getElementById('cartDropdown').classList.remove('show');
+            document.getElementById('cartOverlay').classList.remove('show');
+        }
+
+        function addToCart() {
+            const product = {
+                id: 'lamaalem-35',
+                name: 'Lamaalem 35®',
+                price: 85,
+                quantity: currentQuantity,
+                image: 'https://www.cimentsdumaroc.com/sites/default/files/2025-02/LAMAALEM-35-et-35-pro_1.png'
+            };
+
+            // Vérifier si le produit existe déjà dans le panier
+            const existingItem = cart.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                existingItem.quantity += currentQuantity;
+            } else {
+                cart.push(product);
+            }
+
+            updateCartDisplay();
+            
+            // Animation de confirmation
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check mr-2"></i>Ajouté !';
+            btn.classList.add('bg-green-600');
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('bg-green-600');
+            }, 2000);
+
+            // Ouvrir le panier automatiquement
+            setTimeout(() => {
+                toggleCart();
+            }, 500);
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartBadge = document.getElementById('cartBadge');
+            const cartItemCount = document.getElementById('cartItemCount');
+            const cartTotal = document.getElementById('cartTotal');
+            const emptyCart = document.getElementById('emptyCart');
+            const cartFooter = document.getElementById('cartFooter');
+
+            // Calculer le total des articles
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            // Mettre à jour le badge
+            if (totalItems > 0) {
+                cartBadge.style.display = 'flex';
+                cartBadge.textContent = totalItems;
+            } else {
+                cartBadge.style.display = 'none';
+            }
+
+            // Mettre à jour le compteur
+            cartItemCount.textContent = totalItems;
+
+            // Mettre à jour le total
+            cartTotal.textContent = totalPrice + ' DH';
+
+            // Afficher/masquer le contenu
+            if (cart.length === 0) {
+                emptyCart.style.display = 'block';
+                cartFooter.style.display = 'none';
+                cartItems.innerHTML = '<div id="emptyCart" class="text-center py-8"><i class="fas fa-shopping-cart text-gray-300 text-4xl mb-4"></i><p class="text-gray-500">Votre panier est vide</p><p class="text-sm text-gray-400">Ajoutez des produits pour commencer</p></div>';
+            } else {
+                emptyCart.style.display = 'none';
+                cartFooter.style.display = 'block';
+                
+                // Générer le HTML des articles
+                let itemsHTML = '';
+                cart.forEach((item, index) => {
+                    itemsHTML += `
+                        <div class="cart-item flex items-center space-x-3 p-3 border-b border-gray-100">
+                            <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-contain bg-gray-50 rounded">
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-sm">${item.name}</h4>
+                                <p class="text-xs text-gray-600">${item.price} DH × ${item.quantity}</p>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="updateCartItemQuantity(${index}, -1)" class="w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded text-xs">-</button>
+                                <span class="text-sm font-semibold w-8 text-center">${item.quantity}</span>
+                                <button onclick="updateCartItemQuantity(${index}, 1)" class="w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded text-xs">+</button>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-sm">${item.price * item.quantity} DH</p>
+                                <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 text-xs">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                cartItems.innerHTML = itemsHTML;
+            }
+        }
+
+        function updateCartItemQuantity(index, change) {
+            if (cart[index]) {
+                cart[index].quantity += change;
+                
+                if (cart[index].quantity <= 0) {
+                    cart.splice(index, 1);
+                }
+                
+                updateCartDisplay();
+            }
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        function clearCart() {
+            cart = [];
+            updateCartDisplay();
+        }
+
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                alert('Votre panier est vide !');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            alert(`Redirection vers le checkout pour un total de ${total} DH`);
+            // Ici vous pouvez rediriger vers votre page de checkout Django
+            // window.location.href = '/checkout/';
+        }
+
+        // Fonction pour procéder au paiement direct
+        function proceedToPayment() {
+            const total = currentQuantity * 85;
+            alert(`Redirection vers le paiement pour un total de ${total} DH (${currentQuantity} sac(s))`);
+            // Ici vous pouvez rediriger vers votre page de paiement Django
+            // window.location.href = '/checkout/';
+        }
+
+        // Fermer le panier en cliquant à l'extérieur
+        document.addEventListener('click', function(event) {
+            const cartDropdown = document.getElementById('cartDropdown');
+            const cartButton = event.target.closest('[onclick="toggleCart()"]');
+            
+            if (!cartDropdown.contains(event.target) && !cartButton) {
+                closeCart();
+            }
+        });
+
+        // Initialisation au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateQuantityDisplay();
+            updateCartDisplay();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,877 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualités - Ciments du Maroc</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .animate-slideInLeft {
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+        
+        .animate-slideInRight {
+            animation: slideInRight 0.8s ease-out forwards;
+        }
+        
+        .article-card {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        
+        .article-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
+        }
+        
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .category-filter {
+            transition: all 0.3s ease;
+        }
+        
+        .category-filter.active {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+        }
+        
+        .article-content {
+            line-height: 1.8;
+        }
+        
+        .article-content h3 {
+            color: #f97316;
+            font-weight: bold;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .article-content p {
+            margin-bottom: 1rem;
+        }
+        
+        .article-content ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-white">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="/" class="flex items-center space-x-3">
+                    <div class="relative">
+                        <svg width="48" height="48" viewBox="0 0 48 48" class="text-orange-600">
+                            <defs>
+                                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#6b7280" />
+                                    <stop offset="50%" stop-color="#4b5563" />
+                                    <stop offset="100%" stop-color="#374151" />
+                                </linearGradient>
+                            </defs>
+                            <path
+                                d="M24 4 C35 4 44 13 44 24 C44 35 35 44 24 44 C13 44 4 35 4 24 C4 15 11 8 20 8 C27 8 32 13 32 20 C32 25 28 28 24 28 C21 28 20 26 20 24 C20 23 21 22 22 22"
+                                fill="none"
+                                stroke="url(#logoGradient)"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                            />
+                            <circle cx="24" cy="24" r="3" fill="url(#logoGradient)" />
+                            <path
+                                d="M12 12 L16 16 M36 12 L32 16 M12 36 L16 32 M36 36 L32 32"
+                                stroke="url(#logoGradient)"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                opacity="0.6"
+                            />
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">
+                            <span class="text-gray-600">Ciments</span> du Maroc
+                        </h1>
+                        <p class="text-xs text-gray-600 font-medium">HEIDELBERGCEMENT Group</p>
+                    </div>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="/" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Accueil</a>
+                    <a href="/produits-ciment" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Nos Produits</a>
+                    <a href="/services" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Services</a>
+                    <a href="/actualites" class="text-orange-600 font-medium">Actualités</a>
+                    <a href="/contact" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</a>
+                </nav>
+
+                <!-- Search and Actions -->
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex items-center space-x-2">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+                            <input
+                                type="text"
+                                placeholder="Rechercher"
+                                class="pl-10 pr-4 py-2 w-48 bg-gray-50 border border-gray-200 rounded-md focus:border-orange-500 focus:outline-none"
+                            />
+                        </div>
+                    </div>
+
+                    <button class="flex items-center text-gray-600 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-globe mr-1"></i>
+                        AR
+                    </button>
+
+                    <button class="lg:hidden text-gray-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Breadcrumb -->
+        <section class="bg-gray-50 py-4">
+            <div class="container mx-auto px-4">
+                <nav class="flex items-center space-x-2 text-sm">
+                    <a href="/" class="text-gray-600 hover:text-orange-600">Accueil</a>
+                    <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                    <span class="text-orange-600 font-medium">Actualités</span>
+                </nav>
+            </div>
+        </section>
+
+        <!-- Hero Section -->
+        <section class="relative py-20 overflow-hidden">
+            <!-- Image de fond -->
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/2022-12/Visite%20Ambassadeur_Centre%20de%20boryage%20Nador%203.JPG');"></div>
+            
+            
+            <!-- Animated background elements -->
+            <div class="absolute inset-0 opacity-10">
+                <div class="floating-element absolute top-20 left-10 w-20 h-20 bg-white rounded-full"></div>
+                <div class="floating-element absolute top-40 right-20 w-16 h-16 bg-white rounded-full" style="animation-delay: -2s;"></div>
+                <div class="floating-element absolute bottom-20 left-1/4 w-12 h-12 bg-white rounded-full" style="animation-delay: -4s;"></div>
+                <div class="floating-element absolute bottom-40 right-1/3 w-24 h-24 bg-white rounded-full" style="animation-delay: -1s;"></div>
+            </div>
+            
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="text-center max-w-4xl mx-auto text-white">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 animate-fadeInUp">
+                        Nos <span class="text-yellow-300">Actualités</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl mb-8 text-orange-100 leading-relaxed animate-fadeInUp" style="animation-delay: 0.2s;">
+                        Découvrez nos dernières innovations, événements et partenariats
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4 animate-fadeInUp" style="animation-delay: 0.4s;">
+                        <div class="flex items-center bg-white/20 backdrop-blur-sm rounded-full px-6 py-3">
+                            <i class="fas fa-newspaper text-yellow-300 mr-3"></i>
+                            <span class="font-semibold">Toute l'actualité</span>
+                        </div>
+                        <div class="flex items-center bg-white/20 backdrop-blur-sm rounded-full px-6 py-3">
+                            <i class="fas fa-calendar text-yellow-300 mr-3"></i>
+                            <span class="font-semibold">Mise à jour quotidienne</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filtres de catégories -->
+        <section class="py-12 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-wrap justify-center gap-4 mb-12">
+                    <button class="category-filter active px-6 py-3 rounded-full font-semibold transition-all" onclick="filterArticles('all')">
+                        Toutes les actualités
+                    </button>
+                    <button class="category-filter px-6 py-3 rounded-full font-semibold bg-gray-100 text-gray-700 hover:bg-orange-100 transition-all" onclick="filterArticles('evenement')">
+                        Événements
+                    </button>
+                    <button class="category-filter px-6 py-3 rounded-full font-semibold bg-gray-100 text-gray-700 hover:bg-orange-100 transition-all" onclick="filterArticles('innovation')">
+                        Innovation
+                    </button>
+                    <button class="category-filter px-6 py-3 rounded-full font-semibold bg-gray-100 text-gray-700 hover:bg-orange-100 transition-all" onclick="filterArticles('partenariat')">
+                        Partenariats
+                    </button>
+                    <button class="category-filter px-6 py-3 rounded-full font-semibold bg-gray-100 text-gray-700 hover:bg-orange-100 transition-all" onclick="filterArticles('entreprise')">
+                        Entreprise
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Articles détaillés -->
+        <section class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                
+                <!-- Article 1: Événement Sport -->
+                <article id="evenement-sport" class="article-card glass-effect rounded-3xl p-8 md:p-12 mb-16 border border-gray-200 animate-fadeInUp" data-category="evenement">
+                    <div class="grid lg:grid-cols-2 gap-12 items-start">
+                        <div>
+                            <div class="flex items-center mb-6">
+                                <span class="bg-orange-600 text-white px-4 py-2 rounded-full text-sm font-bold mr-4">Événement</span>
+                                <span class="text-gray-500 flex items-center">
+                                    <i class="fas fa-calendar mr-2"></i>
+                                    26 Juin 2025
+                                </span>
+                            </div>
+                            
+                            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                                Ciments du Maroc au Sommet de l'Éducation par le Sport en Afrique
+                            </h2>
+                            
+                            <div class="article-content text-gray-700">
+                                <p class="text-lg mb-6 font-medium text-orange-600">
+                                    Une participation remarquée qui témoigne de notre engagement envers l'inclusion sociale et l'éducation par le sport.
+                                </p>
+                                
+                                <h3>Un engagement fort pour l'éducation</h3>
+                                <p>
+                                    Ciments du Maroc a participé activement au Sommet de l'Éducation par le Sport en Afrique, un événement majeur qui rassemble les acteurs du développement social et de l'éducation sur le continent africain. Cette participation s'inscrit dans notre stratégie de responsabilité sociétale d'entreprise et notre conviction que le sport est un vecteur puissant d'inclusion et de développement personnel.
+                                </p>
+                                
+                                <h3>Le sport comme moteur d'inclusion</h3>
+                                <p>
+                                    Lors de ce sommet, nous avons présenté nos initiatives en faveur de l'éducation par le sport, notamment :
+                                </p>
+                                <ul class="list-disc">
+                                    <li>Le programme "Sport et Citoyenneté" dans les écoles rurales</li>
+                                    <li>La construction d'infrastructures sportives dans les communautés locales</li>
+                                    <li>Le soutien aux jeunes talents sportifs issus de milieux défavorisés</li>
+                                    <li>Les formations d'éducateurs sportifs dans nos régions d'implantation</li>
+                                </ul>
+                                
+                                <h3>Des partenariats stratégiques</h3>
+                                <p>
+                                    Ce sommet a également été l'occasion de nouer de nouveaux partenariats avec des organisations internationales et des ONG spécialisées dans l'éducation par le sport. Ces collaborations nous permettront d'amplifier notre impact et de toucher encore plus de jeunes à travers le Maroc.
+                                </p>
+                                
+                                <h3>Perspectives d'avenir</h3>
+                                <p>
+                                    Suite à cette participation, Ciments du Maroc s'engage à doubler ses investissements dans l'éducation par le sport d'ici 2026, avec l'objectif de toucher plus de 10 000 jeunes dans les régions où nous sommes implantés.
+                                </p>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-4 mt-8">
+                                <span class="bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium">#ÉducationParLeSport</span>
+                                <span class="bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium">#InclusionSociale</span>
+                                <span class="bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium">#RSE</span>
+                                <span class="bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium">#Afrique</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <div class="rounded-2xl overflow-hidden shadow-lg">
+                                <img src="https://www.cimentsdumaroc.com/sites/default/files/2025-01/Cimar%20Tibu_7.JPG" alt="Sommet Éducation Sport" class="w-full h-64 object-cover">
+                            </div>
+                            
+                            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                                <h4 class="font-bold text-gray-900 mb-4">Chiffres clés</h4>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-orange-600">5 000+</div>
+                                        <div class="text-sm text-gray-600">Jeunes touchés</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-orange-600">15</div>
+                                        <div class="text-sm text-gray-600">Infrastructures créées</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-orange-600">8</div>
+                                        <div class="text-sm text-gray-600">Régions couvertes</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-orange-600">50+</div>
+                                        <div class="text-sm text-gray-600">Éducateurs formés</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 2: Innovation Histoire -->
+                <article id="innovation-histoire" class="article-card glass-effect rounded-3xl p-8 md:p-12 mb-16 border border-gray-200 animate-fadeInUp" data-category="innovation" style="animation-delay: 0.2s;">
+                    <div class="grid lg:grid-cols-2 gap-12 items-start">
+                        <div class="order-2 lg:order-1">
+                            <div class="space-y-6">
+                                <div class="rounded-2xl overflow-hidden shadow-lg">
+                                    <img src="https://www.cimentsdumaroc.com/sites/default/files/assets/images/cimenterie_agadir_0.jpg" alt="Histoire Ciments du Maroc" class="w-full h-64 object-cover">
+                                </div>
+                                
+                                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                                    <h4 class="font-bold text-gray-900 mb-4">Dates clés</h4>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center">
+                                            <div class="w-3 h-3 bg-orange-600 rounded-full mr-3"></div>
+                                            <div>
+                                                <div class="font-semibold">1953</div>
+                                                <div class="text-sm text-gray-600">Création de l'entreprise</div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <div class="w-3 h-3 bg-orange-600 rounded-full mr-3"></div>
+                                            <div>
+                                                <div class="font-semibold">1960</div>
+                                                <div class="text-sm text-gray-600">Reconstruction d'Agadir</div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <div class="w-3 h-3 bg-orange-600 rounded-full mr-3"></div>
+                                            <div>
+                                                <div class="font-semibold">2007</div>
+                                                <div class="text-sm text-gray-600">Intégration Heidelberg</div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <div class="w-3 h-3 bg-orange-600 rounded-full mr-3"></div>
+                                            <div>
+                                                <div class="font-semibold">2025</div>
+                                                <div class="text-sm text-gray-600">Innovation continue</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="order-1 lg:order-2">
+                            <div class="flex items-center mb-6">
+                                <span class="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold mr-4">Innovation</span>
+                                <span class="text-gray-500 flex items-center">
+                                    <i class="fas fa-calendar mr-2"></i>
+                                    28 Juin 2025
+                                </span>
+                            </div>
+                            
+                            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                                Notre Histoire : 70 Ans d'Innovation et d'Excellence
+                            </h2>
+                            
+                            <div class="article-content text-gray-700">
+                                <p class="text-lg mb-6 font-medium text-blue-600">
+                                    Retour sur sept décennies d'innovation, de croissance et d'engagement au service du développement du Maroc.
+                                </p>
+                                
+                                <h3>Les origines : 1953-1960</h3>
+                                <p>
+                                    Ciments du Maroc naît en 1953 avec la vision de contribuer au développement industriel du Royaume. Dès ses débuts, l'entreprise se distingue par son approche innovante et sa volonté de produire des ciments de haute qualité adaptés aux besoins spécifiques du marché marocain.
+                                </p>
+                                
+                                <h3>L'épreuve du feu : Reconstruction d'Agadir (1960)</h3>
+                                <p>
+                                    Le tremblement de terre d'Agadir en 1960 marque un tournant décisif dans l'histoire de Ciments du Maroc. L'entreprise joue un rôle crucial dans la reconstruction de la ville, démontrant sa capacité à répondre aux défis majeurs et à s'adapter aux situations d'urgence. Cette expérience forge notre expertise en matière de grands projets et renforce notre engagement envers les communautés locales.
+                                </p>
+                                
+                                <h3>Expansion et modernisation : 1970-2000</h3>
+                                <p>
+                                    Les décennies suivantes sont marquées par une expansion continue :
+                                </p>
+                                <ul class="list-disc">
+                                    <li>Ouverture de nouvelles cimenteries à travers le royaume</li>
+                                    <li>Modernisation des outils de production</li>
+                                    <li>Diversification vers le béton prêt à l'emploi et les granulats</li>
+                                    <li>Développement d'une expertise technique reconnue</li>
+                                </ul>
+                                
+                                <h3>L'ère Heidelberg : Innovation et durabilité (2007-aujourd'hui)</h3>
+                                <p>
+                                    L'intégration au groupe Heidelberg Materials en 2007 ouvre une nouvelle ère d'innovation et de développement durable. Cette alliance nous permet d'accéder aux meilleures technologies mondiales tout en conservant notre ancrage local et notre connaissance du marché marocain.
+                                </p>
+                                
+                                <h3>Aujourd'hui : Leader et innovateur</h3>
+                                <p>
+                                    Aujourd'hui, Ciments du Maroc est reconnu comme le leader du marché marocain du ciment, avec une présence dans tout le royaume et une expertise qui s'étend bien au-delà de nos frontières. Notre engagement envers l'innovation, la qualité et la durabilité continue de guider notre développement.
+                                </p>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-4 mt-8">
+                                <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">#Histoire</span>
+                                <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">#Innovation</span>
+                                <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">#70Ans</span>
+                                <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">#Excellence</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 3: Partenariat Fondation -->
+                <article id="partenariat-fondation" class="article-card glass-effect rounded-3xl p-8 md:p-12 mb-16 border border-gray-200 animate-fadeInUp" data-category="partenariat" style="animation-delay: 0.4s;">
+                    <div class="grid lg:grid-cols-2 gap-12 items-start">
+                        <div>
+                            <div class="flex items-center mb-6">
+                                <span class="bg-green-600 text-white px-4 py-2 rounded-full text-sm font-bold mr-4">Partenariat</span>
+                                <span class="text-gray-500 flex items-center">
+                                    <i class="fas fa-calendar mr-2"></i>
+                                    30 Juin 2025
+                                </span>
+                            </div>
+                            
+                            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                                Partenariat Stratégique avec la Fondation Mohammed V pour la Solidarité
+                            </h2>
+                            
+                            <div class="article-content text-gray-700">
+                                <p class="text-lg mb-6 font-medium text-green-600">
+                                    Un partenariat d'envergure pour soutenir les projets sociaux et de développement durable au Maroc.
+                                </p>
+                                
+                                <h3>Un engagement mutuel pour le développement social</h3>
+                                <p>
+                                    Ciments du Maroc est fier d'annoncer son partenariat stratégique avec la Fondation Mohammed V pour la Solidarité, une collaboration qui s'inscrit dans notre engagement de longue date envers le développement social et la solidarité nationale. Ce partenariat vise à soutenir des projets concrets d'amélioration des conditions de vie des populations les plus vulnérables.
+                                </p>
+                                
+                                <h3>Domaines d'intervention prioritaires</h3>
+                                <p>
+                                    Notre collaboration avec la Fondation Mohammed V se concentre sur plusieurs axes stratégiques :
+                                </p>
+                                <ul class="list-disc">
+                                    <li><strong>Éducation et formation :</strong> Construction et rénovation d'établissements scolaires dans les zones rurales</li>
+                                    <li><strong>Santé publique :</strong> Soutien aux centres de santé et aux campagnes de sensibilisation</li>
+                                    <li><strong>Développement économique :</strong> Accompagnement des coopératives et des petites entreprises locales</li>
+                                    <li><strong>Infrastructure sociale :</strong> Amélioration de l'accès à l'eau potable et à l'assainissement</li>
+                                </ul>
+                                
+                                <h3>Projets phares en cours</h3>
+                                <p>
+                                    Plusieurs projets emblématiques sont déjà en cours de réalisation dans le cadre de ce partenariat :
+                                </p>
+                                <ul class="list-disc">
+                                    <li>Construction de 5 écoles primaires dans la région de Souss-Massa</li>
+                                    <li>Rénovation de centres de santé ruraux dans l'Oriental</li>
+                                    <li>Programme de formation professionnelle pour 500 jeunes</li>
+                                    <li>Projet d'adduction d'eau potable dans 10 villages</li>
+                                </ul>
+                                
+                                <h3>Impact attendu et mesure des résultats</h3>
+                                <p>
+                                    Ce partenariat vise à toucher directement plus de 50 000 bénéficiaires sur une période de trois ans. Un système de suivi et d'évaluation rigoureux a été mis en place pour mesurer l'impact de nos actions et garantir l'efficacité de nos interventions.
+                                </p>
+                                
+                                <h3>Engagement financier et technique</h3>
+                                <p>
+                                    Ciments du Maroc s'engage à investir 20 millions de dirhams sur trois ans dans ce partenariat, en plus de mettre à disposition son expertise technique et ses ressources humaines pour garantir la réussite des projets.
+                                </p>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-4 mt-8">
+                                <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">#Partenariat</span>
+                                <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">#Solidarité</span>
+                                <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">#DéveloppementSocial</span>
+                                <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">#FondationMohammedV</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <div class="rounded-2xl overflow-hidden shadow-lg">
+                                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300" alt="Partenariat Fondation" class="w-full h-64 object-cover">
+                            </div>
+                            
+                            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                                <h4 class="font-bold text-gray-900 mb-4">Impact du partenariat</h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-gray-600">Bénéficiaires directs</span>
+                                        <span class="font-bold text-green-600">50 000+</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-gray-600">Investissement</span>
+                                        <span class="font-bold text-green-600">20M DH</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-gray-600">Durée</span>
+                                        <span class="font-bold text-green-600">3 ans</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-gray-600">Régions couvertes</span>
+                                        <span class="font-bold text-green-600">8</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-200">
+                                <h4 class="font-bold text-gray-900 mb-3">
+                                    <i class="fas fa-quote-left text-green-600 mr-2"></i>
+                                    Citation
+                                </h4>
+                                <p class="text-gray-700 italic">
+                                    "Ce partenariat avec la Fondation Mohammed V pour la Solidarité illustre parfaitement notre engagement envers le développement social du Maroc. Ensemble, nous construisons un avenir plus solidaire et plus équitable."
+                                </p>
+                                <p class="text-sm text-gray-600 mt-3 font-semibold">
+                                    - Direction Générale, Ciments du Maroc
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Articles supplémentaires -->
+                <article class="article-card glass-effect rounded-3xl p-8 md:p-12 mb-16 border border-gray-200 animate-fadeInUp" data-category="innovation" style="animation-delay: 0.6s;">
+                    <div class="grid lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-2">
+                            <div class="flex items-center mb-6">
+                                <span class="bg-purple-600 text-white px-4 py-2 rounded-full text-sm font-bold mr-4">Innovation</span>
+                                <span class="text-gray-500 flex items-center">
+                                    <i class="fas fa-calendar mr-2"></i>
+                                    25 Juin 2025
+                                </span>
+                            </div>
+                            
+                            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                                Lancement de la Nouvelle Gamme de Ciments Écologiques
+                            </h2>
+                            
+                            <div class="article-content text-gray-700">
+                                <p>
+                                    Ciments du Maroc lance sa nouvelle gamme de ciments écologiques, développée en partenariat avec les laboratoires de recherche de Heidelberg Materials. Ces nouveaux produits réduisent l'empreinte carbone de 30% par rapport aux ciments traditionnels.
+                                </p>
+                                <p>
+                                    Cette innovation s'inscrit dans notre stratégie de développement durable et notre engagement vers la neutralité carbone d'ici 2050.
+                                </p>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-3 mt-6">
+                                <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">#Innovation</span>
+                                <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">#Écologie</span>
+                                <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">#Durabilité</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="rounded-xl overflow-hidden shadow-lg mb-4">
+                                <img src="https://www.cimentsdumaroc.com/sites/default/files/2024-02/evoBuild_Ciments%20du%20Maroc.png" alt="Ciments Écologiques" class="w-full h-48 object-cover">
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-lg">
+                                <h4 class="font-bold text-gray-900 mb-2">Réduction CO2</h4>
+                                <div class="text-3xl font-bold text-purple-600">-30%</div>
+                                <div class="text-sm text-gray-600">vs ciments traditionnels</div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="article-card glass-effect rounded-3xl p-8 md:p-12 mb-16 border border-gray-200 animate-fadeInUp" data-category="entreprise" style="animation-delay: 0.8s;">
+                    <div class="grid lg:grid-cols-3 gap-8">
+                        <div>
+                            <div class="rounded-xl overflow-hidden shadow-lg mb-4">
+                                <img src="https://www.cimentsdumaroc.com/sites/default/files/2022-08/Usine%20de%20Marrakech.jpg" alt="Nouvelle Usine" class="w-full h-48 object-cover">
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-lg">
+                                <h4 class="font-bold text-gray-900 mb-2">Investissement</h4>
+                                <div class="text-3xl font-bold text-indigo-600">500M DH</div>
+                                <div class="text-sm text-gray-600">Modernisation complète</div>
+                            </div>
+                        </div>
+                        
+                        <div class="lg:col-span-2">
+                            <div class="flex items-center mb-6">
+                                <span class="bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-bold mr-4">Entreprise</span>
+                                <span class="text-gray-500 flex items-center">
+                                    <i class="fas fa-calendar mr-2"></i>
+                                    20 Juin 2025
+                                </span>
+                            </div>
+                            
+                            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                                Modernisation de l'Usine de Marrakech : Un Investissement de 500 Millions de Dirhams
+                            </h2>
+                            
+                            <div class="article-content text-gray-700">
+                                <p>
+                                    Ciments du Maroc annonce un investissement majeur de 500 millions de dirhams pour la modernisation complète de son usine de Marrakech. Ce projet d'envergure vise à augmenter la capacité de production de 40% tout en réduisant l'impact environnemental.
+                                </p>
+                                <p>
+                                    Les nouveaux équipements, à la pointe de la technologie, permettront d'améliorer l'efficacité énergétique et de réduire les émissions de CO2 de 25%.
+                                </p>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-3 mt-6">
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">#Modernisation</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">#Investissement</span>
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">#Marrakech</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="py-20 gradient-bg">
+            <div class="container mx-auto px-4">
+                <div class="text-center text-white max-w-2xl mx-auto">
+                    <h3 class="text-3xl font-bold mb-6">
+                        <i class="fas fa-envelope text-yellow-300 mr-3"></i>
+                        Restez Informé
+                    </h3>
+                    <p class="text-xl mb-8 text-orange-100">
+                        Abonnez-vous à notre newsletter pour recevoir nos dernières actualités
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                        <input type="email" placeholder="Votre adresse email" class="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-yellow-300">
+                        <button class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-6 py-3 rounded-lg font-bold transition-all">
+                            S'abonner
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="container mx-auto px-4 py-16">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="relative">
+                            <svg width="40" height="40" viewBox="0 0 48 48" class="text-orange-500">
+                                <defs>
+                                    <linearGradient id="footerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#9ca3af" />
+                                        <stop offset="50%" stop-color="#6b7280" />
+                                        <stop offset="100%" stop-color="#4b5563" />
+                                    </linearGradient>
+                                </defs>
+                                <path
+                                    d="M24 4 C35 4 44 13 44 24 C44 35 35 44 24 44 C13 44 4 35 4 24 C4 15 11 8 20 8 C27 8 32 13 32 20 C32 25 28 28 24 28 C21 28 20 26 20 24 C20 23 21 22 22 22"
+                                    fill="none"
+                                    stroke="url(#footerLogoGradient)"
+                                    stroke-width="2.5"
+                                    stroke-linecap="round"
+                                />
+                                <circle cx="24" cy="24" r="3" fill="url(#footerLogoGradient)" />
+                                <path
+                                    d="M12 12 L16 16 M36 12 L32 16 M12 36 L16 32 M36 36 L32 32"
+                                    stroke="url(#footerLogoGradient)"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                    opacity="0.6"
+                                />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">
+                                <span class="text-gray-400">Ciments</span> du Maroc
+                            </h3>
+                            <p class="text-sm text-gray-400">HEIDELBERGCEMENT Group</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Leader du ciment au Maroc depuis plus de 70 ans, nous accompagnons le développement du pays avec des
+                        solutions innovantes et durables.
+                    </p>
+                    <div class="flex space-x-3">
+                        <button class="p-2 hover:bg-orange-600 rounded transition-colors">
+                            <i class="fab fa-facebook"></i>
+                        </button>
+                        <button class="p-2 hover:bg-orange-600 rounded transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button class="p-2 hover:bg-orange-600 rounded transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </button>
+                        <button class="p-2 hover:bg-orange-600 rounded transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Liens Rapides</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">À propos</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Nos Produits</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Services</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Carrières</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Développement Durable</a></li>
+                    </ul>
+                </div>
+
+                <!-- Products -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Nos Produits</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Ciment Portland</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Béton Prêt à l'Emploi</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Granulats</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-orange-400 transition-colors">Solutions Spéciales</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-map-marker-alt text-orange-400 mt-1"></i>
+                            <p class="text-gray-300 text-sm">
+                                Ciments du Maroc<br />
+                                621, boulevard Panoramique<br />
+                                20 150 Casablanca, Maroc
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-phone text-orange-400"></i>
+                            <p class="text-gray-300 text-sm">+212 522 85 94 50 à 59</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-envelope text-orange-400"></i>
+                            <p class="text-gray-300 text-sm">contact@cimar.co.ma</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm">© 2025 Ciments du Maroc. Tous droits réservés.</p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="#" class="text-gray-400 hover:text-orange-400 text-sm transition-colors">Mentions Légales</a>
+                        <a href="#" class="text-gray-400 hover:text-orange-400 text-sm transition-colors">Politique de Confidentialité</a>
+                        <a href="#" class="text-gray-400 hover:text-orange-400 text-sm transition-colors">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Fonction de filtrage des articles
+        function filterArticles(category) {
+            const articles = document.querySelectorAll('[data-category]');
+            const buttons = document.querySelectorAll('.category-filter');
+            
+            // Mettre à jour les boutons
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                button.classList.add('bg-gray-100', 'text-gray-700');
+            });
+            
+            event.target.classList.add('active');
+            event.target.classList.remove('bg-gray-100', 'text-gray-700');
+            
+            // Filtrer les articles
+            articles.forEach(article => {
+                if (category === 'all' || article.dataset.category === category) {
+                    article.style.display = 'block';
+                    article.classList.add('animate-fadeInUp');
+                } else {
+                    article.style.display = 'none';
+                }
+            });
+        }
+
+        // Animation au scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observer tous les éléments animés
+        document.querySelectorAll('.animate-fadeInUp, .animate-slideInLeft, .animate-slideInRight').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            observer.observe(el);
+        });
+
+        // Smooth scrolling pour les ancres
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Newsletter subscription
+        document.querySelector('button[type="submit"], button:contains("S\'abonner")').addEventListener('click', function(e) {
+            e.preventDefault();
+            const email = document.querySelector('input[type="email"]').value;
+            if (email) {
+                alert('Merci pour votre inscription à notre newsletter !');
+                document.querySelector('input[type="email"]').value = '';
+            } else {
+                alert('Veuillez saisir une adresse email valide.');
+            }
+        });
+    </script>
+</body>
+</html>
