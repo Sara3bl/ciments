@@ -989,7 +989,10 @@ function proceedToCheckout(event) {
 
 // Paiement direct
 function proceedToPayment() {
-    window.location.href = '/paiement/';
+    // Récupère l'id produit et la quantité courante
+    const produitId = '{{ produit.pk }}';
+    const quantite = currentQuantity;
+    window.location.href = `/initier_paiement/${produitId}/?quantite=${quantite}`;
 }
 
 document.addEventListener('DOMContentLoaded', function() {

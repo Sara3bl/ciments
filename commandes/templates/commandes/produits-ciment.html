@@ -259,12 +259,18 @@
 
         <!-- Hero Section -->
         <section class="relative py-20 bg-gradient-to-br from-orange-50 via-white to-orange-50">
+    <!-- Background image -->
+    <div class="absolute inset-0 w-full h-full z-0">
+        <img src="https://fnh.ma//uploads/actualites/677beba852e5a_66eaa662afa22_6661882f5496f_62ebcde4a3652_maroc.jpeg" alt="Ciment background" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-black" style="opacity: 0.3;"></div>
+    </div>
+    <div class="relative z-10">
             <div class="container mx-auto px-4">
                 <div class="text-center max-w-4xl mx-auto">
                     <h1 class="text-5xl md:text-7xl font-bold text-gray-900 mb-6 animate-slideInUp">
                         Gamme <span class="text-orange-600">Ciment</span>
                     </h1>
-                    <p class="text-xl text-gray-700 mb-12 leading-relaxed animate-fadeIn">
+                    <p class="text-xl text-white mb-12 leading-relaxed animate-fadeIn">
                         Solutions complètes avec outils de calcul et comparaison pour tous vos projets
                     </p>
                     
@@ -273,7 +279,7 @@
                         <button onclick="scrollToSection('calculator')" class="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all transform hover:scale-105 animate-pulse-slow">
                             <i class="fas fa-calculator mr-2"></i>Calculatrice Ciment
                         </button>
-                        <button onclick="scrollToSection('comparator')" class="border-2 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white px-8 py-4 rounded-full font-bold text-lg transition-all transform hover:scale-105">
+                        <button onclick="scrollToSection('comparator')" class="bg-white text-black border-2 border-gray-300 hover:bg-gray-100 hover:text-black px-8 py-4 rounded-full font-bold text-lg transition-all transform hover:scale-105 flex items-center">
                             <i class="fas fa-balance-scale mr-2"></i>Comparateur
                         </button>
                         <button onclick="scrollToSection('configurator')" class="bg-gray-800 hover:bg-gray-900 text-white px-8 py-4 rounded-full font-bold text-lg transition-all transform hover:scale-105">

@@ -16,3 +16,16 @@ class Produit(models.Model):
 
     def __str__(self):
         return self.nom
+
+class Paiement(models.Model):
+    nom = models.CharField(max_length=100)
+    email = models.EmailField()
+    adresse = models.CharField(max_length=255)
+    ville = models.CharField(max_length=100)
+    code_postal = models.CharField(max_length=10)
+    telephone = models.CharField(max_length=20)
+    montant = models.DecimalField(max_digits=10, decimal_places=2)
+    date_paiement = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.nom} - {self.montant} DH"

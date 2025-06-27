@@ -23,7 +23,9 @@ path('services/', views.services, name='services'),
 
 
    path('produitdetaille/<int:pk>/', views.produitdetaille, name='produitdetaille'),
+   path('initier_paiement/<int:pk>/', views.initier_paiement, name='initier_paiement'),
    path('paiement/', views.paiement, name='paiement'),
+   path('telecharger_recu/', views.telecharger_recu, name='telecharger_recu'),
 
     
    

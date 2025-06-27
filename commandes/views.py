@@ -14,7 +14,28 @@ from django.shortcuts import render
 def produits_ciment(request):
     produits = Produit.objects.all()
     return render(request, 'commandes/produits-ciment.html', {'produits': produits})
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib import messages
+
 def contact(request):
+    if request.method == 'POST':
+        nom = request.POST.get('nom')
+        email = request.POST.get('email')
+        telephone = request.POST.get('telephone')
+        entreprise = request.POST.get('entreprise')
+        sujet = request.POST.get('sujet')
+        message = request.POST.get('message')
+        contenu = f"Nom: {nom}\nEmail: {email}\nTéléphone: {telephone}\nEntreprise: {entreprise}\nSujet: {sujet}\nMessage:\n{message}"
+        send_mail(
+            subject=f'Nouveau message contact: {sujet}',
+            message=contenu,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=['Benserrou@gmail.com'],
+            fail_silently=False,
+        )
+        messages.success(request, "Votre message a été envoyé avec succès.")
+        return render(request, 'commandes/contact.html', {"success": True})
     return render(request, 'commandes/contact.html')
 def actualités(request):
     return render(request, 'commandes/actualités.html')
@@ -68,5 +89,77 @@ def produitdetaille(request, pk):
     produit = get_object_or_404(Produit, pk=pk)
     return render(request, 'produitdetaille.html', {'produit': produit})
 
+from django.shortcuts import redirect
+from django.http import HttpResponse
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from .models import Paiement
+
+
+def telecharger_recu(request):
+    # Récupérer le dernier paiement effectué (pour une vraie app, filtrer par user/session)
+    paiement = Paiement.objects.last()
+    if not paiement:
+        return HttpResponse("Aucun paiement trouvé.", content_type="text/plain")
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="recu_paiement.pdf"'
+
+    p = canvas.Canvas(response, pagesize=A4)
+    width, height = A4
+    p.setFont("Helvetica-Bold", 20)
+    p.drawString(100, height - 80, "Reçu de Paiement")
+    p.setFont("Helvetica", 14)
+    p.drawString(100, height - 120, f"Nom: {paiement.nom}")
+    p.drawString(100, height - 150, f"Email: {paiement.email}")
+    p.drawString(100, height - 180, f"Adresse: {paiement.adresse}")
+    p.drawString(100, height - 210, f"Ville: {paiement.ville}")
+    p.drawString(100, height - 240, f"Code Postal: {paiement.code_postal}")
+    p.drawString(100, height - 270, f"Téléphone: {paiement.telephone}")
+    p.drawString(100, height - 300, f"Montant payé: {paiement.montant} DH")
+    # Ajout d'une heure à la date de paiement pour l'affichage
+    from datetime import timedelta
+    date_affichee = paiement.date_paiement + timedelta(hours=1) if paiement.date_paiement else None
+    p.drawString(100, height - 330, f"Date: {date_affichee.strftime('%d/%m/%Y %H:%M') if date_affichee else ''}")
+    p.setFont("Helvetica-Oblique", 12)
+    p.drawString(100, height - 370, "Merci pour votre confiance !")
+    p.showPage()
+    p.save()
+    return response
+
+def initier_paiement(request, pk):
+    produit = get_object_or_404(Produit, pk=pk)
+    # Récupère la quantité depuis GET ou POST (par défaut 1)
+    try:
+        quantite = int(request.GET.get('quantite', 1))
+    except (TypeError, ValueError):
+        quantite = 1
+    montant = float(produit.prix_unitaire) * quantite
+    request.session['montant'] = montant
+    return redirect('paiement')
+
+
+from .models import Paiement
+
 def paiement(request):
-    return render(request, 'paiement.html')
+    # Exemple : calcul du montant à partir du panier stocké en session
+    montant = request.session.get('montant', 0)
+    if request.method == 'POST':
+        nom = request.POST.get('nom')
+        email = request.POST.get('email')
+        adresse = request.POST.get('adresse')
+        ville = request.POST.get('ville')
+        code_postal = request.POST.get('code_postal')
+        telephone = request.POST.get('telephone')
+        # montant pris côté serveur
+        Paiement.objects.create(
+            nom=nom,
+            email=email,
+            adresse=adresse,
+            ville=ville,
+            code_postal=code_postal,
+            telephone=telephone,
+            montant=montant
+        )
+        return render(request, 'paiement_succes.html')
+    return render(request, 'paiement.html', {'montant': montant})
