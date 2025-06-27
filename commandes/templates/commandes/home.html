@@ -102,14 +102,24 @@
                 <!-- Login and Register Buttons -->
                 <div class="flex items-center space-x-4">
                     <div class="hidden md:flex items-center space-x-3">
-                        <button class="flex items-center text-gray-700 hover:text-orange-600 px-4 py-2 rounded-md border border-gray-300 hover:border-orange-600 transition-all">
-                            <i class="fas fa-sign-in-alt mr-2"></i>
-                            Connexion
-                        </button>
-                        <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-md font-medium transition-all transform hover:scale-105">
-                            <i class="fas fa-user-plus mr-2"></i>
-                            S'inscrire
-                        </button>
+                        {% if user.is_authenticated %}
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="flex items-center text-gray-700 hover:text-orange-600 px-4 py-2 rounded-md border border-gray-300 hover:border-orange-600 transition-all">
+            <i class="fas fa-sign-out-alt mr-2"></i>
+            Déconnexion
+        </button>
+    </form>
+{% else %}
+    <button onclick="openModal('login')" class="flex items-center text-gray-700 hover:text-orange-600 px-4 py-2 rounded-md border border-gray-300 hover:border-orange-600 transition-all">
+        <i class="fas fa-sign-in-alt mr-2"></i>
+        Connexion
+    </button>
+    <button onclick="openModal('register')" class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-md font-medium transition-all transform hover:scale-105">
+        <i class="fas fa-user-plus mr-2"></i>
+        S'inscrire
+    </button>
+{% endif %}
                     </div>
 
                     <button class="lg:hidden text-gray-600">
@@ -631,6 +641,134 @@
 
         // Initialize
         showSlide(0);
+    </script>
+    <!-- Modals -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div id="modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-md p-8 relative">
+            <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-400 hover:text-orange-600 text-2xl">&times;</button>
+            <div id="modal-form-content" class="mt-4"></div>
+        </div>
+    </div>
+    <script>
+    function openModal(type) {
+        document.getElementById('modal-overlay').classList.remove('hidden');
+        let url = type === 'login' ? "{% url 'login' %}" : "{% url 'register' %}";
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                let parser = new DOMParser();
+                let doc = parser.parseFromString(html, 'text/html');
+                let form = doc.querySelector('form');
+                if (form) {
+                    document.getElementById('modal-form-content').innerHTML = '';
+                    document.getElementById('modal-form-content').appendChild(form);
+                } else {
+                    document.getElementById('modal-form-content').innerHTML = html;
+                }
+            });
+    }
+
+    // Soumission AJAX du formulaire register
+    // Remplace le formulaire register par login après succès
+
+    // Helper pour récupérer le CSRF token depuis le cookie
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+document.addEventListener('submit', function(e) {
+        const form = e.target;
+        // AJAX inscription
+        if (form.closest('#modal-form-content') && form.action.includes('/register')) {
+            e.preventDefault();
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: new FormData(form)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.login_html) {
+                    // Affiche le formulaire login dans le modal
+                    let parser = new DOMParser();
+                    let doc = parser.parseFromString(data.login_html, 'text/html');
+                    let loginForm = doc.querySelector('form');
+                    document.getElementById('modal-form-content').innerHTML = '';
+                    if (loginForm) {
+                        document.getElementById('modal-form-content').appendChild(loginForm);
+                    } else {
+                        document.getElementById('modal-form-content').innerHTML = data.login_html;
+                    }
+                } else if (data.form_html) {
+                    // Si on veut gérer le cas d'erreur côté backend (optionnel)
+                    let parser = new DOMParser();
+                    let doc = parser.parseFromString(data.form_html, 'text/html');
+                    let regForm = doc.querySelector('form');
+                    document.getElementById('modal-form-content').innerHTML = '';
+                    if (regForm) {
+                        document.getElementById('modal-form-content').appendChild(regForm);
+                    } else {
+                        document.getElementById('modal-form-content').innerHTML = data.form_html;
+                    }
+                }
+            });
+        }
+        // AJAX connexion
+        if (form.closest('#modal-form-content') && form.action.includes('/login')) {
+            e.preventDefault();
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: new FormData(form)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Connexion réussie : ferme le modal et recharge la page
+                    document.getElementById('modal-overlay').classList.add('hidden');
+                    document.getElementById('modal-form-content').innerHTML = '';
+                    window.location.reload();
+                } else if (data.login_html) {
+                    // Affiche le formulaire login avec l'erreur
+                    let parser = new DOMParser();
+                    let doc = parser.parseFromString(data.login_html, 'text/html');
+                    let loginForm = doc.querySelector('form');
+                    document.getElementById('modal-form-content').innerHTML = '';
+                    if (loginForm) {
+                        document.getElementById('modal-form-content').appendChild(loginForm);
+                    } else {
+                        document.getElementById('modal-form-content').innerHTML = data.login_html;
+                    }
+                }
+            });
+        }
+    });
+
+    function closeModal() {
+        document.getElementById('modal-overlay').classList.add('hidden');
+        document.getElementById('modal-form-content').innerHTML = '';
+    }
+    // Optional: Close modal on overlay click
+    window.addEventListener('click', function(e) {
+        if (e.target.id === 'modal-overlay') closeModal();
+    });
     </script>
 </body>
 </html>

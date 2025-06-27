@@ -24,11 +24,18 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import RegisterForm
 
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+
 def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
+            # Si AJAX, renvoyer le formulaire login HTML
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                login_html = render_to_string('commandes/login.html', {}, request=request)
+                return JsonResponse({'success': True, 'login_html': login_html})
             return redirect('login')
     else:
         form = RegisterForm()
@@ -41,14 +48,19 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect('home')  # à créer ou adapter
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'success': True})
+            return redirect('home')
         else:
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                login_html = render_to_string('commandes/login.html', {'error': 'Nom ou mot de passe incorrect'}, request=request)
+                return JsonResponse({'success': False, 'login_html': login_html})
             return render(request, 'commandes/login.html', {'error': 'Nom ou mot de passe incorrect'})
     return render(request, 'commandes/login.html')
 
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
 def produitdetaille(request):
     return render(request, 'produitdetaille.html')
 
