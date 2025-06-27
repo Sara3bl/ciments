@@ -107,22 +107,64 @@ def telecharger_recu(request):
 
     p = canvas.Canvas(response, pagesize=A4)
     width, height = A4
-    p.setFont("Helvetica-Bold", 20)
-    p.drawString(100, height - 80, "Reçu de Paiement")
-    p.setFont("Helvetica", 14)
-    p.drawString(100, height - 120, f"Nom: {paiement.nom}")
-    p.drawString(100, height - 150, f"Email: {paiement.email}")
-    p.drawString(100, height - 180, f"Adresse: {paiement.adresse}")
-    p.drawString(100, height - 210, f"Ville: {paiement.ville}")
-    p.drawString(100, height - 240, f"Code Postal: {paiement.code_postal}")
-    p.drawString(100, height - 270, f"Téléphone: {paiement.telephone}")
-    p.drawString(100, height - 300, f"Montant payé: {paiement.montant} DH")
-    # Ajout d'une heure à la date de paiement pour l'affichage
+
+    # Add logo on the left
+    logo_path = 'media/produits/logo.png'
+    logo_width = 180
+    logo_height = 40
+    logo_x = 50
+    logo_y = height - 110
+    try:
+        p.drawImage(logo_path, logo_x, logo_y, width=logo_width, height=logo_height, mask='auto')
+    except Exception as e:
+        p.setFont("Helvetica", 8)
+        p.drawString(logo_x, logo_y + 15, "[Logo introuvable]")
+
+    # Header title centered at the top
+    p.setFont("Helvetica-Bold", 22)
+    title_text = "Reçu de Paiement"
+    title_width = p.stringWidth(title_text, "Helvetica-Bold", 22)
+    title_x = (width - title_width) / 2
+    # Place title high enough so it doesn't overlap the logo
+    title_y = height - 60
+    p.drawString(title_x, title_y, title_text)
+
+    # Add extra vertical space below header before the horizontal line
+    line_y = height - 140
+    p.setLineWidth(1)
+    p.line(50, line_y, width - 50, line_y)
+
+    # Receipt details
+    p.setFont("Helvetica", 13)
+    y = height - 170
+    line_height = 28
+    p.drawString(60, y, f"Nom: {paiement.nom}")
+    y -= line_height
+    p.drawString(60, y, f"Email: {paiement.email}")
+    y -= line_height
+    p.drawString(60, y, f"Adresse: {paiement.adresse}")
+    y -= line_height
+    p.drawString(60, y, f"Ville: {paiement.ville}")
+    y -= line_height
+    p.drawString(60, y, f"Code Postal: {paiement.code_postal}")
+    y -= line_height
+    p.drawString(60, y, f"Téléphone: {paiement.telephone}")
+    y -= line_height
+    p.setFont("Helvetica-Bold", 14)
+    p.drawString(60, y, f"Montant payé: {paiement.montant} DH")
+    y -= line_height
     from datetime import timedelta
     date_affichee = paiement.date_paiement + timedelta(hours=1) if paiement.date_paiement else None
-    p.drawString(100, height - 330, f"Date: {date_affichee.strftime('%d/%m/%Y %H:%M') if date_affichee else ''}")
+    p.setFont("Helvetica", 13)
+    p.drawString(60, y, f"Date: {date_affichee.strftime('%d/%m/%Y %H:%M') if date_affichee else ''}")
+
+    # Footer message
+    y -= line_height * 2
     p.setFont("Helvetica-Oblique", 12)
-    p.drawString(100, height - 370, "Merci pour votre confiance !")
+    p.setFillColorRGB(0.8, 0.4, 0.1)
+    p.drawString(60, y, "Merci pour votre confiance !")
+    p.setFillColorRGB(0, 0, 0)
+
     p.showPage()
     p.save()
     return response
