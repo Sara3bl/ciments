@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lamaalem 35® - Ciment Portland CPJ 35 - Ciments du Maroc</title>
+    <title>{{ produit.nom }} - Détail Produit</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -156,6 +156,9 @@
         }
     </style>
 </head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-10">
+
 <body class="min-h-screen bg-gray-50">
     <!-- Overlay pour fermer le panier -->
     <div id="cartOverlay" class="cart-overlay" onclick="closeCart()"></div>
@@ -228,21 +231,19 @@
                             </div>
                             
                             <div id="cartFooter" class="border-t border-gray-200 p-4" style="display: none;">
-                                <div class="flex justify-between items-center mb-4">
-                                    <span class="font-bold text-lg">Total:</span>
-                                    <span id="cartTotal" class="font-bold text-xl text-orange-600">0 DH</span>
-                                </div>
-                                <div class="space-y-2">
-                                    <button onclick="proceedToCheckout()" class="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-lg font-bold transition-all">
-                                        <i class="fas fa-credit-card mr-2"></i>
-                                        Passer Commande
-                                    </button>
-                                    <button onclick="clearCart()" class="w-full border border-gray-300 text-gray-600 hover:bg-gray-50 py-2 rounded-lg font-medium transition-all">
-                                        Vider le panier
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+    <div class="flex justify-between items-center mb-4">
+        <span class="font-bold text-lg">Total:</span>
+        <span id="cartTotal" class="font-bold text-xl text-orange-600">0 DH</span>
+    </div>
+    <div class="space-y-2">
+        <button onclick="proceedToCheckout(event)" class="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-lg font-bold transition-all">
+            <i class="fas fa-credit-card mr-2"></i>
+            Passer Commande
+        </button>
+        <button onclick="clearCart(event)" class="w-full border border-gray-300 text-gray-600 hover:bg-gray-50 py-2 rounded-lg font-medium transition-all">
+            Vider le panier
+        </button>
+    </div>
                     </div>
 
                     <button class="lg:hidden text-gray-600">
@@ -264,7 +265,7 @@
                 <span class="text-gray-400">/</span>
                 <a href="/produits" class="text-gray-600 hover:text-orange-600">Produits</a>
                 <span class="text-gray-400">/</span>
-                <span class="text-orange-600 font-medium">Lamaalem 35®</span>
+                <span class="text-orange-600 font-medium">{{ produit.nom }}</span>
             </nav>
         </div>
     </div>
@@ -275,52 +276,82 @@
             <div class="space-y-6">
                 <!-- Image principale -->
                 <div class="aspect-square bg-white rounded-2xl shadow-lg overflow-hidden border">
-                    <img
-                        src="https://www.cimentsdumaroc.com/sites/default/files/2025-02/LAMAALEM-35-et-35-pro_1.png"
-                        alt="Lamaalem 35®"
-                        class="w-full h-full object-contain p-8 product-image-transition"
-                    />
+                    {% if produit.image %}
+    <img src="{{ produit.image.url }}" alt="{{ produit.nom }}" class="w-full h-full object-contain p-8 product-image-transition" />
+{% else %}
+    <i class="fas fa-cube text-7xl text-orange-500 flex items-center justify-center w-full h-full"></i>
+{% endif %}
                 </div>
 
                 <!-- Description du produit -->
                 <div class="product-info-card rounded-2xl p-6 shadow-lg">
                     <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                        <i class="fas fa-info-circle text-orange-600 mr-3"></i>
-                        À propos du Lamaalem 35®
-                    </h3>
+    <i class="fas fa-info-circle text-orange-600 mr-3"></i>
+    À propos du {{ produit.nom }}
+</h3>
                     
                     <div class="space-y-4 text-gray-700">
-                        <p class="leading-relaxed">
-                            <strong>Lamaalem 35®</strong> est un ciment Portland composé (CPJ 35) de haute qualité, 
-                            spécialement formulé pour répondre aux exigences de la construction moderne au Maroc. 
-                            Ce produit phare de Ciments du Maroc combine performance, fiabilité et facilité d'utilisation.
-                        </p>
+    <p class="leading-relaxed">
+        <strong>{{ produit.nom }}</strong> : {{ produit.description }}
+    </p>
+    {% if produit.caracteristiques %}
+    <div class="bg-orange-50 border border-orange-200 p-4 rounded-lg">
+        <h5 class="font-bold text-orange-800 mb-2 flex items-center">
+            <i class="fas fa-list mr-2"></i>
+            Caractéristiques principales
+        </h5>
+        <ul class="list-disc list-inside text-sm text-orange-900">
+            {% for carac in produit.caracteristiques.splitlines %}
+                <li>{{ carac }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
                         
-                        <div class="highlight-box p-4 rounded-lg">
-                            <h4 class="font-bold text-amber-800 mb-2 flex items-center">
-                                <i class="fas fa-star mr-2"></i>
-                                Pourquoi choisir Lamaalem 35® ?
-                            </h4>
-                            <ul class="text-amber-800 space-y-1 text-sm">
-                                <li>• Résistance garantie ≥ 22.5 MPa à 28 jours</li>
-                                <li>• Prise régulière et contrôlée (2-6 heures)</li>
-                                <li>• Facilité de mise en œuvre exceptionnelle</li>
-                                <li>• Rapport qualité-prix optimal</li>
-                            </ul>
-                        </div>
+                        {% if produit.avantages %}
+<div class="highlight-box p-4 rounded-lg">
+    <h4 class="font-bold text-amber-800 mb-2 flex items-center">
+        <i class="fas fa-star mr-2"></i>
+        Avantages
+    </h4>
+    <ul class="text-amber-800 space-y-1 text-sm">
+        {% for avantage in produit.avantages.splitlines %}
+            <li>• {{ avantage }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %} 
 
                         <div class="grid grid-cols-2 gap-4 mt-4">
-                            <div class="bg-orange-50 p-3 rounded-lg text-center">
-                                <i class="fas fa-weight-hanging text-orange-600 text-xl mb-2"></i>
-                                <div class="font-bold text-orange-600">50 kg</div>
-                                <div class="text-xs text-gray-600">Poids par sac</div>
-                            </div>
-                            <div class="bg-blue-50 p-3 rounded-lg text-center">
-                                <i class="fas fa-certificate text-blue-600 text-xl mb-2"></i>
-                                <div class="font-bold text-blue-600">CPJ 35</div>
-                                <div class="text-xs text-gray-600">Classe ciment</div>
-                            </div>
-                        </div>
+    {% if produit.poids %}
+    <div class="bg-orange-50 p-3 rounded-lg text-center">
+        <i class="fas fa-weight-hanging text-orange-600 text-xl mb-2"></i>
+        <div class="font-bold text-orange-600">{{ produit.poids }}</div>
+        <div class="text-xs text-gray-600">Poids par sac</div>
+    </div>
+    {% endif %}
+    {% if produit.classe %}
+    <div class="bg-blue-50 p-3 rounded-lg text-center">
+        <i class="fas fa-certificate text-blue-600 text-xl mb-2"></i>
+        <div class="font-bold text-blue-600">{{ produit.classe }}</div>
+        <div class="text-xs text-gray-600">Classe ciment</div>
+    </div>
+    {% endif %}
+    {% if produit.resistance %}
+    <div class="bg-green-50 p-3 rounded-lg text-center col-span-2">
+        <i class="fas fa-dumbbell text-green-600 text-xl mb-2"></i>
+        <div class="font-bold text-green-600">{{ produit.resistance }}</div>
+        <div class="text-xs text-gray-600">Résistance</div>
+    </div>
+    {% endif %}
+    {% if produit.temps_prise %}
+    <div class="bg-yellow-50 p-3 rounded-lg text-center col-span-2">
+        <i class="fas fa-clock text-yellow-600 text-xl mb-2"></i>
+        <div class="font-bold text-yellow-600">{{ produit.temps_prise }}</div>
+        <div class="text-xs text-gray-600">Temps de prise</div>
+    </div>
+    {% endif %}
+</div> 
 
                         <div class="bg-green-50 border border-green-200 p-4 rounded-lg">
                             <h5 class="font-bold text-green-800 mb-2 flex items-center">
@@ -329,25 +360,24 @@
                             </h5>
                             <p class="text-green-700 text-sm">
                                 Fabriqué selon les standards environnementaux les plus stricts, 
-                                Lamaalem 35® s'inscrit dans notre démarche de développement durable 
+                                {{ produit.nom }} s'inscrit dans notre démarche de développement durable 
                                 et de respect de l'environnement marocain.
                             </p>
                         </div>
 
-                        <div class="bg-gray-50 border border-gray-200 p-4 rounded-lg">
-                            <h5 class="font-bold text-gray-800 mb-2 flex items-center">
-                                <i class="fas fa-tools mr-2"></i>
-                                Applications principales
-                            </h5>
-                            <div class="grid grid-cols-2 gap-2 text-sm text-gray-700">
-                                <div>• Fondations</div>
-                                <div>• Murs porteurs</div>
-                                <div>• Dalles béton</div>
-                                <div>• Poteaux</div>
-                                <div>• Maçonnerie</div>
-                                <div>• Chapes</div>
-                            </div>
-                        </div>
+                        {% if produit.applications %}
+<div class="bg-gray-50 border border-gray-200 p-4 rounded-lg">
+    <h5 class="font-bold text-gray-800 mb-2 flex items-center">
+        <i class="fas fa-tools mr-2"></i>
+        Applications principales
+    </h5>
+    <div class="grid grid-cols-2 gap-2 text-sm text-gray-700">
+        {% for application in produit.applications.splitlines %}
+            <div>• {{ application }}</div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
                     </div>
                 </div>
             </div>
@@ -358,8 +388,10 @@
                     <span class="inline-block bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium mb-2">
                         Ciment Portland
                     </span>
-                    <h1 class="text-4xl font-bold text-gray-900 mb-2">Lamaalem 35®</h1>
-                    <p class="text-xl text-gray-600 mb-4">Ciment Portland CPJ 35</p>
+                    <h1 class="text-4xl font-bold text-gray-900 mb-2">{{ produit.nom }}</h1>
+                    <p class="text-xl text-gray-600 mb-4">
+    {% if produit.classe %}Ciment Portland {{ produit.classe }}{% else %}Ciment Portland{% endif %}
+</p>
 
                     <!-- Évaluation -->
                     <div class="flex items-center space-x-2 mb-6">
@@ -377,15 +409,15 @@
                 <!-- Prix -->
                 <div class="price-card p-6 rounded-2xl border border-orange-200">
                     <div class="flex items-center space-x-4 mb-4">
-                        <span class="text-5xl font-bold text-orange-600">85 DH</span>
+                        <span class="text-5xl font-bold text-orange-600">{{ produit.prix_unitaire }} DH</span>
                         <div class="flex flex-col">
-                            <span class="text-xl text-gray-500 line-through">95 DH</span>
-                            <span class="bg-red-500 text-white px-2 py-1 rounded text-sm font-bold">-11%</span>
+                            <span class="bg-orange-500 text-white px-6 py-2 rounded-full font-bold text-xl shadow price-tag">{{ produit.prix_unitaire }} DH</span>
+                            <span class="bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm font-medium">Stock : {{ produit.stock }}</span>
                         </div>
                     </div>
                     <p class="text-sm text-gray-600">
-                        Prix par sac de 50 kg • Stock disponible: <span class="font-bold text-green-600">250 sacs</span>
-                    </p>
+    Prix par sac{% if produit.poids %} de {{ produit.poids }}{% endif %} • Stock disponible: <span class="font-bold text-green-600">{{ produit.stock }} sacs</span>
+</p>
                 </div>
 
                 <!-- Sélecteur de quantité -->
@@ -441,7 +473,7 @@
                     <div class="space-y-4">
                         <div class="flex justify-between text-lg">
                             <span>Sous-total (<span id="quantityInSummary">1</span> sacs)</span>
-                            <span class="font-semibold"><span id="subtotal">85</span> DH</span>
+                            <span class="font-semibold"><span id="subtotal">{{ produit.prix_unitaire }}</span> DH</span>
                         </div>
                         <div class="flex justify-between text-green-600">
                             <span>Économies réalisées</span>
@@ -454,7 +486,7 @@
                         <hr class="border-gray-300">
                         <div class="flex justify-between text-2xl font-bold">
                             <span>Total</span>
-                            <span class="text-orange-600"><span id="totalPrice">85</span> DH</span>
+                            <span class="text-orange-600"><span id="totalPrice">{{ produit.prix_unitaire }}</span> DH</span>
                         </div>
                     </div>
                 </div>
@@ -463,11 +495,11 @@
                 <div class="space-y-4">
                     <button onclick="proceedToPayment()" class="w-full bg-orange-600 hover:bg-orange-700 text-white text-xl py-8 rounded-xl shadow-lg font-bold transition-all transform hover:scale-105">
                         <i class="fas fa-shopping-cart mr-3"></i>
-                        Passer au Paiement - <span id="paymentTotal">85</span> DH
+                        Passer au Paiement - <span id="paymentTotal">{{ produit.prix_unitaire }}</span> DH
                     </button>
 
                     <div class="grid grid-cols-2 gap-4">
-                        <button onclick="addToCart()" class="py-4 border-2 border-orange-200 text-orange-600 rounded-xl hover:bg-orange-50 font-semibold transition-all">
+                        <button onclick="addToCart(event)" class="py-4 border-2 border-orange-200 text-orange-600 rounded-xl hover:bg-orange-50 font-semibold transition-all">
                             <i class="fas fa-cart-plus mr-2"></i>
                             Ajouter au Panier
                         </button>
@@ -521,7 +553,7 @@
                 <div class="bg-white rounded-2xl shadow-lg p-8">
                     <h3 class="text-3xl font-bold mb-6">Description du produit</h3>
                     <p class="text-gray-700 mb-8 leading-relaxed text-lg">
-                        Le Lamaalem 35® est un ciment Portland de qualité supérieure, spécialement conçu pour la construction générale. 
+                        Le {{ produit.nom }} est un ciment Portland de qualité supérieure, spécialement conçu pour la construction générale. 
                         Sa formulation optimisée garantit une résistance fiable et une facilité de mise en œuvre exceptionnelle pour tous vos projets de construction.
                     </p>
 
@@ -564,21 +596,21 @@
                             <h4 class="font-semibold mb-6 text-xl">Caractéristiques générales</h4>
                             <div class="space-y-4">
                                 <div class="flex justify-between py-3 border-b border-gray-200">
-                                    <span class="text-gray-600 font-medium">Classe</span>
-                                    <span class="font-bold">CPJ 35</span>
-                                </div>
-                                <div class="flex justify-between py-3 border-b border-gray-200">
-                                    <span class="text-gray-600 font-medium">Poids</span>
-                                    <span class="font-bold">50 kg</span>
-                                </div>
-                                <div class="flex justify-between py-3 border-b border-gray-200">
-                                    <span class="text-gray-600 font-medium">Résistance</span>
-                                    <span class="font-bold">≥ 22.5 MPa</span>
-                                </div>
-                                <div class="flex justify-between py-3 border-b border-gray-200">
-                                    <span class="text-gray-600 font-medium">Temps de prise</span>
-                                    <span class="font-bold">2-6 heures</span>
-                                </div>
+    <span class="text-gray-600 font-medium">Classe</span>
+    <span class="font-bold">{{ produit.classe|default:"-" }}</span>
+</div>
+<div class="flex justify-between py-3 border-b border-gray-200">
+    <span class="text-gray-600 font-medium">Poids</span>
+    <span class="font-bold">{{ produit.poids|default:"-" }}</span>
+</div>
+<div class="flex justify-between py-3 border-b border-gray-200">
+    <span class="text-gray-600 font-medium">Résistance</span>
+    <span class="font-bold">{{ produit.resistance|default:"-" }}</span>
+</div>
+<div class="flex justify-between py-3 border-b border-gray-200">
+    <span class="text-gray-600 font-medium">Temps de prise</span>
+    <span class="font-bold">{{ produit.temps_prise|default:"-" }}</span>
+</div>
                                 <div class="flex justify-between py-3 border-b border-gray-200">
                                     <span class="text-gray-600 font-medium">Teneur clinker</span>
                                     <span class="font-bold">≥ 65%</span>
@@ -652,7 +684,7 @@
                             Conseils d'expert
                         </h4>
                         <div class="space-y-3 text-blue-800">
-                            <p>• Pour optimiser les performances du Lamaalem 35®, respectez un dosage de 350 kg/m³ pour le béton armé</p>
+                            <p>• Pour optimiser les performances du {{ produit.nom }}, respectez un dosage de 350 kg/m³ pour le béton armé</p>
                             <p>• Assurez-vous d'une cure humide pendant au moins 7 jours pour une résistance optimale</p>
                             <p>• Utilisez une eau propre et potable pour le gâchage</p>
                             <p>• Stockez les sacs dans un endroit sec et à l'abri de l'humidité</p>
@@ -766,26 +798,219 @@
 
     <!-- JavaScript -->
     <script>
-        // Variables globales
-        let currentQuantity = 1;
-        let isWishlisted = false;
-        let cart = [];
+// Variables globales
+let currentQuantity = 1;
+let isWishlisted = false;
+let cart = [];
+let unitPrice = parseFloat("{{ produit.prix_unitaire|default:'0' }}");
 
-        // Fonction pour incrémenter la quantité
-        function incrementQuantity() {
-            if (currentQuantity < 250) {
-                currentQuantity++;
-                updateQuantityDisplay();
-            }
-        }
+// Fonction pour incrémenter la quantité
+function incrementQuantity() {
+    if (currentQuantity < 250) {
+        currentQuantity++;
+        updateQuantityDisplay();
+    }
+}
 
-        // Fonction pour décrémenter la quantité
-        function decrementQuantity() {
-            if (currentQuantity > 1) {
-                currentQuantity--;
-                updateQuantityDisplay();
-            }
+// Fonction pour décrémenter la quantité
+function decrementQuantity() {
+    if (currentQuantity > 1) {
+        currentQuantity--;
+        updateQuantityDisplay();
+    }
+}
+
+// Fonction pour mettre à jour l'affichage de la quantité
+function updateQuantityDisplay() {
+    if(document.getElementById('quantityDisplay')) document.getElementById('quantityDisplay').textContent = currentQuantity;
+    if(document.getElementById('totalWeight')) document.getElementById('totalWeight').textContent = currentQuantity * 50;
+    if(document.getElementById('concreteVolume')) document.getElementById('concreteVolume').textContent = ((currentQuantity * 50) / 350).toFixed(1);
+    if(document.getElementById('estimatedVolume')) document.getElementById('estimatedVolume').textContent = ((currentQuantity * 50) / 350).toFixed(1);
+    if(document.getElementById('surfaceCovered')) document.getElementById('surfaceCovered').textContent = (((currentQuantity * 50) / 350) * 6.7).toFixed(0);
+    if(document.getElementById('quantityInSummary')) document.getElementById('quantityInSummary').textContent = currentQuantity;
+    if(document.getElementById('subtotal')) document.getElementById('subtotal').textContent = currentQuantity * unitPrice;
+    // if(document.getElementById('savings')) document.getElementById('savings').textContent = currentQuantity * unitPrice;
+    if(document.getElementById('totalPrice')) document.getElementById('totalPrice').textContent = currentQuantity * unitPrice;
+    if(document.getElementById('paymentTotal')) document.getElementById('paymentTotal').textContent = currentQuantity * unitPrice;
+}
+
+// Wishlist
+function toggleWishlist() {
+    isWishlisted = !isWishlisted;
+    const btn = document.getElementById('wishlistBtn');
+    if (!btn) return;
+    if (isWishlisted) {
+        btn.innerHTML = '<i class="fas fa-heart mr-2 text-red-500"></i>Ajouté aux favoris';
+        btn.classList.add('border-red-200', 'text-red-600');
+        btn.classList.remove('border-gray-200', 'text-gray-600');
+    } else {
+        btn.innerHTML = '<i class="fas fa-heart mr-2"></i>Ajouter aux favoris';
+        btn.classList.remove('border-red-200', 'text-red-600');
+        btn.classList.add('border-gray-200', 'text-gray-600');
+    }
+}
+
+// Panier
+function toggleCart() {
+    const dropdown = document.getElementById('cartDropdown');
+    const overlay = document.getElementById('cartOverlay');
+    if (!dropdown || !overlay) return;
+    if (dropdown.classList.contains('show')) {
+        closeCart();
+    } else {
+        dropdown.classList.add('show');
+        overlay.classList.add('show');
+    }
+}
+function closeCart() {
+    if(document.getElementById('cartDropdown')) document.getElementById('cartDropdown').classList.remove('show');
+    if(document.getElementById('cartOverlay')) document.getElementById('cartOverlay').classList.remove('show');
+}
+
+function addToCart(event) {
+    let imageUrl = '{% if produit.image %}{{ produit.image.url }}{% else %}https://via.placeholder.com/150x150?text=Produit{% endif %}';
+    const product = {
+        id: '{{ produit.pk }}',
+        name: '{{ produit.nom }}',
+        price: unitPrice,
+        quantity: currentQuantity,
+        image: imageUrl
+    };
+    // Vérifier si le produit existe déjà dans le panier
+    const existingItem = cart.find(item => item.id === product.id);
+    if (existingItem) {
+        existingItem.quantity += currentQuantity;
+    } else {
+        cart.push(product);
+    }
+    updateCartDisplay();
+    // Animation de confirmation
+    const btn = event.target;
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check mr-2"></i>Ajouté !';
+    btn.classList.add('bg-green-600');
+    setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.classList.remove('bg-green-600');
+    }, 2000);
+    // Ouvrir le panier automatiquement
+    setTimeout(() => {
+        toggleCart();
+    }, 500);
+}
+
+function updateCartDisplay() {
+    const cartItems = document.getElementById('cartItems');
+    const cartBadge = document.getElementById('cartBadge');
+    const cartItemCount = document.getElementById('cartItemCount');
+    const cartTotal = document.getElementById('cartTotal');
+    const emptyCart = document.getElementById('emptyCart');
+    const cartFooter = document.getElementById('cartFooter');
+    if(!cartItems || !cartBadge || !cartItemCount || !cartTotal || !emptyCart || !cartFooter) return;
+    // Calculer le total des articles
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    // Mettre à jour le badge
+    if (totalItems > 0) {
+        cartBadge.style.display = 'flex';
+        cartBadge.textContent = totalItems;
+    } else {
+        cartBadge.style.display = 'none';
+    }
+    // Mettre à jour le compteur
+    cartItemCount.textContent = totalItems;
+    // Mettre à jour le total
+    cartTotal.textContent = totalPrice + ' DH';
+    // Afficher/masquer le contenu
+    if (cart.length === 0) {
+        emptyCart.style.display = 'block';
+        cartFooter.style.display = 'none';
+        cartItems.innerHTML = '<div id="emptyCart" class="text-center py-8"><i class="fas fa-shopping-cart text-gray-300 text-4xl mb-4"></i><p class="text-gray-500">Votre panier est vide</p><p class="text-sm text-gray-400">Ajoutez des produits pour commencer</p></div>';
+    } else {
+        emptyCart.style.display = 'none';
+        cartFooter.style.display = 'block';
+        // Générer le HTML des articles
+        let itemsHTML = '';
+        cart.forEach((item, index) => {
+            itemsHTML += `
+                <div class="cart-item flex items-center space-x-3 p-3 border-b border-gray-100" data-index="${index}">
+                    <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-contain bg-gray-50 rounded">
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-sm">${item.name}</h4>
+                        <p class="text-xs text-gray-600">${item.price} DH × ${item.quantity}</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="cart-minus w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded text-xs">-</button>
+                        <span class="text-sm font-semibold w-8 text-center">${item.quantity}</span>
+                        <button class="cart-plus w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded text-xs">+</button>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-sm">${item.price * item.quantity} DH</p>
+                        <button class="cart-remove text-red-500 hover:text-red-700 text-xs">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+        cartItems.innerHTML = itemsHTML;
+    }
+}
+
+function updateCartItemQuantity(index, change) {
+    if (cart[index]) {
+        cart[index].quantity += change;
+        if (cart[index].quantity <= 0) {
+            cart.splice(index, 1);
         }
+        updateCartDisplay();
+    }
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCartDisplay();
+}
+
+function clearCart(event) {
+    if(event) event.preventDefault();
+    cart = [];
+    updateCartDisplay();
+}
+
+function proceedToCheckout(event) {
+    if(event) event.preventDefault();
+    if (cart.length === 0) {
+        alert('Votre panier est vide !');
+        return;
+    }
+    window.location.href = '/paiement/';
+}
+
+// Paiement direct
+function proceedToPayment() {
+    window.location.href = '/paiement/';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    updateQuantityDisplay();
+    updateCartDisplay();
+    // Délégation d'événement pour les boutons dynamiques du panier
+    document.getElementById('cartItems').addEventListener('click', function(e) {
+        const cartItem = e.target.closest('.cart-item');
+        if (!cartItem) return;
+        const index = parseInt(cartItem.getAttribute('data-index'));
+        if (e.target.classList.contains('cart-plus')) {
+            updateCartItemQuantity(index, 1);
+        } else if (e.target.classList.contains('cart-minus')) {
+            updateCartItemQuantity(index, -1);
+        } else if (e.target.classList.contains('cart-remove')) {
+            removeFromCart(index);
+        }
+    });
+});
+
+        
 
         // Fonction pour mettre à jour l'affichage de la quantité
         function updateQuantityDisplay() {
@@ -795,10 +1020,10 @@
             document.getElementById('estimatedVolume').textContent = ((currentQuantity * 50) / 350).toFixed(1);
             document.getElementById('surfaceCovered').textContent = (((currentQuantity * 50) / 350) * 6.7).toFixed(0);
             document.getElementById('quantityInSummary').textContent = currentQuantity;
-            document.getElementById('subtotal').textContent = currentQuantity * 85;
-            document.getElementById('savings').textContent = currentQuantity * 10;
-            document.getElementById('totalPrice').textContent = currentQuantity * 85;
-            document.getElementById('paymentTotal').textContent = currentQuantity * 85;
+            document.getElementById('subtotal').textContent = currentQuantity * unitPrice;
+            // document.getElementById('savings').textContent = currentQuantity * unitPrice; // Désactivé car unitSavings non défini
+            document.getElementById('totalPrice').textContent = currentQuantity * unitPrice;
+            document.getElementById('paymentTotal').textContent = currentQuantity * unitPrice;
         }
 
         // Fonction pour changer d'onglet
@@ -858,21 +1083,29 @@
             document.getElementById('cartOverlay').classList.remove('show');
         }
 
-        function addToCart() {
+        function addToCart(event) {
+            console.log('addToCart called');
+            console.log('currentQuantity:', currentQuantity);
+            console.log('unitPrice:', unitPrice);
+            let imageUrl = '{% if produit.image %}{{ produit.image.url }}{% else %}https://via.placeholder.com/150x150?text=Produit{% endif %}';
             const product = {
-                id: 'lamaalem-35',
-                name: 'Lamaalem 35®',
-                price: 85,
+                id: '{{ produit.pk }}',
+                name: '{{ produit.nom }}',
+                price: unitPrice,
                 quantity: currentQuantity,
-                image: 'https://www.cimentsdumaroc.com/sites/default/files/2025-02/LAMAALEM-35-et-35-pro_1.png'
+                image: imageUrl
             };
 
+            console.log('Product to add:', product);
+            console.log('Cart before:', cart);
             // Vérifier si le produit existe déjà dans le panier
             const existingItem = cart.find(item => item.id === product.id);
             
             if (existingItem) {
+                console.log('Product already in cart, updating quantity');
                 existingItem.quantity += currentQuantity;
             } else {
+                console.log('Product not in cart, pushing new');
                 cart.push(product);
             }
 
@@ -896,68 +1129,13 @@
         }
 
         function updateCartDisplay() {
+            console.log('updateCartDisplay called. Current cart:', cart);
             const cartItems = document.getElementById('cartItems');
             const cartBadge = document.getElementById('cartBadge');
             const cartItemCount = document.getElementById('cartItemCount');
             const cartTotal = document.getElementById('cartTotal');
             const emptyCart = document.getElementById('emptyCart');
-            const cartFooter = document.getElementById('cartFooter');
 
-            // Calculer le total des articles
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-            // Mettre à jour le badge
-            if (totalItems > 0) {
-                cartBadge.style.display = 'flex';
-                cartBadge.textContent = totalItems;
-            } else {
-                cartBadge.style.display = 'none';
-            }
-
-            // Mettre à jour le compteur
-            cartItemCount.textContent = totalItems;
-
-            // Mettre à jour le total
-            cartTotal.textContent = totalPrice + ' DH';
-
-            // Afficher/masquer le contenu
-            if (cart.length === 0) {
-                emptyCart.style.display = 'block';
-                cartFooter.style.display = 'none';
-                cartItems.innerHTML = '<div id="emptyCart" class="text-center py-8"><i class="fas fa-shopping-cart text-gray-300 text-4xl mb-4"></i><p class="text-gray-500">Votre panier est vide</p><p class="text-sm text-gray-400">Ajoutez des produits pour commencer</p></div>';
-            } else {
-                emptyCart.style.display = 'none';
-                cartFooter.style.display = 'block';
-                
-                // Générer le HTML des articles
-                let itemsHTML = '';
-                cart.forEach((item, index) => {
-                    itemsHTML += `
-                        <div class="cart-item flex items-center space-x-3 p-3 border-b border-gray-100">
-                            <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-contain bg-gray-50 rounded">
-                            <div class="flex-1">
-                                <h4 class="font-semibold text-sm">${item.name}</h4>
-                                <p class="text-xs text-gray-600">${item.price} DH × ${item.quantity}</p>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <button onclick="updateCartItemQuantity(${index}, -1)" class="w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded text-xs">-</button>
-                                <span class="text-sm font-semibold w-8 text-center">${item.quantity}</span>
-                                <button onclick="updateCartItemQuantity(${index}, 1)" class="w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded text-xs">+</button>
-                            </div>
-                            <div class="text-right">
-                                <p class="font-bold text-sm">${item.price * item.quantity} DH</p>
-                                <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 text-xs">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                cartItems.innerHTML = itemsHTML;
-            }
-        }
 
         function updateCartItemQuantity(index, change) {
             if (cart[index]) {
@@ -976,12 +1154,14 @@
             updateCartDisplay();
         }
 
-        function clearCart() {
+        function clearCart(event) {
+            if(event) event.preventDefault();
             cart = [];
             updateCartDisplay();
         }
 
-        function proceedToCheckout() {
+        function proceedToCheckout(event) {
+            if(event) event.preventDefault();
             if (cart.length === 0) {
                 alert('Votre panier est vide !');
                 return;
@@ -995,10 +1175,7 @@
 
         // Fonction pour procéder au paiement direct
         function proceedToPayment() {
-            const total = currentQuantity * 85;
-            alert(`Redirection vers le paiement pour un total de ${total} DH (${currentQuantity} sac(s))`);
-            // Ici vous pouvez rediriger vers votre page de paiement Django
-            // window.location.href = '/checkout/';
+            window.location.href = '/paiement/';
         }
 
         // Fermer le panier en cliquant à l'extérieur
@@ -1015,7 +1192,146 @@
         document.addEventListener('DOMContentLoaded', function() {
             updateQuantityDisplay();
             updateCartDisplay();
+
+            // Délégation d'événement pour les boutons dynamiques du panier
+            document.getElementById('cartItems').addEventListener('click', function(e) {
+                const cartItem = e.target.closest('.cart-item');
+                if (!cartItem) return;
+                const index = parseInt(cartItem.getAttribute('data-index'));
+                if (e.target.classList.contains('cart-plus')) {
+                    updateCartItemQuantity(index, 1);
+                } else if (e.target.classList.contains('cart-minus')) {
+                    updateCartItemQuantity(index, -1);
+                } else if (e.target.classList.contains('cart-remove')) {
+                    removeFromCart(index);
+                }
+                const cartFooter = document.getElementById('cartFooter');
+
+                // Calculer le total des articles
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+                // Mettre à jour le badge
+                if (totalItems > 0) {
+                    cartBadge.style.display = 'flex';
+                    cartBadge.textContent = totalItems;
+                } else {
+                    cartBadge.style.display = 'none';
+                }
+
+                // Mettre à jour le compteur
+                cartItemCount.textContent = totalItems;
+
+                // Mettre à jour le total
+                cartTotal.textContent = totalPrice + ' DH';
+
+            });
         });
-    </script>
+        }
+
+
+  // Afficher/masquer le contenu
+// --- Cart and Tab Functions (top-level, not nested) ---
+function addToCart(event) {
+    console.log('addToCart called');
+    console.log('currentQuantity:', currentQuantity);
+    console.log('unitPrice:', unitPrice);
+    let imageUrl = '{% if produit.image %}{{ produit.image.url }}{% else %}https://via.placeholder.com/150x150?text=Produit{% endif %}';
+    const product = {
+        id: '{{ produit.pk }}',
+        name: '{{ produit.nom }}',
+        price: unitPrice,
+        quantity: currentQuantity,
+        image: imageUrl
+    };
+    console.log('Product to add:', product);
+    console.log('Cart before:', cart);
+    // Vérifier si le produit existe déjà dans le panier
+    const existingItem = cart.find(item => item.id === product.id);
+    if (existingItem) {
+        console.log('Product already in cart, updating quantity');
+        existingItem.quantity += currentQuantity;
+    } else {
+        console.log('Product not in cart, pushing new');
+        cart.push(product);
+    }
+    console.log('Cart after:', cart);
+    updateCartDisplay();
+    console.log('Cart displayed:', cart);
+    // Animation de confirmation
+    const btn = event.target;
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check mr-2"></i>Ajouté !';
+    btn.classList.add('bg-green-600');
+    setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.classList.remove('bg-green-600');
+    }, 2000);
+    // Ouvrir le panier automatiquement
+    setTimeout(() => {
+        toggleCart();
+    }, 500);
+}
+
+function updateCartDisplay() {
+    console.log('updateCartDisplay called. Current cart:', cart);
+    const cartItems = document.getElementById('cartItems');
+    const cartBadge = document.getElementById('cartBadge');
+    const cartItemCount = document.getElementById('cartItemCount');
+    const cartTotal = document.getElementById('cartTotal');
+    const emptyCart = document.getElementById('emptyCart');
+    const cartFooter = document.getElementById('cartFooter');
+    if(!cartItems || !cartBadge || !cartItemCount || !cartTotal || !emptyCart || !cartFooter) return;
+    // Calculer le total des articles
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    // Mettre à jour le badge
+    if (totalItems > 0) {
+        cartBadge.style.display = 'flex';
+        cartBadge.textContent = totalItems;
+    } else {
+        cartBadge.style.display = 'none';
+    }
+    // Mettre à jour le compteur
+    cartItemCount.textContent = totalItems;
+    // Mettre à jour le total
+    cartTotal.textContent = totalPrice + ' DH';
+    // Afficher/masquer le contenu
+    if (cart.length === 0) {
+        emptyCart.style.display = 'block';
+        cartFooter.style.display = 'none';
+        cartItems.innerHTML = '<div id="emptyCart" class="text-center py-8"><i class="fas fa-shopping-cart text-gray-300 text-4xl mb-4"></i><p class="text-gray-500">Votre panier est vide</p><p class="text-sm text-gray-400">Ajoutez des produits pour commencer</p></div>';
+    } else {
+        emptyCart.style.display = 'none';
+        cartFooter.style.display = 'block';
+        // Générer le HTML des articles
+        let itemsHTML = '';
+        cart.forEach((item, index) => {
+            itemsHTML += `
+                <div class="cart-item flex items-center space-x-3 p-3 border-b border-gray-100" data-index="${index}">
+                    <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-contain bg-gray-50 rounded">
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-sm">${item.name}</h4>
+                        <p class="text-xs text-gray-600">${item.price} DH × ${item.quantity}</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="cart-minus w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded text-xs">-</button>
+                        <span class="text-sm font-semibold w-8 text-center">${item.quantity}</span>
+                        <button class="cart-plus w-6 h-6 bg-gray-200 hover:bg-gray-300 rounded text-xs">+</button>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-sm">${item.price * item.quantity} DH</p>
+                        <button class="cart-remove text-red-500 hover:text-red-700 text-xs">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+        cartItems.innerHTML = itemsHTML;
+    }
+}
+
+</script>
 </body>
 </html>

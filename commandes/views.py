@@ -12,7 +12,8 @@ from .models import Produit
 from django.shortcuts import render
 
 def produits_ciment(request):
-    return render(request, 'commandes/produits-ciment.html')
+    produits = Produit.objects.all()
+    return render(request, 'commandes/produits-ciment.html', {'produits': produits})
 def contact(request):
     return render(request, 'commandes/contact.html')
 def actualités(request):
@@ -61,8 +62,11 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('home')
-def produitdetaille(request):
-    return render(request, 'produitdetaille.html')
+from django.shortcuts import get_object_or_404
+
+def produitdetaille(request, pk):
+    produit = get_object_or_404(Produit, pk=pk)
+    return render(request, 'produitdetaille.html', {'produit': produit})
 
 def paiement(request):
     return render(request, 'paiement.html')

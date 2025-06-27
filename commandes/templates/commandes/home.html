@@ -103,13 +103,18 @@
                 <div class="flex items-center space-x-4">
                     <div class="hidden md:flex items-center space-x-3">
                         {% if user.is_authenticated %}
-    <form method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit" class="flex items-center text-gray-700 hover:text-orange-600 px-4 py-2 rounded-md border border-gray-300 hover:border-orange-600 transition-all">
-            <i class="fas fa-sign-out-alt mr-2"></i>
-            Déconnexion
-        </button>
-    </form>
+    <span class="flex items-center space-x-2">
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="flex items-center text-gray-700 hover:text-orange-600 px-4 py-2 rounded-md border border-gray-300 hover:border-orange-600 transition-all">
+                <i class="fas fa-sign-out-alt mr-2"></i>
+                Déconnexion
+            </button>
+        </form>
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gray-400 text-white font-bold text-lg shadow ml-2">
+            {{ user.username|first|upper }}
+        </span>
+    </span>
 {% else %}
     <button onclick="openModal('login')" class="flex items-center text-gray-700 hover:text-orange-600 px-4 py-2 rounded-md border border-gray-300 hover:border-orange-600 transition-all">
         <i class="fas fa-sign-in-alt mr-2"></i>

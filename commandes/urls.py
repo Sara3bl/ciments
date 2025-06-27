@@ -22,7 +22,7 @@ path('services/', views.services, name='services'),
 
 
 
-   path('produitdetaille/', views.produitdetaille, name='produitdetaille'),
+   path('produitdetaille/<int:pk>/', views.produitdetaille, name='produitdetaille'),
    path('paiement/', views.paiement, name='paiement'),
 
     
