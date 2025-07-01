@@ -320,150 +320,141 @@
 
                 <!-- Calculatrice de Ciment -->
                 <div id="calculator" class="tab-content">
-                    <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 max-w-6xl mx-auto">
-                        <div class="text-center mb-12">
-                            <h3 class="text-3xl font-bold text-gray-900 mb-4">
-                                <i class="fas fa-calculator text-orange-600 mr-3"></i>
-                                Calculatrice de Ciment Professionnelle
-                            </h3>
-                            <p class="text-gray-600 text-lg">
-                                Calculez précisément vos besoins en ciment selon votre projet
-                            </p>
-                        </div>
-
-                        <div class="grid lg:grid-cols-2 gap-12">
-                            <!-- Formulaire de calcul -->
-                            <div class="space-y-6">
-                                <div class="grid md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label class="block text-gray-700 font-bold mb-2">Type de projet</label>
-                                        <select id="projectType" class="calculator-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none">
-                                            <option value="foundation">Fondations</option>
-                                            <option value="wall">Murs</option>
-                                            <option value="slab">Dalle</option>
-                                            <option value="column">Poteaux</option>
-                                            <option value="beam">Poutres</option>
-                                            <option value="masonry">Maçonnerie</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block text-gray-700 font-bold mb-2">Type de ciment</label>
-                                        <select id="cementType" class="calculator-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none">
-                                            <option value="cpj35" data-price="85">CPJ 35 - 85 DH</option>
-                                            <option value="cpj45" data-price="95">CPJ 45 - 95 DH</option>
-                                            <option value="cimartob" data-price="110">Cimartob - 110 DH</option>
-                                            <option value="cimagglo" data-price="150">Cimagglo 55 - 150 DH</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="grid md:grid-cols-3 gap-6">
-                                    <div>
-                                        <label class="block text-gray-700 font-bold mb-2">Longueur (m)</label>
-                                        <input type="number" id="length" class="calculator-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none" placeholder="0" min="0" step="0.1">
-                                    </div>
-                                    <div>
-                                        <label class="block text-gray-700 font-bold mb-2">Largeur (m)</label>
-                                        <input type="number" id="width" class="calculator-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none" placeholder="0" min="0" step="0.1">
-                                    </div>
-                                    <div>
-                                        <label class="block text-gray-700 font-bold mb-2">Épaisseur (m)</label>
-                                        <input type="number" id="thickness" class="calculator-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none" placeholder="0" min="0" step="0.01">
-                                    </div>
-                                </div>
-
-                                <div class="grid md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label class="block text-gray-700 font-bold mb-2">Dosage (kg/m³)</label>
-                                        <select id="dosage" class="calculator-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none">
-                                            <option value="250">250 kg/m³ (Béton maigre)</option>
-                                            <option value="300">300 kg/m³ (Béton standard)</option>
-                                            <option value="350" selected>350 kg/m³ (Béton armé)</option>
-                                            <option value="400">400 kg/m³ (Béton haute résistance)</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block text-gray-700 font-bold mb-2">Marge sécurité (%)</label>
-                                        <input type="number" id="margin" class="calculator-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none" value="10" min="0" max="50">
-                                    </div>
-                                </div>
-
-                                <button onclick="calculateCement()" class="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white py-4 rounded-lg font-bold text-lg transition-all transform hover:scale-105">
-                                    <i class="fas fa-calculator mr-2"></i>Calculer les quantités
-                                </button>
-                            </div>
-
-                            <!-- Résultats -->
-                            <div id="calculatorResults" class="space-y-6">
-                                <div class="result-card text-white p-8 rounded-2xl">
-                                    <h4 class="text-2xl font-bold mb-6 text-center">
-                                        <i class="fas fa-chart-pie mr-2"></i>Résultats du Calcul
-                                    </h4>
-                                    
-                                    <div class="grid grid-cols-2 gap-6 mb-6">
-                                        <div class="text-center">
-                                            <div class="text-3xl font-bold mb-2" id="volumeResult">0 m³</div>
-                                            <div class="text-orange-100">Volume béton</div>
-                                        </div>
-                                        <div class="text-center">
-                                            <div class="text-3xl font-bold mb-2" id="cementWeight">0 kg</div>
-                                            <div class="text-orange-100">Ciment nécessaire</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="grid grid-cols-2 gap-6 mb-6">
-                                        <div class="text-center">
-                                            <div class="text-2xl font-bold mb-2" id="bagsNeeded">0 sacs</div>
-                                            <div class="text-orange-100">Nombre de sacs</div>
-                                        </div>
-                                        <div class="text-center">
-                                            <div class="text-2xl font-bold mb-2" id="totalCost">0 DH</div>
-                                            <div class="text-orange-100">Coût total</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="border-t border-orange-400 pt-6">
-                                        <h5 class="font-bold mb-4">Matériaux complémentaires estimés :</h5>
-                                        <div class="grid grid-cols-2 gap-4 text-sm">
-                                            <div>Sable : <span id="sandAmount" class="font-bold">0 m³</span></div>
-                                            <div>Gravier : <span id="gravelAmount" class="font-bold">0 m³</span></div>
-                                            <div>Eau : <span id="waterAmount" class="font-bold">0 L</span></div>
-                                            <div>Ferraillage : <span id="steelAmount" class="font-bold">0 kg</span></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Graphique de répartition -->
-                                <div class="bg-gray-50 p-6 rounded-2xl">
-                                    <h5 class="font-bold text-gray-900 mb-4 text-center">Répartition des coûts</h5>
-                                    <div class="space-y-3">
-                                        <div class="flex items-center justify-between">
-                                            <span class="flex items-center">
-                                                <div class="w-4 h-4 bg-orange-500 rounded mr-2"></div>
-                                                Ciment
-                                            </span>
-                                            <span class="font-bold" id="cementPercentage">0%</span>
-                                        </div>
-                                        <div class="flex items-center justify-between">
-                                            <span class="flex items-center">
-                                                <div class="w-4 h-4 bg-yellow-500 rounded mr-2"></div>
-                                                Granulats
-                                            </span>
-                                            <span class="font-bold">45%</span>
-                                        </div>
-                                        <div class="flex items-center justify-between">
-                                            <span class="flex items-center">
-                                                <div class="w-4 h-4 bg-blue-500 rounded mr-2"></div>
-                                                Main d'œuvre
-                                            </span>
-                                            <span class="font-bold">30%</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 max-w-4xl mx-auto">
+    <div class="text-center mb-10">
+      <h3 class="text-3xl font-bold text-gray-900 mb-2">
+        <i class="fas fa-calculator text-orange-600 mr-2"></i>
+        Calculatrice de Ciment Professionnelle
+      </h3>
+      <p class="text-gray-600 text-lg">Calculez précisément vos besoins en ciment selon votre projet et obtenez des recommandations professionnelles.</p>
+    </div>
+    <form id="cementProForm" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <label class="block text-gray-700 font-bold mb-1">Type de projet</label>
+          <select id="projectType" class="calculator-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none">
+            <option value="foundation">Fondations</option>
+            <option value="wall">Murs</option>
+            <option value="slab">Dalle</option>
+            <option value="column">Poteaux</option>
+            <option value="beam">Poutres</option>
+            <option value="masonry">Maçonnerie</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-bold mb-1">Type de ciment</label>
+          <select id="cementType" class="calculator-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none">
+            <option value="cpj35" data-price="85">CPJ 35 - 85 DH</option>
+            <option value="cpj45" data-price="95">CPJ 45 - 95 DH</option>
+            <option value="cimartob" data-price="110">Cimartob - 110 DH</option>
+            <option value="cimagglo" data-price="150">Cimagglo 55 - 150 DH</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-bold mb-1">Longueur (m)</label>
+          <input type="number" id="length" class="calculator-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none" placeholder="0" min="0" step="0.01" required>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <label class="block text-gray-700 font-bold mb-1">Largeur (m)</label>
+          <input type="number" id="width" class="calculator-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none" placeholder="0" min="0" step="0.01" required>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-bold mb-1">Épaisseur (m)</label>
+          <input type="number" id="thickness" class="calculator-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none" placeholder="0" min="0" step="0.01" required>
+        </div>
+      </div>
+      <button type="submit" class="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white py-3 rounded-lg font-bold text-lg transition-all">Calculer</button>
+    </form>
+    <div id="proCalcResults" class="mt-10 hidden">
+      <div class="result-card text-white p-8 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-700 mb-6">
+        <h4 class="text-2xl font-bold mb-4 text-center">
+          <i class="fas fa-chart-pie mr-2"></i>Résultats détaillés
+        </h4>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-4">
+          <div class="text-center">
+            <div class="text-2xl font-bold mb-1" id="volumeResult">0 m³</div>
+            <div class="text-orange-100">Volume béton</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl font-bold mb-1" id="cementWeight">0 kg</div>
+            <div class="text-orange-100">Ciment total</div>
+          </div>
+          <div class="text-center">
+            <div class="text-xl font-bold mb-1" id="bagsNeeded">0 sacs</div>
+            <div class="text-orange-100">Sacs de ciment (50kg)</div>
+          </div>
+          <div class="text-center">
+            <div class="text-xl font-bold mb-1" id="totalCost">0 DH</div>
+            <div class="text-orange-100">Coût total</div>
+          </div>
+        </div>
+        <div class="border-t border-orange-200 pt-6 mt-4">
+          <h5 class="font-bold mb-4">Matériaux complémentaires estimés :</h5>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            <div>Sable : <span id="sandAmount" class="font-bold">0 m³</span></div>
+            <div>Gravier : <span id="gravelAmount" class="font-bold">0 m³</span></div>
+            <div>Eau : <span id="waterAmount" class="font-bold">0 L</span></div>
+            <div>Ferraillage : <span id="steelAmount" class="font-bold">0 kg</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-2xl shadow text-gray-900">
+        <h5 class="font-bold mb-2 text-orange-600">Recommandations professionnelles</h5>
+        <ul class="list-disc pl-6 space-y-1" id="proRecommendations"></ul>
+      </div>
+    </div>
+    <script>
+      document.getElementById('cementProForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        let length = parseFloat(document.getElementById('length').value) || 0;
+        let width = parseFloat(document.getElementById('width').value) || 0;
+        let thickness = parseFloat(document.getElementById('thickness').value) || 0;
+        let dosage = 350;
+        let margin = 10;
+        let price = 85;
+        let cementType = document.getElementById('cementType').value;
+        let volume = length * width * thickness;
+        let volumeWithMargin = volume * (1 + margin / 100);
+        let cementWeight = volumeWithMargin * dosage;
+        let bags = Math.ceil(cementWeight / 50);
+        let totalCost = bags * price;
+        // Matériaux complémentaires (estimation)
+        let sand = (volumeWithMargin * 0.5).toFixed(2);
+        let gravel = (volumeWithMargin * 0.7).toFixed(2);
+        let water = Math.round(volumeWithMargin * 180);
+        let steel = Math.round(volumeWithMargin * 100);
+        // Affichage
+        document.getElementById('volumeResult').textContent = volumeWithMargin.toFixed(2) + ' m³';
+        document.getElementById('cementWeight').textContent = cementWeight.toFixed(0) + ' kg';
+        document.getElementById('bagsNeeded').textContent = bags + ' sacs';
+        document.getElementById('totalCost').textContent = totalCost.toFixed(2) + ' DH';
+        document.getElementById('sandAmount').textContent = sand + ' m³';
+        document.getElementById('gravelAmount').textContent = gravel + ' m³';
+        document.getElementById('waterAmount').textContent = water + ' L';
+        document.getElementById('steelAmount').textContent = steel + ' kg';
+        document.getElementById('proCalcResults').classList.remove('hidden');
+        // Recommandations
+        let recs = [];
+        if (dosage < 300) recs.push("Dosage faible : adapté aux bétons de propreté ou non armés.");
+        if (dosage >= 350) recs.push("Dosage élevé : idéal pour béton armé ou zones sollicitées.");
+        if (cementType === 'cpj35') recs.push("CPJ 35 conseillé pour la maçonnerie et les fondations légères.");
+        if (cementType === 'cpj45') recs.push("CPJ 45 recommandé pour les ouvrages sollicités.");
+        if (margin > 15) recs.push("La marge de sécurité est élevée, vérifiez vos quantités.");
+        if (volumeWithMargin > 10) recs.push("Grand volume : pensez à planifier la logistique et la main d'œuvre.");
+        if (bags > 100) recs.push("Commande importante : négociez le prix avec votre fournisseur.");
+        let ul = document.getElementById('proRecommendations');
+        ul.innerHTML = '';
+        recs.forEach(function(rec) {
+          let li = document.createElement('li');
+          li.textContent = rec;
+          ul.appendChild(li);
+        });
+      });
+    </script>
+  </div>
+</div>
 
                 <!-- Comparateur de Produits -->
                 <div id="comparator" class="tab-content hidden">
@@ -481,49 +472,27 @@
                         <!-- Sélection des produits à comparer -->
                         <div class="mb-12">
                             <h4 class="text-xl font-bold text-gray-900 mb-6">Sélectionnez jusqu'à 3 produits à comparer :</h4>
-                            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                <div class="comparison-card bg-gray-50 p-6 rounded-xl cursor-pointer" onclick="toggleComparison('cpj35')">
-                                    <div class="text-center">
-                                        <img src="https://www.cimentsdumaroc.com/sites/default/files/2025-02/LAMAALEM-35-et-35-pro_1.png" alt="CPJ 35" class="w-20 h-20 mx-auto mb-4 object-contain">
-                                        <h5 class="font-bold text-gray-900">Lamaalem 35®</h5>
-                                        <p class="text-orange-600 font-bold">85 DH</p>
-                                        <div class="mt-2">
-                                            <input type="checkbox" id="compare-cpj35" class="hidden">
-                                            <label for="compare-cpj35" class="text-sm text-gray-600">Sélectionner</label>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                {% for produit in produits %}
+                                    <div class="comparison-card bg-gray-50 p-6 rounded-xl cursor-pointer" onclick="toggleComparison('{{ produit.id }}')">
+                                        <div class="text-center">
+                                            {% if produit.image %}
+                                                <img src="{{ produit.image.url }}" alt="{{ produit.nom }}" class="w-20 h-20 mx-auto mb-4 object-contain">
+                                            {% else %}
+                                                <div class="w-20 h-20 mx-auto mb-4 flex items-center justify-center bg-gray-200 rounded"><i class="fas fa-cube text-3xl text-gray-400"></i></div>
+                                            {% endif %}
+                                            <h5 class="font-bold text-gray-900">{{ produit.nom }}</h5>
+                                            <p class="text-orange-600 font-bold">{{ produit.prix_unitaire }} DH</p>
+                                            <p class="text-gray-600 text-sm">{{ produit.classe }}</p>
+                                            <div class="mt-2">
+                                                <input type="checkbox" id="compare-{{ produit.id }}" class="hidden">
+                                                <label for="compare-{{ produit.id }}" class="text-sm text-gray-600">Sélectionner</label>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="comparison-card bg-gray-50 p-6 rounded-xl cursor-pointer" onclick="toggleComparison('cpj45')">
-                                    <div class="text-center">
-                                        <img src="https://www.cimentsdumaroc.com/sites/default/files/2025-02/CIMARPRO-45-et-45-ULTRA_0.png" alt="CPJ 45" class="w-20 h-20 mx-auto mb-4 object-contain">
-                                        <h5 class="font-bold text-gray-900">CimarPro 45®</h5>
-                                        <p class="text-orange-600 font-bold">95 DH</p>
-                                        <div class="mt-2">
-                                            <input type="checkbox" id="compare-cpj45" class="hidden">
-                                            <label for="compare-cpj45" class="text-sm text-gray-600">Sélectionner</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="comparison-card bg-gray-50 p-6 rounded-xl cursor-pointer" onclick="toggleComparison('cimartob')">
-                                    <div class="text-center">
-                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO-qc7ESOrB_-NeP-5ILX_vHUW9oAofyAiwg&s" alt="Cimartob" class="w-20 h-20 mx-auto mb-4 object-contain">
-                                        <h5 class="font-bold text-gray-900">Cimartob®</h5>
-                                        <p class="text-orange-600 font-bold">110 DH</p>
-                                        <div class="mt-2">
-                                            <input type="checkbox" id="compare-cimartob" class="hidden">
-                                            <label for="compare-cimartob" class="text-sm text-gray-600">Sélectionner</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="comparison-card bg-gray-50 p-6 rounded-xl cursor-pointer" onclick="toggleComparison('cimagglo')">
-                                    <div class="text-center">
-                                        <img src="https://www.cimentsdumaroc.com/sites/default/files/2025-02/CIMAGGLO-et-OPTIMA-50.png" alt="Cimagglo" class="w-20 h-20 mx-auto mb-4 object-contain">
-                                        <h5 class="font-bold text-gray-900">Cimagglo 55®</h5>
-                                        <p class="text-orange-600 font-bold">150 DH</p>
-                                        <div class="mt-2">
+                                {% empty %}
+                                    <p class="col-span-3 text-center text-gray-500">Aucun produit disponible.</p>
+                                {% endfor %}
                                             <input type="checkbox" id="compare-cimagglo" class="hidden">
                                             <label for="compare-cimagglo" class="text-sm text-gray-600">Sélectionner</label>
                                         </div>
@@ -878,17 +847,94 @@
                     </p>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 max-w-4xl mx-auto">
-                    <div class="overflow-x-auto">
-                        <table class="w-full">
-                            <thead class="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
-                                <tr>
-                                    <th class="px-6 py-4 text-left font-bold">Usine</th>
-                                    <th class="px-6 py-4 text-center font-bold">Tarif</th>
-                                    <th class="px-6 py-4 text-center font-bold">Localisation</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                <div class="my-12">
+  <h2 class="text-3xl font-bold text-gray-900 text-center mb-1">Tarif de vente du clinker</h2>
+  <div class="text-center text-gray-600 mb-6 text-lg">Marché national Marocain</div>
+  <div class="flex justify-center">
+    <table class="w-full max-w-xl mx-auto rounded-xl shadow-lg overflow-hidden border border-gray-200 bg-white">
+      <thead>
+        <tr class="bg-gray-50">
+          <th class="p-4 text-center font-semibold text-gray-800 text-lg">Usine</th>
+          <th class="p-4 text-center font-semibold text-gray-800 text-lg">Clinker *</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b">
+          <td class="p-4 text-center font-bold text-gray-900 align-middle">Usine d'Ait Baha</td>
+          <td class="p-4 text-center text-orange-600 font-bold text-lg align-middle">780,00 Mad/tonne hors taxe</td>
+        </tr>
+        <tr class="border-b">
+          <td class="p-4 text-center font-bold text-gray-900 align-middle">Usine de Safi</td>
+          <td class="p-4 text-center text-orange-600 font-bold text-lg align-middle">780,00 Mad/tonne hors taxe</td>
+        </tr>
+        <tr class="border-b">
+          <td class="p-4 text-center font-bold text-gray-900 align-middle">Usine de Marrakech</td>
+          <td class="p-4 text-center text-orange-600 font-bold text-lg align-middle">800,00 Mad/tonne hors taxe</td>
+        </tr>
+        <tr class="bg-orange-50">
+          <td class="p-4 text-center font-bold text-orange-700 align-middle">Usine d'INDUSAHA<br><span class="text-xs">(LAÂYOUNE)</span></td>
+          <td class="p-4 text-center text-orange-700 font-extrabold text-lg align-middle">1&nbsp;100,00 Mad/tonne</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="flex flex-col items-center mt-4">
+    <div class="rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 text-xs text-gray-700 shadow-sm mb-2 text-center max-w-md">
+      (*) : Dans la limite des excédents disponibles<br>
+      Période de validité : <span class="font-semibold">6 mois à partir de la date de publication</span>
+    </div>
+    <div class="rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 text-sm text-gray-800 shadow-sm text-center max-w-md">
+      <span class="font-semibold">Sur ces tarifs, peuvent être appliquées les réductions de prix suivantes :</span>
+      <ul class="list-disc list-inside mt-1 text-left mx-auto" style="max-width: 350px;">
+        <li>Réduction du prix suivant les quantités commandées ;</li>
+        <li>Réduction du prix suivant le type de contrat, spot, annuel ou pluriannuel</li>
+        <li>Réduction du prix suivant l'éloignement géographique du centre destinataire</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Fin du tableau Clinker -->
+        <tr class="bg-white border-b">
+          <td class="p-4 font-extrabold text-gray-900 uppercase">Usine d'Ait Baha</td>
+          <td class="p-4 text-orange-600 font-bold">Tarif départ : <span class="font-extrabold">780,00 Mad/tonne hors taxe</span></td>
+        </tr>
+        <tr class="bg-gray-50 border-b">
+          <td class="p-4 font-extrabold text-gray-900 uppercase">Usine de Safi</td>
+          <td class="p-4 text-orange-600 font-bold">Tarif départ : <span class="font-extrabold">780,00 Mad/tonne hors taxe</span></td>
+        </tr>
+        <tr class="bg-white border-b">
+          <td class="p-4 font-extrabold text-gray-900 uppercase">Usine de Marrakech</td>
+          <td class="p-4 text-orange-600 font-bold">Tarif départ : <span class="font-extrabold">800,00 Mad/tonne hors taxe</span></td>
+        </tr>
+        <tr class="bg-orange-50">
+          <td class="p-4 font-extrabold text-orange-700 uppercase">Usine d'INDUSAHA<br><span class="text-xs">(LAÂYOUNE)</span></td>
+          <td class="p-4 text-orange-700 font-extrabold">Tarif départ : <span class="font-extrabold">1&nbsp;100,00 Mad/tonne.</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="rounded-lg border border-orange-100 bg-orange-50/60 p-4 mt-4 text-xs text-gray-700 shadow-sm max-w-lg mx-auto">
+    <div class="mb-1">(*) : Dans la limite des excédents disponibles</div>
+    <div>Période de validité : <span class="font-semibold">6 mois à partir de la date de publication</span></div>
+  </div>
+  <div class="rounded-lg border border-orange-100 bg-orange-50/60 p-4 mt-4 text-gray-800 text-sm shadow-sm max-w-lg mx-auto">
+    <span class="font-bold">Sur ces tarifs, peuvent être appliquées les réductions de prix suivantes :</span>
+    <ul class="list-disc ml-6 mt-1">
+      <li>Réduction du prix suivant les quantités commandées ;</li>
+      <li>Réduction du prix suivant le type de contrat, spot, annuel ou pluriannuel</li>
+      <li>Réduction du prix suivant l'éloignement géographique du centre destinataire</li>
+    </ul>
+  </div>
+</div>
+<style>
+.stylish-table tr:last-child td {
+  border-bottom: none !important;
+}
+@media (max-width: 640px) {
+  .stylish-table th, .stylish-table td { font-size: 0.95rem; padding: 0.6rem; }
+}
+</style>
+<!-- Fin du tableau Clinker -->
                                 <tr class="border-b hover:bg-orange-50 transition-colors">
                                     <td class="px-6 py-4 font-bold text-gray-900">Ait Baha</td>
                                     <td class="px-6 py-4 text-center font-bold text-orange-600">780 MAD/t</td>
@@ -904,7 +950,27 @@
                                     <td class="px-6 py-4 text-center font-bold text-orange-600">800 MAD/t</td>
                                     <td class="px-6 py-4 text-center text-gray-600">Marrakech</td>
                                 </tr>
-                                <tr class="hover:bg-orange-50 transition-colors">
+                                <tr class="border-b hover:bg-orange-50 transition-colors">
+                                    <td class="px-6 py-4 font-bold text-gray-900">Agadir</td>
+                                    <td class="px-6 py-4 text-center font-bold text-orange-600">820 MAD/t</td>
+                                    <td class="px-6 py-4 text-center text-gray-600">Agadir</td>
+                                </tr>
+                                <tr class="border-b hover:bg-orange-50 transition-colors">
+                                    <td class="px-6 py-4 font-bold text-gray-900">Settat</td>
+                                    <td class="px-6 py-4 text-center font-bold text-orange-600">850 MAD/t</td>
+                                    <td class="px-6 py-4 text-center text-gray-600">Settat</td>
+                                </tr>
+                                <tr class="border-b hover:bg-orange-50 transition-colors">
+                                    <td class="px-6 py-4 font-bold text-gray-900">Tétouan</td>
+                                    <td class="px-6 py-4 text-center font-bold text-orange-600">900 MAD/t</td>
+                                    <td class="px-6 py-4 text-center text-gray-600">Tétouan</td>
+                                </tr>
+                                <tr class="border-b hover:bg-orange-50 transition-colors">
+                                    <td class="px-6 py-4 font-bold text-gray-900">Oujda</td>
+                                    <td class="px-6 py-4 text-center font-bold text-orange-600">950 MAD/t</td>
+                                    <td class="px-6 py-4 text-center text-gray-600">Oujda</td>
+                                </tr>
+                                <tr class="border-b hover:bg-orange-50 transition-colors">
                                     <td class="px-6 py-4 font-bold text-gray-900">Laâyoune</td>
                                     <td class="px-6 py-4 text-center font-bold text-orange-600">1 100 MAD/t</td>
                                     <td class="px-6 py-4 text-center text-gray-600">Laâyoune</td>
@@ -916,7 +982,7 @@
             </div>
         </section>
 
-        <!-- CTA Section -->
+        
         <section class="py-20 bg-gradient-to-r from-orange-600 to-orange-700">
             <div class="container mx-auto px-4 text-center">
                 <h2 class="text-4xl font-bold text-white mb-6">
@@ -937,11 +1003,11 @@
         </section>
     </main>
 
-    <!-- Footer -->
+    
     <footer class="bg-gray-900 text-white">
         <div class="container mx-auto px-4 py-16">
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Company Info -->
+                
                 <div class="space-y-4">
                     <div class="flex items-center space-x-3">
                         <div class="relative">
@@ -997,7 +1063,7 @@
                     </div>
                 </div>
 
-                <!-- Quick Links -->
+                
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Liens Rapides</h4>
                     <ul class="space-y-2">
@@ -1009,7 +1075,7 @@
                     </ul>
                 </div>
 
-                <!-- Products -->
+            
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Nos Produits</h4>
                     <ul class="space-y-2">
@@ -1020,7 +1086,7 @@
                     </ul>
                 </div>
 
-                <!-- Contact -->
+                
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Contact</h4>
                     <div class="space-y-3">
@@ -1057,8 +1123,10 @@
         </div>
     </footer>
 
-    <!-- JavaScript pour les fonctionnalités interactives -->
+    
     <script>
+        
+       
         // Variables globales
         let selectedProducts = [];
         let currentTab = 'calculator';
@@ -1167,71 +1235,13 @@
 
             table.classList.remove('hidden');
 
-            // Données des produits
-            const productData = {
-                cpj35: {
-                    name: 'Lamaalem 35®',
-                    price: '85 DH',
-                    resistance: '≥ 22.5 MPa',
-                    class: 'CPJ 35',
-                    usage: 'Construction générale',
-                    packaging: '50 kg',
-                    settingTime: '2-6h',
-                    clinker: '≥ 65%'
-                },
-                cpj45: {
-                    name: 'CimarPro 45®',
-                    price: '95 DH',
-                    resistance: '≥ 32.5 MPa',
-                    class: 'CPJ 45',
-                    usage: 'Ouvrages d\'art',
-                    packaging: '50 kg',
-                    settingTime: '2-6h',
-                    clinker: '≥ 65%'
-                },
-                cimartob: {
-                    name: 'Cimartob®',
-                    price: '110 DH',
-                    resistance: 'Variable',
-                    class: 'CM',
-                    usage: 'Maçonnerie',
-                    packaging: '45 kg',
-                    settingTime: '2-8h',
-                    clinker: '≥ 65%'
-                },
-                cimagglo: {
-                    name: 'Cimagglo 55®',
-                    price: '150 DH',
-                    resistance: '≥ 42.5 MPa',
-                    class: 'CPJ 55',
-                    usage: 'Préfabrication',
-                    packaging: '25 kg',
-                    settingTime: '1-4h',
-                    clinker: '≥ 65%'
-                }
-            };
-
-            // Mise à jour des en-têtes
-            selectedProducts.forEach((productId, index) => {
-                const header = document.getElementById(`product${index + 1}Header`);
-                header.textContent = productData[productId].name;
-                header.classList.remove('hidden');
-            });
-
-            // Masquer les en-têtes non utilisés
-            for (let i = selectedProducts.length; i < 3; i++) {
-                document.getElementById(`product${i + 1}Header`).classList.add('hidden');
-            }
-
-            // Générer le contenu du tableau
+            // Caractéristiques à comparer (version simplifiée)
             const characteristics = [
-                { label: 'Prix', key: 'price' },
-                { label: 'Résistance 28j', key: 'resistance' },
-                { label: 'Classe', key: 'class' },
-                { label: 'Usage principal', key: 'usage' },
-                { label: 'Conditionnement', key: 'packaging' },
-                { label: 'Temps de prise', key: 'settingTime' },
-                { label: 'Teneur clinker', key: 'clinker' }
+                { key: 'name', label: 'Nom du produit' },
+                { key: 'class', label: 'Classe' },
+                { key: 'price', label: 'Prix' },
+                { key: 'resistance', label: 'Résistance' },
+                { key: 'poids', label: 'Poids' }
             ];
 
             tbody.innerHTML = '';

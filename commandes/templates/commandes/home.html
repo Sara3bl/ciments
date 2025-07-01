@@ -17,11 +17,11 @@
         .hero-slide.inactive {
             opacity: 0;
         }
-        /* Fallback pour les images qui ne chargent pas */
+        
         .bg-fallback {
             background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
         }
-        /* Fallbacks pour les services */
+      
         .service-bg-fallback-1 {
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
         }
@@ -34,7 +34,7 @@
         .service-bg-fallback-4 {
             background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
         }
-        /* Fallbacks pour les actualités */
+        
         .news-bg-fallback-1 {
             background: linear-gradient(135deg, #fb923c 0%, #f97316 50%, #ea580c 100%);
         }
@@ -47,11 +47,11 @@
     </style>
 </head>
 <body class="min-h-screen bg-white">
-    <!-- Header -->
+    
     <header class="bg-white shadow-sm border-b">
         <div class="container mx-auto px-4">
             <div class="flex items-center justify-between h-20">
-                <!-- Logo -->
+                
                 <a href="/" class="flex items-center space-x-3">
                     <div class="relative">
                         <svg width="48" height="48" viewBox="0 0 48 48" class="text-orange-600">
@@ -62,7 +62,7 @@
                                     <stop offset="100%" stop-color="#374151" />
                                 </linearGradient>
                             </defs>
-                            <!-- Spirale principale -->
+                            
                             <path
                                 d="M24 4 C35 4 44 13 44 24 C44 35 35 44 24 44 C13 44 4 35 4 24 C4 15 11 8 20 8 C27 8 32 13 32 20 C32 25 28 28 24 28 C21 28 20 26 20 24 C20 23 21 22 22 22"
                                 fill="none"
@@ -70,9 +70,9 @@
                                 stroke-width="2.5"
                                 stroke-linecap="round"
                             />
-                            <!-- Cercle central -->
+                            
                             <circle cx="24" cy="24" r="3" fill="url(#logoGradient)" />
-                            <!-- Lignes décoratives -->
+                            
                             <path
                                 d="M12 12 L16 16 M36 12 L32 16 M12 36 L16 32 M36 36 L32 32"
                                 stroke="url(#logoGradient)"
@@ -90,7 +90,7 @@
                     </div>
                 </a>
 
-                <!-- Navigation -->
+                
                 <nav class="hidden lg:flex items-center space-x-8">
                     <a href="/" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Accueil</a>
                     <a href="/produits-ciment" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Nos Produits</a>
@@ -99,7 +99,7 @@
                     <a href="/contact" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</a>
                 </nav>
 
-                <!-- Login and Register Buttons -->
+                
                 <div class="flex items-center space-x-4">
                     <div class="hidden md:flex items-center space-x-3">
                         {% if user.is_authenticated %}
@@ -136,11 +136,11 @@
     </header>
 
     <main>
-        <!-- Hero Section -->
+        
         <section class="relative h-screen overflow-hidden" id="hero-section">
-            <!-- Slide 1 -->
+            
             <div class="hero-slide active absolute inset-0">
-                <!-- Image de fond -->
+                
                 <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/2022-08/Usine%20de%20Marrakech.jpg')"></div>
                 <div class="absolute inset-0 bg-black/50"></div>
                 <div class="relative container mx-auto px-4 h-full flex items-center">
@@ -155,7 +155,7 @@
                 </div>
             </div>
 
-            <!-- Slide 2 -->
+            
             <div class="hero-slide inactive absolute inset-0">
                 <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://f2.hespress.com/wp-content/uploads/2019/04/Ciments-du-Maroc-scaled.jpg')"></div>
                 <div class="absolute inset-0 bg-black/50"></div>
@@ -171,7 +171,7 @@
                 </div>
             </div>
 
-            <!-- Slide 3 -->
+            
             <div class="hero-slide inactive absolute inset-0">
                 <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/2025-02/SACS%20CIMAR_1.png')"></div>
                 <div class="absolute inset-0 bg-black/50"></div>
@@ -187,7 +187,7 @@
                 </div>
             </div>
 
-            <!-- Navigation Arrows -->
+            
             <button onclick="prevSlide()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all backdrop-blur-sm">
                 <i class="fas fa-chevron-left"></i>
             </button>
@@ -195,14 +195,14 @@
                 <i class="fas fa-chevron-right"></i>
             </button>
 
-            <!-- Slide Indicators -->
+            
             <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3">
                 <button onclick="goToSlide(0)" class="slide-indicator w-3 h-3 rounded-full transition-all bg-orange-500 w-8"></button>
                 <button onclick="goToSlide(1)" class="slide-indicator w-3 h-3 rounded-full transition-all bg-white/50"></button>
                 <button onclick="goToSlide(2)" class="slide-indicator w-3 h-3 rounded-full transition-all bg-white/50"></button>
             </div>
 
-            <!-- Slide Counter -->
+            
             <div class="absolute bottom-8 right-8 text-white font-semibold">
                 <span class="text-2xl" id="current-slide">01</span>
                 <span class="text-white/60 mx-2">—</span>
@@ -210,7 +210,7 @@
             </div>
         </section>
 
-        <!-- Welcome Section -->
+        
         <section class="py-20 bg-gradient-to-b from-gray-50 to-white">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-16">
@@ -274,7 +274,7 @@
             </div>
         </section>
 
-        <!-- Services Section -->
+        
         <section class="py-20 bg-white">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-16">
@@ -287,7 +287,7 @@
                 </div>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Service 1: Ciment -->
+                    
                     <div class="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden rounded-lg bg-white">
                         <div class="relative overflow-hidden h-48 service-bg-fallback-1 bg-cover bg-center" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/2022-07/DSC_0392.JPG');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -306,7 +306,7 @@
                         </div>
                     </div>
 
-                    <!-- Service 2: Béton -->
+                    
                     <div class="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden rounded-lg bg-white">
                         <div class="relative overflow-hidden h-48 service-bg-fallback-2 bg-cover bg-center" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/2022-09/8E8A4183.jpg');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -325,7 +325,7 @@
                         </div>
                     </div>
 
-                    <!-- Service 3: Granulats -->
+                    
                     <div class="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden rounded-lg bg-white">
                         <div class="relative overflow-hidden h-48 service-bg-fallback-3 bg-cover bg-center" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/2022-08/Granulats.png');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -344,7 +344,7 @@
                         </div>
                     </div>
 
-                    <!-- Service 4: Solutions Durables -->
+                    
                     <div class="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden rounded-lg bg-white">
                         <div class="relative overflow-hidden h-48 service-bg-fallback-4 bg-cover bg-center" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/2024-02/evoBuild_Ciments%20du%20Maroc.png');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -366,7 +366,7 @@
             </div>
         </section>
 
-        <!-- News Section -->
+        
         <section class="py-20 bg-gray-50">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-16">
@@ -379,7 +379,7 @@
                 </div>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-                    <!-- Article 1: Événement -->
+                    
                     <div class="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden bg-white rounded-lg">
                         <div class="relative overflow-hidden h-48 news-bg-fallback-1 bg-cover bg-center" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/2025-01/Cimar%20Tibu_7.JPG');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -406,7 +406,7 @@
                         </div>
                     </div>
 
-                    <!-- Article 2: Innovation -->
+                    
                     <div class="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden bg-white rounded-lg">
                         <div class="relative overflow-hidden h-48 news-bg-fallback-2 bg-cover bg-center" style="background-image: url('https://www.cimentsdumaroc.com/sites/default/files/assets/images/cimenterie_agadir_0.jpg');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -431,7 +431,7 @@
                         </div>
                     </div>
 
-                    <!-- Article 3: Partenariat -->
+                   
                     <div class="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden bg-white rounded-lg">
                         <div class="relative overflow-hidden h-48 news-bg-fallback-3 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -469,11 +469,11 @@
         </section>
     </main>
 
-    <!-- Footer -->
+    
     <footer class="bg-gray-900 text-white">
         <div class="container mx-auto px-4 py-16">
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Company Info -->
+               
                 <div class="space-y-4">
                     <div class="flex items-center space-x-3">
                         <div class="relative">
@@ -485,7 +485,7 @@
                                         <stop offset="100%" stop-color="#4b5563" />
                                     </linearGradient>
                                 </defs>
-                                <!-- Spirale principale -->
+                                
                                 <path
                                     d="M24 4 C35 4 44 13 44 24 C44 35 35 44 24 44 C13 44 4 35 4 24 C4 15 11 8 20 8 C27 8 32 13 32 20 C32 25 28 28 24 28 C21 28 20 26 20 24 C20 23 21 22 22 22"
                                     fill="none"
@@ -493,9 +493,9 @@
                                     stroke-width="2.5"
                                     stroke-linecap="round"
                                 />
-                                <!-- Cercle central -->
+                                
                                 <circle cx="24" cy="24" r="3" fill="url(#footerLogoGradient)" />
-                                <!-- Lignes décoratives -->
+                                
                                 <path
                                     d="M12 12 L16 16 M36 12 L32 16 M12 36 L16 32 M36 36 L32 32"
                                     stroke="url(#footerLogoGradient)"
@@ -532,7 +532,7 @@
                     </div>
                 </div>
 
-                <!-- Quick Links -->
+                
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Liens Rapides</h4>
                     <ul class="space-y-2">
@@ -544,7 +544,7 @@
                     </ul>
                 </div>
 
-                <!-- Products -->
+                
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Nos Produits</h4>
                     <ul class="space-y-2">
@@ -555,7 +555,7 @@
                     </ul>
                 </div>
 
-                <!-- Contact -->
+                
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Contact</h4>
                     <div class="space-y-3">
@@ -594,24 +594,24 @@
     </footer>
 
     <script>
-        // Hero Carousel JavaScript
+        
         let currentSlide = 0;
         const slides = document.querySelectorAll('.hero-slide');
         const indicators = document.querySelectorAll('.slide-indicator');
         const totalSlides = slides.length;
 
         function showSlide(index) {
-            // Hide all slides
+            
             slides.forEach(slide => {
                 slide.classList.remove('active');
                 slide.classList.add('inactive');
             });
 
-            // Show current slide
+           
             slides[index].classList.remove('inactive');
             slides[index].classList.add('active');
 
-            // Update indicators
+            
             indicators.forEach((indicator, i) => {
                 if (i === index) {
                     indicator.classList.add('bg-orange-500', 'w-8');
@@ -622,7 +622,7 @@
                 }
             });
 
-            // Update counter
+            
             document.getElementById('current-slide').textContent = String(index + 1).padStart(2, '0');
         }
 
@@ -641,13 +641,13 @@
             showSlide(currentSlide);
         }
 
-        // Auto-advance slides
+        
         setInterval(nextSlide, 5000);
 
-        // Initialize
+        
         showSlide(0);
     </script>
-    <!-- Modals -->
+    
     <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
         <div id="modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-md p-8 relative">
             <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-400 hover:text-orange-600 text-2xl">&times;</button>
@@ -673,10 +673,7 @@
             });
     }
 
-    // Soumission AJAX du formulaire register
-    // Remplace le formulaire register par login après succès
-
-    // Helper pour récupérer le CSRF token depuis le cookie
+    
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -694,7 +691,7 @@ function getCookie(name) {
 
 document.addEventListener('submit', function(e) {
         const form = e.target;
-        // AJAX inscription
+        
         if (form.closest('#modal-form-content') && form.action.includes('/register')) {
             e.preventDefault();
             fetch(form.action, {
@@ -708,7 +705,7 @@ document.addEventListener('submit', function(e) {
             .then(response => response.json())
             .then(data => {
                 if (data.success && data.login_html) {
-                    // Affiche le formulaire login dans le modal
+                    
                     let parser = new DOMParser();
                     let doc = parser.parseFromString(data.login_html, 'text/html');
                     let loginForm = doc.querySelector('form');
@@ -719,7 +716,7 @@ document.addEventListener('submit', function(e) {
                         document.getElementById('modal-form-content').innerHTML = data.login_html;
                     }
                 } else if (data.form_html) {
-                    // Si on veut gérer le cas d'erreur côté backend (optionnel)
+                    
                     let parser = new DOMParser();
                     let doc = parser.parseFromString(data.form_html, 'text/html');
                     let regForm = doc.querySelector('form');
@@ -732,7 +729,7 @@ document.addEventListener('submit', function(e) {
                 }
             });
         }
-        // AJAX connexion
+        
         if (form.closest('#modal-form-content') && form.action.includes('/login')) {
             e.preventDefault();
             fetch(form.action, {
@@ -746,12 +743,12 @@ document.addEventListener('submit', function(e) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Connexion réussie : ferme le modal et recharge la page
+                    
                     document.getElementById('modal-overlay').classList.add('hidden');
                     document.getElementById('modal-form-content').innerHTML = '';
                     window.location.reload();
                 } else if (data.login_html) {
-                    // Affiche le formulaire login avec l'erreur
+                    
                     let parser = new DOMParser();
                     let doc = parser.parseFromString(data.login_html, 'text/html');
                     let loginForm = doc.querySelector('form');
@@ -770,9 +767,93 @@ document.addEventListener('submit', function(e) {
         document.getElementById('modal-overlay').classList.add('hidden');
         document.getElementById('modal-form-content').innerHTML = '';
     }
-    // Optional: Close modal on overlay click
+    
     window.addEventListener('click', function(e) {
         if (e.target.id === 'modal-overlay') closeModal();
+    });
+
+    // Gestion AJAX robuste du formulaire d'inscription dans le modal
+    document.addEventListener('click', function(e) {
+        if (
+            e.target.matches('#modal-form-content button[type="submit"], #modal-form-content input[type="submit"]')
+        ) {
+            const form = e.target.closest('form');
+            if (form && form.action.includes('login')) {
+                // Gestion AJAX pour le login
+                e.preventDefault();
+                const url = form.action;
+                const formData = new FormData(form);
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                    },
+                    body: formData
+                })
+                .then(response => {
+                    if (response.headers.get('content-type')?.includes('application/json')) {
+                        return response.json();
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    if (typeof data === 'object' && data.success) {
+                        window.location.reload();
+                    } else if (typeof data === 'object' && data.login_html) {
+                        document.getElementById('modal-form-content').innerHTML = data.login_html;
+                    } else if (typeof data === 'object' && data.error) {
+                        let errorDiv = form.querySelector('.login-error');
+                        if (!errorDiv) {
+                            errorDiv = document.createElement('div');
+                            errorDiv.className = 'login-error text-red-500 text-xs mt-1';
+                            form.prepend(errorDiv);
+                        }
+                        errorDiv.textContent = data.error;
+                    } else if (typeof data === 'string') {
+                        document.getElementById('modal-form-content').innerHTML = data;
+                    } else {
+                        alert('Erreur inattendue lors de la connexion.');
+                    }
+                })
+                .catch(error => {
+                    alert('Erreur AJAX : ' + error);
+                });
+            } else if (form) {
+                // Gestion AJAX pour l'inscription (comme avant)
+                e.preventDefault();
+                const url = form.action;
+                const formData = new FormData(form);
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                    },
+                    body: formData
+                })
+                .then(response => {
+                    if (response.headers.get('content-type')?.includes('application/json')) {
+                        return response.json();
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    if (typeof data === 'object' && data.success) {
+                        document.getElementById('modal-form-content').innerHTML = data.login_html;
+                    } else if (typeof data === 'object' && data.login_html) {
+                        document.getElementById('modal-form-content').innerHTML = data.login_html;
+                    } else if (typeof data === 'string') {
+                        document.getElementById('modal-form-content').innerHTML = data;
+                    } else {
+                        alert('Erreur inattendue lors de l\'inscription.');
+                    }
+                })
+                .catch(error => {
+                    alert('Erreur AJAX : ' + error);
+                });
+            }
+        }
     });
     </script>
 </body>
