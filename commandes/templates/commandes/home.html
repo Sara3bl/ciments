@@ -111,9 +111,9 @@
                 Déconnexion
             </button>
         </form>
-        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gray-400 text-white font-bold text-lg shadow ml-2">
-            {{ user.username|first|upper }}
-        </span>
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-orange-600 text-white font-bold text-lg shadow ml-2">
+    {{ user.username|first|upper }}
+</span>
     </span>
 {% else %}
     <button onclick="openModal('login')" class="flex items-center text-gray-700 hover:text-orange-600 px-4 py-2 rounded-md border border-gray-300 hover:border-orange-600 transition-all">
@@ -247,9 +247,7 @@
                         </div>
 
                         <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
-                            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                                <i class="fas fa-award text-orange-600 text-xl"></i>
-                            </div>
+                            <img src="https://www.cimentsdumaroc.com/sites/default/files/2022-09/labo%20marrakech.jpg" alt="Laboratoire R&D" class="w-16 h-16 object-cover rounded shadow-md mr-4">
                             <h3 class="font-bold text-gray-900 mb-2">Leader</h3>
                             <p class="text-gray-600 text-sm">du marché marocain</p>
                         </div>

@@ -1,0 +1,86 @@
+{% extends 'commandes/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+input:not(:placeholder-shown) + label,
+textarea:not(:placeholder-shown) + label {
+  top: -1.25rem !important;
+  font-size: 0.875rem !important;
+  color: #ea580c !important;
+  background: #fff !important;
+  padding: 0 0.25rem;
+  z-index: 10;
+}
+</style>
+<div class="min-h-screen py-12 px-2 md:px-0 bg-gradient-to-br from-orange-500 via-orange-100 to-gray-100 flex flex-col justify-center">
+  <div class="max-w-2xl mx-auto">
+    <div class="bg-white/80 rounded-3xl shadow-2xl border-2 border-orange-200 p-8 md:p-12 relative backdrop-blur-sm">
+      <div class="flex flex-col items-center mb-8">
+        <div class="bg-white rounded-full shadow-lg p-3 border-2 border-orange-300 mb-2">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPrKTwTnuusTUx2wEaCCq_xPtU1x1BPHaCEw&s" alt="Logo Ciments du Maroc" class="h-24 w-auto mx-auto">
+        </div>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-orange-600 text-center tracking-tight drop-shadow mb-2 animate-fadeInUp">Demander un devis</h1>
+      </div>
+      <div class="flex justify-center mb-8">
+        <div class="flex items-center bg-gradient-to-r from-orange-100 to-orange-50 border-2 border-orange-400 rounded-xl px-6 py-4 shadow-lg">
+          <i class="fas fa-info-circle text-orange-500 text-4xl mr-4 animate-pulse"></i>
+          <span class="text-gray-800 text-lg font-semibold">Remplissez ce formulaire pour recevoir rapidement un devis personnalisé. Réponse sous 24h !</span>
+        </div>
+      </div>
+      {% if success %}
+        <div class="bg-green-100 border-2 border-green-400 text-green-800 px-4 py-4 rounded-xl mb-6 text-center flex items-center justify-center animate-fadeInUp">
+          <i class="fas fa-check-circle text-3xl mr-3"></i>
+          <span class="font-semibold text-lg">Votre demande de devis a été envoyée avec succès !</span>
+        </div>
+      {% endif %}
+      <form method="post" class="space-y-6 animate-fadeInUp">
+        {% csrf_token %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="relative">
+            <input type="text" name="nom" id="nom" class="peer w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none transition duration-150 bg-white text-gray-900" placeholder=" " required value="{{ request.POST.nom|default:'' }}">
+            <label for="nom" class="absolute left-3 top-2 text-gray-500 text-base font-semibold pointer-events-none transition-all duration-200 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-orange-600 bg-white px-1">Nom complet *</label>
+          </div>
+          <div class="relative">
+            <input type="text" name="societe" id="societe" class="peer w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none transition duration-150 bg-white text-gray-900" placeholder=" " value="{{ request.POST.societe|default:'' }}">
+            <label for="societe" class="absolute left-3 top-2 text-gray-500 text-base font-semibold pointer-events-none transition-all duration-200 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-orange-600 bg-white px-1">Société</label>
+          </div>
+          <div class="relative">
+            <input type="email" name="email" id="email" class="peer w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none transition duration-150 bg-white text-gray-900" placeholder=" " required value="{{ request.POST.email|default:'' }}">
+            <label for="email" class="absolute left-3 top-2 text-gray-500 text-base font-semibold pointer-events-none transition-all duration-200 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-orange-600 bg-white px-1">Email *</label>
+          </div>
+          <div class="relative">
+            <input type="text" name="telephone" id="telephone" class="peer w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none transition duration-150 bg-white text-gray-900" placeholder=" " value="{{ request.POST.telephone|default:'' }}">
+            <label for="telephone" class="absolute left-3 top-2 text-gray-500 text-base font-semibold pointer-events-none transition-all duration-200 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-orange-600 bg-white px-1">Téléphone</label>
+          </div>
+          <div class="relative">
+            <input type="text" name="adresse" id="adresse" class="peer w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none transition duration-150 bg-white text-gray-900" placeholder=" " value="{{ request.POST.adresse|default:'' }}">
+            <label for="adresse" class="absolute left-3 top-2 text-gray-500 text-base font-semibold pointer-events-none transition-all duration-200 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-orange-600 bg-white px-1">Adresse</label>
+          </div>
+          <div class="relative">
+            <input type="text" name="ville" id="ville" class="peer w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none transition duration-150 bg-white text-gray-900" placeholder=" " value="{{ request.POST.ville|default:'' }}">
+            <label for="ville" class="absolute left-3 top-2 text-gray-500 text-base font-semibold pointer-events-none transition-all duration-200 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-orange-600 bg-white px-1">Ville</label>
+          </div>
+          <div class="relative">
+            <input type="text" name="code_postal" id="code_postal" class="peer w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none transition duration-150 bg-white text-gray-900" placeholder=" " value="{{ request.POST.code_postal|default:'' }}">
+            <label for="code_postal" class="absolute left-3 top-2 text-gray-500 text-base font-semibold pointer-events-none transition-all duration-200 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-orange-600 bg-white px-1">Code Postal</label>
+          </div>
+          <div class="relative md:col-span-2">
+            <input type="text" name="besoin" id="besoin" class="peer w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none transition duration-150 bg-white text-gray-900" placeholder=" " value="{{ request.POST.besoin|default:'' }}">
+            <label for="besoin" class="absolute left-3 top-2 text-gray-500 text-base font-semibold pointer-events-none transition-all duration-200 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-orange-600 bg-white px-1">Votre besoin (type de ciment, quantité...)</label>
+          </div>
+        </div>
+        <div class="relative">
+          <textarea name="message" id="message" rows="4" class="peer w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-orange-500 focus:ring-2 focus:ring-orange-100 outline-none transition duration-150 bg-white text-gray-900 resize-none" placeholder=" " required>{{ request.POST.message|default:'' }}</textarea>
+          <label for="message" class="absolute left-3 top-2 text-gray-500 text-base font-semibold pointer-events-none transition-all duration-200 peer-focus:-top-5 peer-focus:text-sm peer-focus:text-orange-600 bg-white px-1">Message *</label>
+        </div>
+        <div class="flex justify-center mt-4">
+          <button type="submit" class="inline-flex items-center px-10 py-4 bg-black hover:bg-gray-900 text-white rounded-xl font-bold text-xl shadow-lg hover:scale-105 hover:shadow-2xl transition-all duration-200">
+            <i class="fas fa-paper-plane mr-3"></i> Envoyer ma demande
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

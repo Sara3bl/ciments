@@ -195,22 +195,31 @@
 
                 <!-- Search and Actions -->
                 <div class="flex items-center space-x-4">
-                    <div class="hidden md:flex items-center space-x-2">
-                        <div class="relative">
-                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
-                            <input
-                                type="text"
-                                placeholder="Rechercher"
-                                class="pl-10 pr-4 py-2 w-48 bg-gray-50 border border-gray-200 rounded-md focus:border-orange-500 focus:outline-none"
-                            />
-                        </div>
-                    </div>
-
-                    <button class="flex items-center text-gray-600 hover:text-orange-600 transition-colors">
-                        <i class="fas fa-globe mr-1"></i>
-                        AR
-                    </button>
-
+                    {% if user.is_authenticated %}
+    <div class="flex items-center space-x-3">
+        <a href="{% url 'profile' %}" title="Modifier le profil">
+    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-orange-600 text-white font-bold text-lg uppercase cursor-pointer hover:ring-2 hover:ring-orange-400 transition">
+        {{ user.username|first|upper }}
+    </span>
+</a>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="flex items-center text-gray-700 hover:text-orange-600 px-4 py-2 rounded-md border border-gray-300 hover:border-orange-600 transition-all">
+                <i class="fas fa-sign-out-alt mr-2"></i>
+                Déconnexion
+            </button>
+        </form>
+    </div>
+{% else %}
+    <button onclick="openModal('login')" class="flex items-center text-gray-700 hover:text-orange-600 px-4 py-2 rounded-md border border-gray-300 hover:border-orange-600 transition-all">
+        <i class="fas fa-sign-in-alt mr-2"></i>
+        Connexion
+    </button>
+    <button onclick="openModal('register')" class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-md font-medium transition-all transform hover:scale-105">
+        <i class="fas fa-user-plus mr-2"></i>
+        S'inscrire
+    </button>
+{% endif %}
                     <button class="lg:hidden text-gray-600">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
@@ -282,9 +291,7 @@
                     <!-- Service 1: Production de Ciment -->
                     <div class="service-card bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
                         <div class="relative h-48 bg-gradient-to-br from-red-50 to-orange-50 p-6 flex items-center justify-center">
-                            <div class="service-icon w-20 h-20 bg-orange-600 rounded-full flex items-center justify-center">
-                                <i class="fas fa-industry text-white text-2xl"></i>
-                            </div>
+                            <img src="https://www.ciments.heidelbergmaterials.fr/sites/default/files/2022-08/IMG_2279.JPG" alt="Production de Ciment" class="w-32 h-32 object-cover rounded-full shadow-lg">
                         </div>
                         <div class="p-6">
                             <h3 class="text-xl font-bold text-gray-900 mb-3">Production de Ciment</h3>
@@ -297,18 +304,16 @@
                                 <li>• Cimartob - Maçonnerie</li>
                                 <li>• Cimagglo 55 - Préfabrication</li>
                             </ul>
-                            <button class="w-full bg-orange-600 hover:bg-orange-700 text-white py-2 rounded-lg font-semibold transition-all">
-                                En savoir plus
-                            </button>
+                            <a href="/produits-ciment" class="block w-full bg-orange-600 hover:bg-orange-700 text-white py-2 rounded-lg font-semibold text-center transition-all">
+    En savoir plus
+</a>
                         </div>
                     </div>
 
                     <!-- Service 2: Béton Prêt à l'Emploi -->
                     <div class="service-card bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
                         <div class="relative h-48 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 flex items-center justify-center">
-                            <div class="service-icon w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center">
-                                <i class="fas fa-truck text-white text-2xl"></i>
-                            </div>
+                            <img src="https://www.betonexpert.fr/blog/wp-content/uploads/2019/01/beton.jpg" alt="Béton Prêt à l'Emploi" class="w-32 h-32 object-cover rounded-full shadow-lg">
                         </div>
                         <div class="p-6">
                             <h3 class="text-xl font-bold text-gray-900 mb-3">Béton Prêt à l'Emploi</h3>
@@ -321,18 +326,16 @@
                                 <li>• Contrôle qualité rigoureux</li>
                                 <li>• Formulations sur mesure</li>
                             </ul>
-                            <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition-all">
-                                En savoir plus
-                            </button>
+                            <a href="/produits-ciment" class="block w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold text-center transition-all">
+    En savoir plus
+</a>
                         </div>
                     </div>
 
                     <!-- Service 3: Granulats -->
                     <div class="service-card bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
                         <div class="relative h-48 bg-gradient-to-br from-green-50 to-emerald-50 p-6 flex items-center justify-center">
-                            <div class="service-icon w-20 h-20 bg-green-600 rounded-full flex items-center justify-center">
-                                <i class="fas fa-mountain text-white text-2xl"></i>
-                            </div>
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLpt3mAEBtJMbGmfjHFR1yJCJ32GZSXHl_7g&s" alt="Granulats" class="w-32 h-32 object-cover rounded-full shadow-lg">
                         </div>
                         <div class="p-6">
                             <h3 class="text-xl font-bold text-gray-900 mb-3">Granulats</h3>
@@ -345,18 +348,16 @@
                                 <li>• Matériaux recyclés</li>
                                 <li>• Contrôle qualité certifié</li>
                             </ul>
-                            <button class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-semibold transition-all">
-                                En savoir plus
-                            </button>
+                            <a href="/produits-ciment" class="block w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-semibold text-center transition-all">
+    En savoir plus
+</a>
                         </div>
                     </div>
 
                     <!-- Service 4: Conseil Technique -->
                     <div class="service-card bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
                         <div class="relative h-48 bg-gradient-to-br from-purple-50 to-pink-50 p-6 flex items-center justify-center">
-                            <div class="service-icon w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center">
-                                <i class="fas fa-user-tie text-white text-2xl"></i>
-                            </div>
+                            <img src="https://www.cimentsdumaroc.com/sites/default/files/2022-10/Employ%C3%A9s%20Ciments%20du%20Maroc%204_0.jpg" alt="Conseil Technique" class="w-32 h-32 object-cover rounded-full shadow-lg">
                         </div>
                         <div class="p-6">
                             <h3 class="text-xl font-bold text-gray-900 mb-3">Conseil Technique</h3>
@@ -369,9 +370,9 @@
                                 <li>• Formation équipes</li>
                                 <li>• Suivi de chantier</li>
                             </ul>
-                            <button class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg font-semibold transition-all">
-                                En savoir plus
-                            </button>
+                            <a href="/produits-ciment" class="block w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg font-semibold text-center transition-all">
+    En savoir plus
+</a>
                         </div>
                     </div>
                 </div>
@@ -449,109 +450,61 @@
         <!-- Expertise technique -->
         <section class="py-20 bg-white">
             <div class="container mx-auto px-4">
-                <div class="grid lg:grid-cols-2 gap-16 items-center">
-                    <div class="animate-slideInLeft">
-                        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                            Notre <span class="text-orange-600">Expertise</span>
-                        </h2>
-                        <p class="text-xl text-gray-600 mb-8">
-                            Plus de 70 ans d'expérience au service de la construction marocaine
-                        </p>
-                        
-                        <div class="space-y-4">
-                            <div class="expertise-item p-4 rounded-lg border border-gray-200 cursor-pointer">
-                                <div class="flex items-center">
-                                    <div class="expertise-icon w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-4">
-                                        <i class="fas fa-flask text-orange-600"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-gray-900">Laboratoire R&D</h4>
-                                        <p class="text-gray-600 text-sm">Innovation continue et développement de nouvelles formulations</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="expertise-item p-4 rounded-lg border border-gray-200 cursor-pointer">
-                                <div class="flex items-center">
-                                    <div class="expertise-icon w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                                        <i class="fas fa-certificate text-blue-600"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-gray-900">Certifications Qualité</h4>
-                                        <p class="text-gray-600 text-sm">Conformité aux normes internationales et marocaines</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="expertise-item p-4 rounded-lg border border-gray-200 cursor-pointer">
-                                <div class="flex items-center">
-                                    <div class="expertise-icon w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
-                                        <i class="fas fa-leaf text-green-600"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-gray-900">Développement Durable</h4>
-                                        <p class="text-gray-600 text-sm">Solutions éco-responsables et réduction de l'empreinte carbone</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="expertise-item p-4 rounded-lg border border-gray-200 cursor-pointer">
-                                <div class="flex items-center">
-                                    <div class="expertise-icon w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
-                                        <i class="fas fa-users text-purple-600"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-gray-900">Équipe d'Experts</h4>
-                                        <p class="text-gray-600 text-sm">Ingénieurs et techniciens spécialisés à votre service</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-12 text-center">
+                    Notre <span class="text-orange-600">Expertise</span>
+                </h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center border border-gray-100">
+    <img src="https://www.cimentsdumaroc.com/sites/default/files/2022-09/labo%20marrakech.jpg" alt="Laboratoire R&D" class="w-24 h-24 object-cover rounded-full shadow mb-4">
+    <h3 class="font-bold text-lg text-gray-900 mb-2">Laboratoire R&D</h3>
+    <p class="text-gray-600 text-sm">Un laboratoire moderne pour garantir l’innovation et la qualité de nos produits.</p>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center border border-gray-100">
+    <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=400&q=80" alt="Certifications Qualité" class="w-24 h-24 object-cover rounded-full shadow mb-4">
+    <h3 class="font-bold text-lg text-gray-900 mb-2">Certifications Qualité</h3>
+    <p class="text-gray-600 text-sm">Des produits et services certifiés selon les normes internationales les plus exigeantes.</p>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center border border-gray-100">
+    <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80" alt="Développement Durable" class="w-24 h-24 object-cover rounded-full shadow mb-4">
+    <h3 class="font-bold text-lg text-gray-900 mb-2">Développement Durable</h3>
+    <p class="text-gray-600 text-sm">Engagement fort pour l’environnement et la réduction de notre empreinte carbone.</p>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center border border-gray-100">
+    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Équipe d’Experts" class="w-24 h-24 object-cover rounded-full shadow mb-4">
+    <h3 class="font-bold text-lg text-gray-900 mb-2">Équipe d’Experts</h3>
+    <p class="text-gray-600 text-sm">Des ingénieurs et techniciens passionnés, proches de nos clients et de leurs projets.</p>
+</div>
+                </div>
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-orange-600 mb-1">70+</div>
+                        <div class="text-gray-600 text-sm">Années d’expérience</div>
                     </div>
-
-                    <div class="animate-slideInRight">
-                        <div class="grid grid-cols-2 gap-6">
-                            <div class="bg-orange-50 p-6 rounded-2xl text-center">
-                                <div class="text-3xl font-bold text-orange-600 mb-2">70+</div>
-                                <div class="text-gray-600">Années d'expérience</div>
-                            </div>
-                            <div class="bg-blue-50 p-6 rounded-2xl text-center">
-                                <div class="text-3xl font-bold text-blue-600 mb-2">4</div>
-                                <div class="text-gray-600">Usines de production</div>
-                            </div>
-                            <div class="bg-green-50 p-6 rounded-2xl text-center">
-                                <div class="text-3xl font-bold text-green-600 mb-2">50+</div>
-                                <div class="text-gray-600">Points de vente</div>
-                            </div>
-                            <div class="bg-purple-50 p-6 rounded-2xl text-center">
-                                <div class="text-3xl font-bold text-purple-600 mb-2">1000+</div>
-                                <div class="text-gray-600">Projets réalisés</div>
-                            </div>
-                        </div>
-
-                        <div class="mt-8 bg-gray-50 p-6 rounded-2xl">
-                            <h4 class="font-bold text-gray-900 mb-4">Nos Certifications</h4>
-                            <div class="grid grid-cols-3 gap-4">
-                                <div class="text-center">
-                                    <div class="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center mx-auto mb-2">
-                                        <i class="fas fa-award text-white"></i>
-                                    </div>
-                                    <div class="text-xs text-gray-600">ISO 9001</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mx-auto mb-2">
-                                        <i class="fas fa-leaf text-white"></i>
-                                    </div>
-                                    <div class="text-xs text-gray-600">ISO 14001</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-2">
-                                        <i class="fas fa-shield-alt text-white"></i>
-                                    </div>
-                                    <div class="text-xs text-gray-600">OHSAS 18001</div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-600 mb-1">4</div>
+                        <div class="text-gray-600 text-sm">Usines de production</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-green-600 mb-1">50+</div>
+                        <div class="text-gray-600 text-sm">Points de vente</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-600 mb-1">1000+</div>
+                        <div class="text-gray-600 text-sm">Projets réalisés</div>
+                    </div>
+                </div>
+                <div class="mt-8 flex justify-center gap-8">
+                    <div class="text-center">
+                        <img src="https://www.blog-qhse.com/hubfs/ISO-9001.png" alt="ISO 9001" class="w-16 h-16 object-contain rounded shadow-md mx-auto mb-2">
+                        <div class="text-xs text-gray-600">ISO 9001</div>
+                    </div>
+                    <div class="text-center">
+                        <img src="https://upload.wikimedia.org/wikipedia/fr/thumb/0/0e/Logo-norme-ISO-14001.png/250px-Logo-norme-ISO-14001.png" alt="ISO 14001" class="w-16 h-16 object-contain rounded shadow-md mx-auto mb-2">
+                        <div class="text-xs text-gray-600">ISO 14001</div>
+                    </div>
+                    <div class="text-center">
+                        <img src="https://www.arte-d.it/wp-content/uploads/2020/03/ohsas-18001-certification-500x500.jpg" alt="OHSAS 18001" class="w-16 h-16 object-contain rounded shadow-md mx-auto mb-2">
+                        <div class="text-xs text-gray-600">OHSAS 18001</div>
                     </div>
                 </div>
             </div>
@@ -629,7 +582,7 @@
                         </div>
                         
                         <div>
-                            <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="Résidentiel" class="w-full h-80 object-cover rounded-2xl shadow-lg">
+                            <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/347786319.jpg?k=016c3f0d7faad15bfe52d31f47b761c1176e4d211cdd9c4039e7e4bb0c539b8f&o=&hp=1" alt="Résidentiel" class="w-full h-80 object-cover rounded-2xl shadow-lg">
                         </div>
                     </div>
                 </div>
@@ -638,7 +591,7 @@
                 <div id="commercial" class="sector-content hidden">
                     <div class="grid lg:grid-cols-2 gap-12 items-center">
                         <div>
-                            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="Commercial" class="w-full h-80 object-cover rounded-2xl shadow-lg">
+                            <img src="https://wecasablanca.com/sites/default/files/2020-01/PORTE%20PRINCIPALE.jpg" alt="Commercial" class="w-full h-80 object-cover rounded-2xl shadow-lg">
                         </div>
                         
                         <div>
@@ -727,7 +680,7 @@
                         </div>
                         
                         <div>
-                            <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="Industriel" class="w-full h-80 object-cover rounded-2xl shadow-lg">
+                            <img src="https://levert.ma/wp-content/uploads/2021/02/Station-de-pompage-Lydec-678x381.jpg" alt="Industriel" class="w-full h-80 object-cover rounded-2xl shadow-lg">
                         </div>
                     </div>
                 </div>
@@ -736,7 +689,7 @@
                 <div id="infrastructure" class="sector-content hidden">
                     <div class="grid lg:grid-cols-2 gap-12 items-center">
                         <div>
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="Infrastructure" class="w-full h-80 object-cover rounded-2xl shadow-lg">
+                            <img src="https://www.maritimenews.ma/images/2020/industrie/infras.jpg" alt="Infrastructure" class="w-full h-80 object-cover rounded-2xl shadow-lg">
                         </div>
                         
                         <div>

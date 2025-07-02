@@ -1,6 +1,18 @@
 from django.shortcuts import render
 from .models import Produit  # Assure-toi que ce modèle existe
 
+
+def search(request):
+    query = request.GET.get('q', '')
+    results = []
+    if query:
+        results = Produit.objects.filter(
+            nom__icontains=query
+        ) | Produit.objects.filter(
+            description__icontains=query
+        )
+    return render(request, 'commandes/search_results.html', {'query': query, 'results': results})
+
 def home(request):
     produits = Produit.objects.all()  # Récupère les produits depuis la BDD
     return render(request, 'commandes/home.html', {'produits': produits})
@@ -14,9 +26,6 @@ from django.shortcuts import render
 def produits_ciment(request):
     produits = Produit.objects.all()
     return render(request, 'commandes/produits-ciment.html', {'produits': produits})
-from django.core.mail import send_mail
-from django.conf import settings
-from django.contrib import messages
 
 def contact(request):
     if request.method == 'POST':
@@ -27,6 +36,9 @@ def contact(request):
         sujet = request.POST.get('sujet')
         message = request.POST.get('message')
         contenu = f"Nom: {nom}\nEmail: {email}\nTéléphone: {telephone}\nEntreprise: {entreprise}\nSujet: {sujet}\nMessage:\n{message}"
+        from django.core.mail import send_mail
+        from django.conf import settings
+        from django.contrib import messages
         send_mail(
             subject=f'Nouveau message contact: {sujet}',
             message=contenu,
@@ -37,6 +49,87 @@ def contact(request):
         messages.success(request, "Votre message a été envoyé avec succès.")
         return render(request, 'commandes/contact.html', {"success": True})
     return render(request, 'commandes/contact.html')
+
+from django.http import HttpResponse
+
+def devis(request):
+    if request.method == 'POST':
+        import io
+        from reportlab.pdfgen import canvas
+        from reportlab.lib.pagesizes import A4
+        from datetime import datetime
+
+        nom = request.POST.get('nom')
+        societe = request.POST.get('societe')
+        email = request.POST.get('email')
+        telephone = request.POST.get('telephone')
+        adresse = request.POST.get('adresse')
+        ville = request.POST.get('ville')
+        code_postal = request.POST.get('code_postal')
+        besoin = request.POST.get('besoin')
+        message = request.POST.get('message')
+
+        # Génération du PDF devis
+        buffer = io.BytesIO()
+        p = canvas.Canvas(buffer, pagesize=A4)
+        width, height = A4
+        # Logo
+        try:
+            p.drawImage('media/produits/logo.png', 50, height-120, width=160, height=40, mask='auto')
+        except:
+            p.setFont("Helvetica", 8)
+            p.drawString(50, height-100, "[Logo]")
+        # Titre
+        p.setFont("Helvetica-Bold", 26)
+        p.setFillColorRGB(0.97, 0.45, 0.09)
+        p.drawString(220, height-80, "DEVIS")
+        p.setFillColorRGB(0, 0, 0)
+        p.setFont("Helvetica", 13)
+        y = height-160
+        line_height = 28
+        p.drawString(60, y, f"Date : {datetime.now().strftime('%d/%m/%Y %H:%M')}")
+        y -= line_height
+        p.drawString(60, y, f"Nom : {nom}")
+        y -= line_height
+        p.drawString(60, y, f"Société : {societe}")
+        y -= line_height
+        p.drawString(60, y, f"Email : {email}")
+        y -= line_height
+        p.drawString(60, y, f"Téléphone : {telephone}")
+        y -= line_height
+        p.drawString(60, y, f"Adresse : {adresse}")
+        y -= line_height
+        p.drawString(60, y, f"Ville : {ville}")
+        y -= line_height
+        p.drawString(60, y, f"Code Postal : {code_postal}")
+        y -= line_height
+        p.setFont("Helvetica-Bold", 14)
+        p.setFillColorRGB(0.97, 0.45, 0.09)
+        p.drawString(60, y, f"Besoin : {besoin}")
+        p.setFillColorRGB(0, 0, 0)
+        y -= line_height
+        p.setFont("Helvetica", 13)
+        p.drawString(60, y, "Message :")
+        y -= 20
+        text = p.beginText(80, y)
+        text.setFont("Helvetica", 12)
+        for line in message.splitlines():
+            text.textLine(line)
+        p.drawText(text)
+        # Footer
+        p.setFont("Helvetica-Oblique", 12)
+        p.setFillColorRGB(0.8, 0.4, 0.1)
+        p.drawString(60, 60, "Merci pour votre demande. Nous vous répondrons dans les plus brefs délais.")
+        p.save()
+        pdf = buffer.getvalue()
+        buffer.close()
+
+        # Retourne le PDF en téléchargement
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="devis_ciments.pdf"'
+        return response
+    return render(request, 'commandes/devis.html')
+
 def actualités(request):
     return render(request, 'commandes/actualités.html')
 def services(request):
@@ -45,6 +138,7 @@ def services(request):
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import RegisterForm
+from django.contrib.auth.decorators import login_required
 
 from django.http import JsonResponse
 from django.template.loader import render_to_string
@@ -205,3 +299,24 @@ def paiement(request):
         )
         return render(request, 'paiement_succes.html')
     return render(request, 'paiement.html', {'montant': montant})
+
+
+from .forms import ProfileForm
+from .models import Profile
+
+def profile_view(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    user = request.user
+    profile, created = Profile.objects.get_or_create(user=user)
+    if request.method == 'POST':
+        user.username = request.POST.get('username', user.username)
+        user.email = request.POST.get('email', user.email)
+        user.save()
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = ProfileForm(instance=profile)
+    return render(request, 'commandes/profile.html', {'user': user, 'profile': profile, 'form': form})

@@ -221,22 +221,20 @@
 
                 <!-- Search and Actions -->
                 <div class="flex items-center space-x-4">
-                    <div class="hidden md:flex items-center space-x-2">
-                        <div class="relative">
-                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
-                            <input
-                                type="text"
-                                placeholder="Rechercher"
-                                class="pl-10 pr-4 py-2 w-48 bg-gray-50 border border-gray-200 rounded-md focus:border-orange-500 focus:outline-none"
-                            />
-                        </div>
-                    </div>
-
-                    <button class="flex items-center text-gray-600 hover:text-orange-600 transition-colors">
-                        <i class="fas fa-globe mr-1"></i>
-                        AR
-                    </button>
-
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}" title="Mon profil">
+                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-orange-600 text-white font-bold text-lg uppercase cursor-pointer hover:ring-2 hover:ring-orange-400 transition">
+                                {{ user.username|first|upper }}
+                            </span>
+                        </a>
+                        <form method="post" action="{% url 'logout' %}" class="ml-2">
+                            {% csrf_token %}
+                            <button type="submit" class="flex items-center text-gray-700 hover:text-orange-600 px-4 py-2 rounded-md border border-gray-300 hover:border-orange-600 transition-all">
+                                <i class="fas fa-sign-out-alt mr-2"></i>
+                                Déconnexion
+                            </button>
+                        </form>
+                    {% endif %}
                     <button class="lg:hidden text-gray-600">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
@@ -313,9 +311,7 @@
                     <button class="tab-button px-8 py-4 font-bold text-lg text-gray-600" onclick="switchTab('configurator')">
                         <i class="fas fa-cogs mr-2"></i>Configurateur
                     </button>
-                    <button class="tab-button px-8 py-4 font-bold text-lg text-gray-600" onclick="switchTab('simulator')">
-                        <i class="fas fa-chart-line mr-2"></i>Simulateur
-                    </button>
+                    
                 </div>
 
                 <!-- Calculatrice de Ciment -->
@@ -339,6 +335,14 @@
             <option value="column">Poteaux</option>
             <option value="beam">Poutres</option>
             <option value="masonry">Maçonnerie</option>
+            <option value="stair">Escalier</option>
+            <option value="pool">Piscine</option>
+            <option value="garage">Garage</option>
+            <option value="terrace">Terrasse</option>
+            <option value="fence">Clôture</option>
+            <option value="screed">Chape</option>
+            <option value="outdoor_slab">Dallage extérieur</option>
+            <option value="retaining_wall">Mur de soutènement</option>
           </select>
         </div>
         <div>
@@ -673,119 +677,8 @@
                     </div>
                 </div>
 
-                <!-- Simulateur de Performance -->
-                <div id="simulator" class="tab-content hidden">
-                    <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 max-w-6xl mx-auto">
-                        <div class="text-center mb-12">
-                            <h3 class="text-3xl font-bold text-gray-900 mb-4">
-                                <i class="fas fa-chart-line text-orange-600 mr-3"></i>
-                                Simulateur de Performance
-                            </h3>
-                            <p class="text-gray-600 text-lg">
-                                Simulez les performances de vos bétons selon différents paramètres
-                            </p>
-                        </div>
-
-                        <div class="grid lg:grid-cols-2 gap-12">
-                            <!-- Paramètres de simulation -->
-                            <div class="space-y-6">
-                                <div class="grid md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label class="block text-gray-700 font-bold mb-2">Type de ciment</label>
-                                        <select id="simCementType" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none">
-                                            <option value="cpj35">CPJ 35</option>
-                                            <option value="cpj45">CPJ 45</option>
-                                            <option value="cimartob">Cimartob</option>
-                                            <option value="cimagglo">Cimagglo 55</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block text-gray-700 font-bold mb-2">Dosage (kg/m³)</label>
-                                        <input type="range" id="simDosage" min="250" max="450" value="350" class="w-full" oninput="updateDosageValue(this.value)">
-                                        <div class="text-center text-sm text-gray-600 mt-1">
-                                            <span id="dosageValue">350</span> kg/m³
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="grid md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label class="block text-gray-700 font-bold mb-2">Rapport E/C</label>
-                                        <input type="range" id="simWaterCement" min="0.3" max="0.7" step="0.05" value="0.5" class="w-full" oninput="updateWCValue(this.value)">
-                                        <div class="text-center text-sm text-gray-600 mt-1">
-                                            <span id="wcValue">0.5</span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label class="block text-gray-700 font-bold mb-2">Température (°C)</label>
-                                        <input type="range" id="simTemperature" min="5" max="40" value="20" class="w-full" oninput="updateTempValue(this.value)">
-                                        <div class="text-center text-sm text-gray-600 mt-1">
-                                            <span id="tempValue">20</span>°C
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label class="block text-gray-700 font-bold mb-2">Adjuvants</label>
-                                    <div class="space-y-2">
-                                        <label class="flex items-center">
-                                            <input type="checkbox" id="plasticizer" class="mr-2">
-                                            <span>Plastifiant</span>
-                                        </label>
-                                        <label class="flex items-center">
-                                            <input type="checkbox" id="accelerator" class="mr-2">
-                                            <span>Accélérateur de prise</span>
-                                        </label>
-                                        <label class="flex items-center">
-                                            <input type="checkbox" id="retarder" class="mr-2">
-                                            <span>Retardateur</span>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <button onclick="runSimulation()" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-4 rounded-lg font-bold text-lg transition-all transform hover:scale-105">
-                                    <i class="fas fa-play mr-2"></i>Lancer la simulation
-                                </button>
-                            </div>
-
-                            <!-- Résultats de simulation -->
-                            <div id="simulationResults" class="space-y-6">
-                                <!-- Graphique de résistance -->
-                                <div class="bg-gray-50 p-6 rounded-2xl">
-                                    <h5 class="font-bold text-gray-900 mb-4 text-center">Évolution de la résistance</h5>
-                                    <div class="relative h-64">
-                                        <canvas id="strengthChart" class="w-full h-full"></canvas>
-                                    </div>
-                                </div>
-
-                                <!-- Métriques de performance -->
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="bg-green-50 p-4 rounded-xl text-center">
-                                        <div class="text-2xl font-bold text-green-600" id="resistance28">0 MPa</div>
-                                        <div class="text-sm text-gray-600">Résistance 28j</div>
-                                    </div>
-                                    <div class="bg-blue-50 p-4 rounded-xl text-center">
-                                        <div class="text-2xl font-bold text-blue-600" id="workability">0 cm</div>
-                                        <div class="text-sm text-gray-600">Affaissement</div>
-                                    </div>
-                                    <div class="bg-yellow-50 p-4 rounded-xl text-center">
-                                        <div class="text-2xl font-bold text-yellow-600" id="settingTime">0 h</div>
-                                        <div class="text-sm text-gray-600">Temps de prise</div>
-                                    </div>
-                                    <div class="bg-purple-50 p-4 rounded-xl text-center">
-                                        <div class="text-2xl font-bold text-purple-600" id="durability">0/10</div>
-                                        <div class="text-sm text-gray-600">Durabilité</div>
-                                    </div>
-                                </div>
-
-                                <!-- Recommandations -->
-                                <div class="bg-orange-50 p-6 rounded-2xl">
-                                    <h5 class="font-bold text-gray-900 mb-4">Recommandations :</h5>
-                                    <ul id="simulationRecommendations" class="space-y-2 text-sm">
-                                        <!-- Les recommandations seront affichées ici -->
-                                    </ul>
-                                </div>
-                            </div>
+                
+                            
                         </div>
                     </div>
                 </div>
@@ -793,6 +686,8 @@
         </section>
 
         <!-- Section Produits (version condensée) -->
+
+
         <section class="py-20 bg-white">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-16">
@@ -819,6 +714,7 @@
                 <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Stock : {{ produit.stock }}</span>
             </div>
             <a href="{% url 'produitdetaille' produit.pk %}" class="inline-block w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 rounded-lg text-center transition-all shadow-md mt-2">Voir plus</a>
+            
         </div>
     {% empty %}
         <p class="col-span-3 text-center text-gray-500">Aucun produit disponible.</p>
@@ -848,10 +744,22 @@
                 </div>
 
                 <div class="my-12">
-  <h2 class="text-3xl font-bold text-gray-900 text-center mb-1">Tarif de vente du clinker</h2>
-  <div class="text-center text-gray-600 mb-6 text-lg">Marché national Marocain</div>
-  <div class="flex justify-center">
-    <table class="w-full max-w-xl mx-auto rounded-xl shadow-lg overflow-hidden border border-gray-200 bg-white">
+  <div class="max-w-2xl mx-auto mb-10">
+  <div class="bg-gradient-to-tr from-orange-50 to-white border-2 border-orange-200 rounded-3xl shadow-xl p-8 text-center relative">
+    <div class="absolute -top-8 left-1/2 transform -translate-x-1/2">
+      <span class="inline-flex items-center justify-center bg-orange-500 text-white rounded-full shadow-lg w-16 h-16 text-3xl">
+        <i class="fas fa-industry"></i>
+      </span>
+    </div>
+    <h2 class="text-3xl font-extrabold text-orange-700 mb-2 mt-8 tracking-tight flex items-center justify-center gap-2">
+      <i class="fas fa-tags"></i>
+      Tarif de vente du clinker
+    </h2>
+    <div class="text-orange-600 font-bold text-lg mb-2">Marché national Marocain</div>
+    <div class="mb-6 text-gray-500 text-base">Prix départ usine, hors taxe</div>
+    <div class="flex justify-center">
+      <table class="w-full max-w-xl mx-auto rounded-xl shadow-lg overflow-hidden border border-gray-200 bg-white">
+
       <thead>
         <tr class="bg-gray-50">
           <th class="p-4 text-center font-semibold text-gray-800 text-lg">Usine</th>
@@ -883,8 +791,8 @@
       (*) : Dans la limite des excédents disponibles<br>
       Période de validité : <span class="font-semibold">6 mois à partir de la date de publication</span>
     </div>
-    <div class="rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 text-sm text-gray-800 shadow-sm text-center max-w-md">
-      <span class="font-semibold">Sur ces tarifs, peuvent être appliquées les réductions de prix suivantes :</span>
+    <div class="rounded-lg border border-orange-100 bg-orange-50/60 p-4 mt-4 text-gray-800 text-sm shadow-sm max-w-lg mx-auto">
+      <span class="font-bold">Sur ces tarifs, peuvent être appliquées les réductions de prix suivantes :</span>
       <ul class="list-disc list-inside mt-1 text-left mx-auto" style="max-width: 350px;">
         <li>Réduction du prix suivant les quantités commandées ;</li>
         <li>Réduction du prix suivant le type de contrat, spot, annuel ou pluriannuel</li>
@@ -894,22 +802,7 @@
   </div>
 </div>
 <!-- Fin du tableau Clinker -->
-        <tr class="bg-white border-b">
-          <td class="p-4 font-extrabold text-gray-900 uppercase">Usine d'Ait Baha</td>
-          <td class="p-4 text-orange-600 font-bold">Tarif départ : <span class="font-extrabold">780,00 Mad/tonne hors taxe</span></td>
-        </tr>
-        <tr class="bg-gray-50 border-b">
-          <td class="p-4 font-extrabold text-gray-900 uppercase">Usine de Safi</td>
-          <td class="p-4 text-orange-600 font-bold">Tarif départ : <span class="font-extrabold">780,00 Mad/tonne hors taxe</span></td>
-        </tr>
-        <tr class="bg-white border-b">
-          <td class="p-4 font-extrabold text-gray-900 uppercase">Usine de Marrakech</td>
-          <td class="p-4 text-orange-600 font-bold">Tarif départ : <span class="font-extrabold">800,00 Mad/tonne hors taxe</span></td>
-        </tr>
-        <tr class="bg-orange-50">
-          <td class="p-4 font-extrabold text-orange-700 uppercase">Usine d'INDUSAHA<br><span class="text-xs">(LAÂYOUNE)</span></td>
-          <td class="p-4 text-orange-700 font-extrabold">Tarif départ : <span class="font-extrabold">1&nbsp;100,00 Mad/tonne.</span></td>
-        </tr>
+        
       </tbody>
     </table>
   </div>
@@ -935,46 +828,7 @@
 }
 </style>
 <!-- Fin du tableau Clinker -->
-                                <tr class="border-b hover:bg-orange-50 transition-colors">
-                                    <td class="px-6 py-4 font-bold text-gray-900">Ait Baha</td>
-                                    <td class="px-6 py-4 text-center font-bold text-orange-600">780 MAD/t</td>
-                                    <td class="px-6 py-4 text-center text-gray-600">Ait Baha</td>
-                                </tr>
-                                <tr class="border-b hover:bg-orange-50 transition-colors">
-                                    <td class="px-6 py-4 font-bold text-gray-900">Safi</td>
-                                    <td class="px-6 py-4 text-center font-bold text-orange-600">800 MAD/t</td>
-                                    <td class="px-6 py-4 text-center text-gray-600">Safi</td>
-                                </tr>
-                                <tr class="border-b hover:bg-orange-50 transition-colors">
-                                    <td class="px-6 py-4 font-bold text-gray-900">Marrakech</td>
-                                    <td class="px-6 py-4 text-center font-bold text-orange-600">800 MAD/t</td>
-                                    <td class="px-6 py-4 text-center text-gray-600">Marrakech</td>
-                                </tr>
-                                <tr class="border-b hover:bg-orange-50 transition-colors">
-                                    <td class="px-6 py-4 font-bold text-gray-900">Agadir</td>
-                                    <td class="px-6 py-4 text-center font-bold text-orange-600">820 MAD/t</td>
-                                    <td class="px-6 py-4 text-center text-gray-600">Agadir</td>
-                                </tr>
-                                <tr class="border-b hover:bg-orange-50 transition-colors">
-                                    <td class="px-6 py-4 font-bold text-gray-900">Settat</td>
-                                    <td class="px-6 py-4 text-center font-bold text-orange-600">850 MAD/t</td>
-                                    <td class="px-6 py-4 text-center text-gray-600">Settat</td>
-                                </tr>
-                                <tr class="border-b hover:bg-orange-50 transition-colors">
-                                    <td class="px-6 py-4 font-bold text-gray-900">Tétouan</td>
-                                    <td class="px-6 py-4 text-center font-bold text-orange-600">900 MAD/t</td>
-                                    <td class="px-6 py-4 text-center text-gray-600">Tétouan</td>
-                                </tr>
-                                <tr class="border-b hover:bg-orange-50 transition-colors">
-                                    <td class="px-6 py-4 font-bold text-gray-900">Oujda</td>
-                                    <td class="px-6 py-4 text-center font-bold text-orange-600">950 MAD/t</td>
-                                    <td class="px-6 py-4 text-center text-gray-600">Oujda</td>
-                                </tr>
-                                <tr class="border-b hover:bg-orange-50 transition-colors">
-                                    <td class="px-6 py-4 font-bold text-gray-900">Laâyoune</td>
-                                    <td class="px-6 py-4 text-center font-bold text-orange-600">1 100 MAD/t</td>
-                                    <td class="px-6 py-4 text-center text-gray-600">Laâyoune</td>
-                                </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -995,9 +849,9 @@
                     <button class="bg-white text-orange-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105">
                         <i class="fas fa-phone mr-2"></i>+212 522 85 94 50
                     </button>
-                    <button class="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-orange-600 transition-all transform hover:scale-105">
+                    <a href="{% url 'devis' %}" class="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-orange-600 transition-all transform hover:scale-105 inline-block">
                         <i class="fas fa-envelope mr-2"></i>Demander un Devis
-                    </button>
+                    </a>
                 </div>
             </div>
         </section>
@@ -1127,6 +981,18 @@
     <script>
         
        
+        // === Injection de données produits pour le comparateur ===
+        let productData = {
+        {% for produit in produits %}
+            '{{ produit.id }}': {
+                name: `{{ produit.nom|escapejs }}`,
+                class: `{{ produit.classe|default_if_none:""|escapejs }}`,
+                price: `{{ produit.prix_unitaire|default_if_none:""|escapejs }}`,
+                resistance: `{{ produit.resistance|default_if_none:""|escapejs }}`,
+                poids: `{{ produit.poids|default_if_none:""|escapejs }}`
+            }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+        };
         // Variables globales
         let selectedProducts = [];
         let currentTab = 'calculator';
@@ -1142,6 +1008,14 @@
 
         // Fonction pour changer d'onglet
         function switchTab(tabName) {
+    console.log('[switchTab] Onglet demandé :', tabName);
+
+            // Si on quitte le comparateur, masquer le tableau de comparaison pour éviter les bugs visuels (sans supprimer les données)
+            if (currentTab === 'comparator' && tabName !== 'comparator') {
+                const table = document.getElementById('comparisonTable');
+                if (table) table.classList.add('hidden');
+            }
+
             // Masquer tous les contenus d'onglets
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.add('hidden');
@@ -1154,14 +1028,33 @@
             });
 
             // Afficher le contenu de l'onglet sélectionné
-            document.getElementById(tabName).classList.remove('hidden');
+            var tabContent = document.getElementById(tabName);
+            if(tabContent) {
+                tabContent.classList.remove('hidden');
+                console.log('[switchTab] Onglet affiché :', tabName);
+            } else {
+                console.warn('[switchTab] Aucun élément trouvé avec id :', tabName);
+            }
 
-            // Activer le bouton d'onglet correspondant
-            event.target.classList.add('active');
-            event.target.classList.remove('text-gray-600');
+            // Activer le bouton d'onglet correspondant (plus robuste)
+            document.querySelectorAll('.tab-button').forEach(button => {
+                if (button.getAttribute('onclick') && button.getAttribute('onclick').includes(`switchTab('${tabName}')`)) {
+                    button.classList.add('active');
+                    button.classList.remove('text-gray-600');
+                }
+            });
+
+            // Si on revient sur le comparateur, forcer la mise à jour du tableau de comparaison
+            if (tabName === 'comparator') {
+                if (typeof updateComparisonTable === 'function') updateComparisonTable();
+            }
 
             currentTab = tabName;
         }
+        // Initialisation automatique de l'onglet actif au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            switchTab(currentTab);
+        });
 
         // Calculatrice de ciment
         function calculateCement() {
@@ -1521,13 +1414,20 @@
             
             // Données de résistance au fil du temps (simulation)
             const days = [1, 3, 7, 14, 28];
-            const resistances = [
-                finalResistance * 0.2,
-                finalResistance * 0.4,
-                finalResistance * 0.65,
-                finalResistance * 0.85,
-                finalResistance
-            ];
+            let progression;
+            switch (cementType) {
+              case 'cpj35':
+                progression = [0.18, 0.38, 0.60, 0.80, 1.0]; break;
+              case 'cpj45':
+                progression = [0.22, 0.45, 0.70, 0.90, 1.0]; break;
+              case 'cimartob':
+                progression = [0.20, 0.42, 0.68, 0.88, 1.0]; break;
+              case 'cimagglo':
+                progression = [0.25, 0.50, 0.75, 0.92, 1.0]; break;
+              default:
+                progression = [0.2, 0.4, 0.65, 0.85, 1.0];
+            }
+            const resistances = progression.map(f => finalResistance * f);
 
             // Configuration du graphique
             const padding = 40;

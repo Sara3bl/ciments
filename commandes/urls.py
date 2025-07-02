@@ -2,10 +2,12 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('profile/', views.profile_view, name='profile'),
     path('', views.home, name='home'),
+path('devis/', views.devis, name='devis'),
+path('contact/', views.contact, name='contact'),
 
 path('produits-ciment/', views.produits_ciment, name='produits_ciment'),
-path('contact/', views.contact, name='contact'),
 path('actualités/', views.actualités, name='actualités'),
 path('services/', views.services, name='services'),
 
@@ -34,6 +36,7 @@ path('services/', views.services, name='services'),
  
  
 
+    path('search/', views.search, name='search'),
      # <-- ajout ici
 ]
 

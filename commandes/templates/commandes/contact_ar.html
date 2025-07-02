@@ -1,0 +1,45 @@
+{% extends 'commandes/base.html' %}
+{% load static %}
+
+{% block content %}
+<div dir="rtl" class="font-arabic">
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8">
+                <h1 class="text-4xl font-bold text-orange-600 mb-6 text-center">اتصل بنا</h1>
+                <form method="post" class="space-y-6">
+                    {% csrf_token %}
+                    <div>
+                        <label class="block mb-2 text-lg font-semibold text-gray-700">الاسم الكامل</label>
+                        <input type="text" name="nom" class="w-full border rounded px-4 py-2 focus:outline-none focus:border-orange-500" required>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-lg font-semibold text-gray-700">البريد الإلكتروني</label>
+                        <input type="email" name="email" class="w-full border rounded px-4 py-2 focus:outline-none focus:border-orange-500" required>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-lg font-semibold text-gray-700">الهاتف</label>
+                        <input type="text" name="telephone" class="w-full border rounded px-4 py-2 focus:outline-none focus:border-orange-500">
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-lg font-semibold text-gray-700">الشركة</label>
+                        <input type="text" name="entreprise" class="w-full border rounded px-4 py-2 focus:outline-none focus:border-orange-500">
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-lg font-semibold text-gray-700">الموضوع</label>
+                        <input type="text" name="sujet" class="w-full border rounded px-4 py-2 focus:outline-none focus:border-orange-500">
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-lg font-semibold text-gray-700">الرسالة</label>
+                        <textarea name="message" rows="4" class="w-full border rounded px-4 py-2 focus:outline-none focus:border-orange-500" required></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-orange-600 text-white rounded-lg font-bold text-lg hover:bg-orange-700 transition">إرسال</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+<style>
+.font-arabic { font-family: 'Cairo', 'Tajawal', Arial, sans-serif; }
+</style>
+{% endblock %}

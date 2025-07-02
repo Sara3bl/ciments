@@ -1,0 +1,211 @@
+{% extends 'commandes/base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+.profile-header-bg {
+  background: url('https://www.agap2.fr/app/uploads/2020/08/travaux-et-mise-en-service.jpg') center/cover no-repeat;
+  min-height: 400px;
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+  position: relative;
+}
+.profile-avatar {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+  position: absolute;
+  left: 2rem;
+  bottom: -55px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: #ff9800;
+  font-weight: bold;
+}
+.profile-card {
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  margin-top: 70px; /* espace augmenté pour descendre la carte */
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2.5rem 2rem 2rem 2rem;
+}
+.profile-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem 2rem;
+  margin-top: 2.5rem;
+}
+@media (max-width: 600px) {
+  .profile-fields {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .profile-avatar { left: 50%; transform: translateX(-50%); }
+}
+.profile-btn {
+  background: linear-gradient(90deg, #ff9800 0%, #ff5722 100%);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.7rem;
+  padding: 0.9rem 2.5rem;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 18px rgba(255,152,0,0.13);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  cursor: pointer;
+}
+.profile-btn:hover {
+  background: linear-gradient(90deg, #ffb74d 0%, #ff7043 100%);
+  box-shadow: 0 8px 24px rgba(255,87,34,0.16);
+  transform: translateY(-1px) scale(1.03);
+}
+/* Bouton fichier orange */
+input[type="file"]::-webkit-file-upload-button {
+  background: #e5e7eb !important;
+  color: #374151 !important;
+  font-weight: 600;
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem 1.3rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+input[type="file"]::file-selector-button {
+  background: #e5e7eb !important;
+  color: #374151 !important;
+  font-weight: 600;
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem 1.3rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+input[type="file"]::-webkit-file-upload-button:hover,
+input[type="file"]::file-selector-button:hover {
+  background: #d1d5db !important;
+  color: #111827 !important;
+}
+</style>
+<div style="background: #fff3e0; min-height: 100vh; padding-bottom: 3rem;">
+  <div class="profile-header-bg">
+    {% if profile.photo %}
+      <img src="{{ profile.photo.url }}" alt="Photo de profil" class="profile-avatar">
+    {% else %}
+      <div class="profile-avatar">{{ user.username|first|upper }}</div>
+    {% endif %}
+  </div>
+  <div class="profile-card">
+    <div class="flex flex-col md:flex-row md:items-center md:gap-8 mb-6">
+      <div>
+        <div class="text-2xl font-bold text-gray-800">{{ user.username }}</div>
+        <div class="text-gray-500 text-sm">{{ user.email }}</div>
+      </div>
+      <form method="post" enctype="multipart/form-data" class="w-full flex flex-wrap items-center gap-2 justify-end" style="margin-bottom: 0;">
+  {% csrf_token %}
+  <label class="text-gray-600 text-sm font-medium flex items-center gap-2 mb-0" style="margin-bottom:0;">
+    <span>Changer la photo</span>
+    <input type="file" name="photo" class="block w-auto text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300" accept="image/*">
+  </label>
+  <button type="submit" class="profile-btn" style="background: linear-gradient(90deg, #ff9800 0%, #ff5722 100%) !important; color: #fff !important;"><i class="fas fa-save" style="color:#fff;"></i> Mettre à jour la photo</button>
+</form>
+<!-- Champ photo custom, sans affichage du "Currently:" ni "Clear" -->
+    </div>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="profile-fields">
+        <div>
+          <label class="block text-gray-700 font-medium mb-1">Nom d'utilisateur</label>
+          <input type="text" name="username" value="{{ user.username }}" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
+        </div>
+        <div>
+          <label class="block text-gray-700 font-medium mb-1">Email</label>
+          <input type="email" name="email" value="{{ user.email }}" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
+        </div>
+        <div>
+          <label class="block text-gray-700 font-medium mb-1">Téléphone</label>
+          {{ form.telephone }}
+        </div>
+        <div>
+          <label class="block text-gray-700 font-medium mb-1">Ville</label>
+          {{ form.ville }}
+        </div>
+      </div>
+      <div class="flex justify-center mt-8">
+        <button type="submit" class="profile-btn" id="profile-save-btn" style="background: linear-gradient(90deg, #ff9800 0%, #ff5722 100%) !important; color: #fff !important;">
+          <i class="fas fa-save"></i> Enregistrer
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<style>
+.profile-btn {
+  background: #1976d2;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.7rem;
+  padding: 0.9rem 2.5rem;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 18px rgba(25,118,210,0.09);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  cursor: pointer;
+}
+.profile-btn:hover {
+  background: #0d47a1;
+  box-shadow: 0 8px 24px rgba(25,118,210,0.18);
+  transform: translateY(-1px) scale(1.03);
+  background: linear-gradient(90deg, #ffb74d 0%, #ff7043 100%);
+  box-shadow: 0 12px 32px rgba(255,87,34,0.18);
+  transform: translateY(-2px) scale(1.03);
+}
+.profile-btn:active {
+  background: #fb8c00;
+  transform: scale(0.97);
+}
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  background-color: rgba(255,255,255,0.5);
+}
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var btn = document.getElementById('profile-save-btn');
+  btn.addEventListener('click', function(e) {
+    var ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    var rect = btn.getBoundingClientRect();
+    ripple.style.left = (e.clientX - rect.left) + 'px';
+    ripple.style.top = (e.clientY - rect.top) + 'px';
+    ripple.style.width = ripple.style.height = Math.max(rect.width, rect.height) + 'px';
+    btn.appendChild(ripple);
+    setTimeout(function() {
+      ripple.remove();
+    }, 600);
+  });
+});
+</script>
+    </form>
+<!-- Fin du formulaire profil -->
+  </div>
+</div>
+{% endblock %}
