@@ -981,18 +981,8 @@
     <script>
         
        
-        // === Injection de données produits pour le comparateur ===
-        let productData = {
-        {% for produit in produits %}
-            '{{ produit.id }}': {
-                name: `{{ produit.nom|escapejs }}`,
-                class: `{{ produit.classe|default_if_none:""|escapejs }}`,
-                price: `{{ produit.prix_unitaire|default_if_none:""|escapejs }}`,
-                resistance: `{{ produit.resistance|default_if_none:""|escapejs }}`,
-                poids: `{{ produit.poids|default_if_none:""|escapejs }}`
-            }{% if not forloop.last %},{% endif %}
-        {% endfor %}
-        };
+      
+
         // Variables globales
         let selectedProducts = [];
         let currentTab = 'calculator';
@@ -1057,14 +1047,20 @@
         });
 
         // Calculatrice de ciment
-        function calculateCement() {
-            const length = parseFloat(document.getElementById('length').value) || 0;
-            const width = parseFloat(document.getElementById('width').value) || 0;
-            const thickness = parseFloat(document.getElementById('thickness').value) || 0;
-            const dosage = parseFloat(document.getElementById('dosage').value) || 350;
-            const margin = parseFloat(document.getElementById('margin').value) || 10;
-            const cementSelect = document.getElementById('cementType');
-            const price = parseFloat(cementSelect.options[cementSelect.selectedIndex].dataset.price) || 85;
+function calculateCement() {
+    const lengthInput = document.getElementById('length');
+    const widthInput = document.getElementById('width');
+    const thicknessInput = document.getElementById('thickness');
+    const dosageInput = document.getElementById('dosage');
+    const marginInput = document.getElementById('margin');
+    const cementSelect = document.getElementById('cementType');
+
+    const length = lengthInput ? parseFloat(lengthInput.value) : 0;
+    const width = widthInput ? parseFloat(widthInput.value) : 0;
+    const thickness = thicknessInput ? parseFloat(thicknessInput.value) : 0;
+    const dosage = dosageInput ? parseFloat(dosageInput.value) : 350;
+    const margin = marginInput ? parseFloat(marginInput.value) : 10;
+    const price = (cementSelect && cementSelect.selectedIndex >= 0) ? parseFloat(cementSelect.options[cementSelect.selectedIndex].dataset.price) : 85;
 
             // Calculs
             const volume = length * width * thickness;
@@ -1078,15 +1074,23 @@
             const waterAmount = cementWeight * 0.5;
             const steelWeight = volume * 100; // 100kg/m³ pour béton armé
 
-            // Affichage des résultats
-            document.getElementById('volumeResult').textContent = volume.toFixed(2) + ' m³';
-            document.getElementById('cementWeight').textContent = Math.round(cementWeight) + ' kg';
-            document.getElementById('bagsNeeded').textContent = bagsNeeded + ' sacs';
-            document.getElementById('totalCost').textContent = totalCost.toFixed(0) + ' DH';
-            document.getElementById('sandAmount').textContent = sandVolume.toFixed(1) + ' m³';
-            document.getElementById('gravelAmount').textContent = gravelVolume.toFixed(1) + ' m³';
-            document.getElementById('waterAmount').textContent = Math.round(waterAmount) + ' L';
-            document.getElementById('steelAmount').textContent = Math.round(steelWeight) + ' kg';
+            // Affichage des résultats (sécurisé)
+            const volumeResult = document.getElementById('volumeResult');
+            if (volumeResult) volumeResult.textContent = volume.toFixed(2) + ' m³';
+            const cementWeightResult = document.getElementById('cementWeight');
+            if (cementWeightResult) cementWeightResult.textContent = Math.round(cementWeight) + ' kg';
+            const bagsNeededResult = document.getElementById('bagsNeeded');
+            if (bagsNeededResult) bagsNeededResult.textContent = bagsNeeded + ' sacs';
+            const totalCostResult = document.getElementById('totalCost');
+            if (totalCostResult) totalCostResult.textContent = totalCost.toFixed(0) + ' DH';
+            const sandAmountResult = document.getElementById('sandAmount');
+            if (sandAmountResult) sandAmountResult.textContent = sandVolume.toFixed(1) + ' m³';
+            const gravelAmountResult = document.getElementById('gravelAmount');
+            if (gravelAmountResult) gravelAmountResult.textContent = gravelVolume.toFixed(1) + ' m³';
+            const waterAmountResult = document.getElementById('waterAmount');
+            if (waterAmountResult) waterAmountResult.textContent = Math.round(waterAmount) + ' L';
+            const steelAmountResult = document.getElementById('steelAmount');
+            if (steelAmountResult) steelAmountResult.textContent = Math.round(steelWeight) + ' kg';
 
             // Pourcentage du coût du ciment
             const totalMaterialCost = totalCost * 2.5; // Estimation
@@ -1159,9 +1163,9 @@
         }
 
         // Configurateur de projet
-        let selectedProjectType = '';
-        let selectedElements = [];
-        let selectedConstraints = [];
+        window.selectedProjectType = '';
+        window.selectedElements = [];
+        window.selectedConstraints = [];
 
         function selectProjectType(type) {
             selectedProjectType = type;
